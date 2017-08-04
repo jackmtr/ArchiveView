@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2af100bb6db34c47a5f1db0f48db37d2" Name="Diagram1">
+        <EntityTypeShape EntityType="WASModel.dtproperty" Width="1.5" PointX="10.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WASModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WASModel.tbl_Cabinet" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WASModel.tbl_Category" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WASModel.tbl_DocReference" Width="1.5" PointX="13" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WASModel.tbl_Document" Width="1.5" PointX="10.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WASModel.tbl_DocumentType" Width="1.5" PointX="5.25" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WASModel.tbl_Folder" Width="1.5" PointX="5.25" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="WASModel.tbl_Repository" Width="1.5" PointX="8.25" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WASModel.tbl_Security" Width="1.5" PointX="8.25" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WASModel.tbl_Updates" Width="1.5" PointX="13" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WASModel.tbl_User" Width="1.5" PointX="0.75" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="WASModel.tbl_Config" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WASModel.tbl_UpdatesData" Width="1.5" PointX="15.25" PointY="5.375" IsExpanded="true" />
+        <AssociationConnector Association="WASModel.FK_tbl_Cabinet_tbl_User" ManuallyRouted="false" />
+        <AssociationConnector Association="WASModel.FK_tbl_DocumentType_tbl_Cabinet" ManuallyRouted="false" />
+        <AssociationConnector Association="WASModel.FK_tbl_Folder_tbl_Cabinet" ManuallyRouted="false" />
+        <AssociationConnector Association="WASModel.FK_tbl_Repository_tbl_Cabinet" ManuallyRouted="false" />
+        <AssociationConnector Association="WASModel.FK_tbl_Security_tbl_Cabinet" ManuallyRouted="false" />
+        <AssociationConnector Association="WASModel.FK_tbl_DocumentType_tbl_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="WASModel.FK_tbl_DocReference_tbl_Document" ManuallyRouted="false" />
+        <AssociationConnector Association="WASModel.FK_tbl_Updates_tbl_Document" ManuallyRouted="false" />
+        <AssociationConnector Association="WASModel.FK_tbl_DocumentType_tbl_User" ManuallyRouted="false" />
+        <AssociationConnector Association="WASModel.FK_tbl_Repository_tbl_User" ManuallyRouted="false" />
+        <AssociationConnector Association="WASModel.FK_tbl_Security_tbl_User" ManuallyRouted="false" />
+        <AssociationConnector Association="WASModel.FK_tbl_Security_tbl_User1" ManuallyRouted="false" />
+        <AssociationConnector Association="WASModel.FK_tbl_UpdatesData_tbl_Updates" ManuallyRouted="false" />
+        <AssociationConnector Association="WASModel.FK_tbl_User_tbl_User" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

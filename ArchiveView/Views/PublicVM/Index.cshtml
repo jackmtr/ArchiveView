@@ -1,0 +1,79 @@
+﻿@model IEnumerable<PublicVM>
+
+@{
+    ViewBag.Title = "Westland Archive System";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="main-row" class="row">
+    <nav id="public_navigation" class="navbar navbar-default col-md-2">
+
+        <div class="div-table">
+            <div class="nav-button row">
+                <span class="col-md-5">Categories</span>
+                <div class="cat_pol_switcher col-md-4">
+                    <!-- Rounded switch -->
+                    <label class="switch">
+                        <input type="checkbox" id="category_policy_toggle">
+                        <div class="slider round"></div>
+                    </label>
+                </div>
+                <span class="col-md-3">Policies</span>
+            </div>
+        </div>
+
+
+        <div class="nav_lists_outer row">
+            <div class="nav_lists col-md-12">
+                @Html.Partial("~/Views/Shared/_CategoryNavBar.cshtml", Model)
+
+                <div id="policy_section" class="hidden">
+                    <ul id="policy_list">
+                        <!--need to check for no reference number documents with the policy !- null-->
+                        @if (ViewBag.PolicyNavBar == null || !((IEnumerable<string>)ViewBag.PolicyNavBar).Any() || ((IEnumerable<string>)ViewBag.PolicyNavBar).First().Trim().Length > 1)
+                        {
+                            foreach (var policy in ViewBag.PolicyNavBar)
+                            {
+                                if (policy != null && policy.Length > 0)
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Index", "PublicVM", new
+                                        {
+                                            folderId = TempData["Folder_Id"],
+                                            policyNumber = policy,
+                                            navBarGroup = NavBarGroupOptions.policy,
+                                            navBarItem = @policy
+                                        })"
+                                           class="navLink"
+                                           data-ajax-update="#public_table"
+                                           data-ajax-mode="replace-with"
+                                           data-ajax-method="GET"
+                                           data-subclass="policy"
+                                           data-subclass-title="@policy"
+                                           data-ajax-complete="postNavbar"
+                                           data-ajax-success="updateCurrentCount"
+                                           data-ajax="true">
+                                            @policy
+                                        </a>
+                                    </li>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <li>
+                                <a class="navLink" style="text-align: center; pointer-events: none; cursor: default;">There are no policies</a> <!--May move styling into css-->
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div><!--nav_lists col-md-12-->
+        </div><!--nav_lists_outer row-->
+    </nav>
+
+    <div id="public_info" class="col-md-10">
+
+        @Html.Partial("_Form", Model)
+        @Html.Partial("_PublicTable", Model)
+    </div>
+<div class="c_b"></div>
+</div>

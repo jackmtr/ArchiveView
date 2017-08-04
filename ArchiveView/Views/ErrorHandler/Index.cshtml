@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="error-page">
+    <h3 class="text-danger">Opps, an problem has occurred while processing your request.</h3>
+    <br />
+
+    <h4 class="text-danger">@TempData["error_info"]</h4>
+
+    <br />
+
+    @if (TempData["importance"] != null && (bool)TempData["importance"] == true)
+    {
+        <br />
+
+        if (TempData["Client_Id"] != null)
+        {
+            <h4>Please provide the following information to support:</h4>
+            <br />
+            <h5>Public Id: @TempData["Client_Id"]</h5>
+        }
+
+        if (TempData["Client_Name"] != null)
+        {
+            <h5>Public Name: @TempData["Client_Name"]</h5>
+        }
+
+        if (ViewData["repositoryRequestDocId"] != null)
+        {
+            <h5>Document Id: @ViewData["repositoryRequestDocId"] </h5>
+        }
+    }
+    else if (TempData["importance"] != null && (bool)TempData["importance"] == false)
+    {
+        <h4>Please check over the inputed information and try again.</h4>
+    }
+    else
+    {
+        <h4>Please contact IT-Support if you require further assistance.</h4>
+    }
+</div>

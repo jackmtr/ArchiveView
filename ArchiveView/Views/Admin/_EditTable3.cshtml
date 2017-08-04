@@ -1,0 +1,158 @@
+﻿@model IEnumerable<DocSearch2._1.Models.tbl_Document>
+
+<table class="edit-table table">
+    <thead>
+        <tr class="edit-rows">
+            <th>
+                @Html.DisplayNameFor(model => model.Document_ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Issue_DT)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.Received_DT)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Method)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Originator)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reason)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Recipient)
+            </th>
+
+            @*<th>
+                @Html.DisplayNameFor(model => model.Division_CD)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Direction)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Security)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Filepath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FileExtension)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FileType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatorFirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatorLastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WASDocFlag)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FileDestination)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ArchivedFile)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ArchivedXML)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastUser_DT)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Active_IND)
+            </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Document_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Issue_DT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Received_DT)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Method)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Originator)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reason)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Recipient)
+            </td>
+
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Division_CD)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Direction)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Security)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Filepath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FileExtension)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FileType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatorFirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatorLastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WASDocFlag)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FileDestination)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArchivedFile)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArchivedXML)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastUser_DT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active_IND)
+            </td>*@
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Document_ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Document_ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Document_ID })
+            </td>
+        </tr>
+    }
+    </tbody>
+
+        
+
+</table>

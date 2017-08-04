@@ -1,0 +1,23 @@
+﻿@model IEnumerable<DocSearch2._1.ViewModels.PublicVM>
+
+<table class="edit-table table">
+    <thead>
+        <tr class="edit-rows">
+            <th>
+                @Html.DisplayNameFor(model => model.Document_ID)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="edit-rows">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Document_ID)
+                </td>
+            </tr>
+        }
+</tbody>
+</table>
+<button>Submit</button>
+<button>Cancel</button>

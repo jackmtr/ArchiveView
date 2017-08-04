@@ -1,0 +1,1208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="WASModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="dtproperties">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="property" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="objectid" Type="int" />
+          <Property Name="property" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="value" Type="varchar" MaxLength="255" />
+          <Property Name="uvalue" Type="nvarchar" MaxLength="255" />
+          <Property Name="lvalue" Type="image" />
+          <Property Name="version" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tbl_Cabinet">
+          <Key>
+            <PropertyRef Name="Cabinet_ID" />
+          </Key>
+          <Property Name="Cabinet_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FolderType" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Security" Type="int" Nullable="false" />
+          <Property Name="LastUser_ID" Type="int" Nullable="false" />
+          <Property Name="LastUser_DT" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_Category">
+          <Key>
+            <PropertyRef Name="Category_ID" />
+          </Key>
+          <Property Name="Category_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="LastUser_ID" Type="int" Nullable="false" />
+          <Property Name="LastUser_DT" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'WAS.dbo.tbl_Config' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tbl_Config">
+          <Key>
+            <PropertyRef Name="FileServerDir" />
+            <PropertyRef Name="UploadPath" />
+            <PropertyRef Name="ErrorPath" />
+            <PropertyRef Name="LogPath" />
+            <PropertyRef Name="MaxLogSize" />
+            <PropertyRef Name="LoggingLevel" />
+            <PropertyRef Name="CheckingInterval" />
+            <PropertyRef Name="EmailServer" />
+            <PropertyRef Name="EmailRecipient" />
+            <PropertyRef Name="EmailSender" />
+            <PropertyRef Name="EmailNotification" />
+            <PropertyRef Name="SqlCommandTimeout" />
+            <PropertyRef Name="TimeoutErrorWait" />
+            <PropertyRef Name="TimeoutErrorRetry" />
+            <PropertyRef Name="MaxImageSize" />
+            <PropertyRef Name="CheckConfigMinutes" />
+          </Key>
+          <Property Name="FileServerDir" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="UploadPath" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="ErrorPath" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="LogPath" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="MaxLogSize" Type="bigint" Nullable="false" />
+          <Property Name="LoggingLevel" Type="smallint" Nullable="false" />
+          <Property Name="CheckingInterval" Type="smallint" Nullable="false" />
+          <Property Name="EmailServer" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="EmailRecipient" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="EmailSender" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="EmailNotification" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="SqlCommandTimeout" Type="smallint" Nullable="false" />
+          <Property Name="TimeoutErrorWait" Type="smallint" Nullable="false" />
+          <Property Name="TimeoutErrorRetry" Type="smallint" Nullable="false" />
+          <Property Name="MaxImageSize" Type="bigint" Nullable="false" />
+          <Property Name="CheckConfigMinutes" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_DocReference">
+          <Key>
+            <PropertyRef Name="DocReference_ID" />
+          </Key>
+          <Property Name="DocReference_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Document_ID" Type="int" Nullable="false" />
+          <Property Name="RefNumber" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="RefNumberType_CD" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Date1_DT" Type="datetime" />
+          <Property Name="Date2_DT" Type="datetime" />
+          <Property Name="Text1" Type="varchar" MaxLength="50" />
+          <Property Name="Number1" Type="varchar" MaxLength="10" />
+          <Property Name="LastUser_DT" Type="datetime" Nullable="false" />
+          <Property Name="Text2" Type="varchar" MaxLength="100" />
+          <Property Name="Number2" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="tbl_Document">
+          <Key>
+            <PropertyRef Name="Document_ID" />
+          </Key>
+          <Property Name="Document_ID" Type="int" Nullable="false" />
+          <Property Name="Folder_ID" Type="int" Nullable="false" />
+          <Property Name="Repository_ID" Type="int" Nullable="false" />
+          <Property Name="DocumentType_ID" Type="int" Nullable="false" />
+          <Property Name="DocumentNumber" Type="varchar" MaxLength="25" />
+          <Property Name="Description" Type="varchar" MaxLength="250" />
+          <Property Name="Issue_DT" Type="datetime" />
+          <Property Name="Received_DT" Type="datetime" />
+          <Property Name="Division_CD" Type="varchar" MaxLength="25" />
+          <Property Name="Direction" Type="char" MaxLength="8" />
+          <Property Name="Reason" Type="varchar" MaxLength="50" />
+          <Property Name="Method" Type="varchar" MaxLength="15" />
+          <Property Name="Recipient" Type="varchar" MaxLength="47" />
+          <Property Name="Originator" Type="varchar" MaxLength="35" />
+          <Property Name="Security" Type="int" Nullable="false" />
+          <Property Name="Filepath" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FileExtension" Type="char" MaxLength="5" Nullable="false" />
+          <Property Name="FileType" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="CreatorFirstName" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="CreatorLastName" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="WASDocFlag" Type="tinyint" Nullable="false" />
+          <Property Name="FileDestination" Type="varchar" MaxLength="8" />
+          <Property Name="ArchivedFile" Type="varbinary(max)" />
+          <Property Name="ArchivedXML" Type="xml" />
+          <Property Name="LastUser_DT" Type="datetime" Nullable="false" />
+          <Property Name="Active_IND" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_DocumentType">
+          <Key>
+            <PropertyRef Name="DocumentType_ID" />
+          </Key>
+          <Property Name="DocumentType_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cabinet_ID" Type="int" Nullable="false" />
+          <Property Name="Category_ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="200" />
+          <Property Name="Active_IND" Type="bit" Nullable="false" />
+          <Property Name="Security" Type="int" Nullable="false" />
+          <Property Name="LastUser_ID" Type="int" Nullable="false" />
+          <Property Name="LastUser_DT" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_Folder">
+          <Key>
+            <PropertyRef Name="Folder_ID" />
+          </Key>
+          <Property Name="Folder_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cabinet_ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="Security" Type="int" Nullable="false" />
+          <Property Name="LastUser_DT" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_Repository">
+          <Key>
+            <PropertyRef Name="Repository_ID" />
+          </Key>
+          <Property Name="Repository_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cabinet_ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MainPath" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sector" Type="smallint" Nullable="false" />
+          <Property Name="Directory" Type="smallint" Nullable="false" />
+          <Property Name="NextFileName" Type="smallint" Nullable="false" />
+          <Property Name="LastUser_ID" Type="int" Nullable="false" />
+          <Property Name="LastUser_DT" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_Security">
+          <Key>
+            <PropertyRef Name="Security_ID" />
+          </Key>
+          <Property Name="Security_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User_ID" Type="int" Nullable="false" />
+          <Property Name="Cabinet_ID" Type="int" Nullable="false" />
+          <Property Name="SecLevel_Cabinet" Type="int" Nullable="false" />
+          <Property Name="SecLevel_Folder" Type="int" Nullable="false" />
+          <Property Name="SecLevel_DocType" Type="int" Nullable="false" />
+          <Property Name="SecLevel_Document" Type="int" Nullable="false" />
+          <Property Name="LastUser_ID" Type="int" Nullable="false" />
+          <Property Name="LastUser_DT" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_Updates">
+          <Key>
+            <PropertyRef Name="Update_ID" />
+          </Key>
+          <Property Name="Update_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Document_ID" Type="int" Nullable="false" />
+          <Property Name="UpdateUser" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="UpdateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'WAS.dbo.tbl_UpdatesData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tbl_UpdatesData">
+          <Key>
+            <PropertyRef Name="Update_ID" />
+            <PropertyRef Name="ColumnName" />
+          </Key>
+          <Property Name="Update_ID" Type="int" Nullable="false" />
+          <Property Name="ColumnName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="OriginalData" Type="varchar" MaxLength="250" />
+          <Property Name="CurrentData" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="tbl_User">
+          <Key>
+            <PropertyRef Name="User_ID" />
+          </Key>
+          <Property Name="User_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="LastUser_ID" Type="int" Nullable="false" />
+          <Property Name="LastUser_DT" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_tbl_Cabinet_tbl_User">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1" />
+          <End Role="tbl_Cabinet" Type="Self.tbl_Cabinet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="tbl_Cabinet">
+              <PropertyRef Name="LastUser_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DocReference_tbl_Document">
+          <End Role="tbl_Document" Type="Self.tbl_Document" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_DocReference" Type="Self.tbl_DocReference" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Document">
+              <PropertyRef Name="Document_ID" />
+            </Principal>
+            <Dependent Role="tbl_DocReference">
+              <PropertyRef Name="Document_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DocumentType_tbl_Cabinet">
+          <End Role="tbl_Cabinet" Type="Self.tbl_Cabinet" Multiplicity="1" />
+          <End Role="tbl_DocumentType" Type="Self.tbl_DocumentType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Cabinet">
+              <PropertyRef Name="Cabinet_ID" />
+            </Principal>
+            <Dependent Role="tbl_DocumentType">
+              <PropertyRef Name="Cabinet_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DocumentType_tbl_Category">
+          <End Role="tbl_Category" Type="Self.tbl_Category" Multiplicity="1" />
+          <End Role="tbl_DocumentType" Type="Self.tbl_DocumentType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Category">
+              <PropertyRef Name="Category_ID" />
+            </Principal>
+            <Dependent Role="tbl_DocumentType">
+              <PropertyRef Name="Category_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DocumentType_tbl_User">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1" />
+          <End Role="tbl_DocumentType" Type="Self.tbl_DocumentType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="tbl_DocumentType">
+              <PropertyRef Name="LastUser_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Folder_tbl_Cabinet">
+          <End Role="tbl_Cabinet" Type="Self.tbl_Cabinet" Multiplicity="1" />
+          <End Role="tbl_Folder" Type="Self.tbl_Folder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Cabinet">
+              <PropertyRef Name="Cabinet_ID" />
+            </Principal>
+            <Dependent Role="tbl_Folder">
+              <PropertyRef Name="Cabinet_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Repository_tbl_Cabinet">
+          <End Role="tbl_Cabinet" Type="Self.tbl_Cabinet" Multiplicity="1" />
+          <End Role="tbl_Repository" Type="Self.tbl_Repository" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Cabinet">
+              <PropertyRef Name="Cabinet_ID" />
+            </Principal>
+            <Dependent Role="tbl_Repository">
+              <PropertyRef Name="Cabinet_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Repository_tbl_User">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1" />
+          <End Role="tbl_Repository" Type="Self.tbl_Repository" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="tbl_Repository">
+              <PropertyRef Name="LastUser_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Security_tbl_Cabinet">
+          <End Role="tbl_Cabinet" Type="Self.tbl_Cabinet" Multiplicity="1" />
+          <End Role="tbl_Security" Type="Self.tbl_Security" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Cabinet">
+              <PropertyRef Name="Cabinet_ID" />
+            </Principal>
+            <Dependent Role="tbl_Security">
+              <PropertyRef Name="Cabinet_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Security_tbl_User">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1" />
+          <End Role="tbl_Security" Type="Self.tbl_Security" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="tbl_Security">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Security_tbl_User1">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1" />
+          <End Role="tbl_Security" Type="Self.tbl_Security" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="tbl_Security">
+              <PropertyRef Name="LastUser_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Updates_tbl_Document">
+          <End Role="tbl_Document" Type="Self.tbl_Document" Multiplicity="1" />
+          <End Role="tbl_Updates" Type="Self.tbl_Updates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Document">
+              <PropertyRef Name="Document_ID" />
+            </Principal>
+            <Dependent Role="tbl_Updates">
+              <PropertyRef Name="Document_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_UpdatesData_tbl_Updates">
+          <End Role="tbl_Updates" Type="Self.tbl_Updates" Multiplicity="1" />
+          <End Role="tbl_UpdatesData" Type="Self.tbl_UpdatesData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Updates">
+              <PropertyRef Name="Update_ID" />
+            </Principal>
+            <Dependent Role="tbl_UpdatesData">
+              <PropertyRef Name="Update_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_User_tbl_User">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1" />
+          <End Role="tbl_User1" Type="Self.tbl_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="tbl_User1">
+              <PropertyRef Name="LastUser_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WASModelStoreContainer">
+          <EntitySet Name="dtproperties" EntityType="Self.dtproperties" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Cabinet" EntityType="Self.tbl_Cabinet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Category" EntityType="Self.tbl_Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_DocReference" EntityType="Self.tbl_DocReference" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Document" EntityType="Self.tbl_Document" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_DocumentType" EntityType="Self.tbl_DocumentType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Folder" EntityType="Self.tbl_Folder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Repository" EntityType="Self.tbl_Repository" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Security" EntityType="Self.tbl_Security" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Updates" EntityType="Self.tbl_Updates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_User" EntityType="Self.tbl_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Config" EntityType="Self.tbl_Config" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tbl_Config].[FileServerDir] AS [FileServerDir], 
+    [tbl_Config].[UploadPath] AS [UploadPath], 
+    [tbl_Config].[ErrorPath] AS [ErrorPath], 
+    [tbl_Config].[LogPath] AS [LogPath], 
+    [tbl_Config].[MaxLogSize] AS [MaxLogSize], 
+    [tbl_Config].[LoggingLevel] AS [LoggingLevel], 
+    [tbl_Config].[CheckingInterval] AS [CheckingInterval], 
+    [tbl_Config].[EmailServer] AS [EmailServer], 
+    [tbl_Config].[EmailRecipient] AS [EmailRecipient], 
+    [tbl_Config].[EmailSender] AS [EmailSender], 
+    [tbl_Config].[EmailNotification] AS [EmailNotification], 
+    [tbl_Config].[SqlCommandTimeout] AS [SqlCommandTimeout], 
+    [tbl_Config].[TimeoutErrorWait] AS [TimeoutErrorWait], 
+    [tbl_Config].[TimeoutErrorRetry] AS [TimeoutErrorRetry], 
+    [tbl_Config].[MaxImageSize] AS [MaxImageSize], 
+    [tbl_Config].[CheckConfigMinutes] AS [CheckConfigMinutes]
+    FROM [dbo].[tbl_Config] AS [tbl_Config]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tbl_UpdatesData" EntityType="Self.tbl_UpdatesData" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tbl_UpdatesData].[Update_ID] AS [Update_ID], 
+    [tbl_UpdatesData].[ColumnName] AS [ColumnName], 
+    [tbl_UpdatesData].[OriginalData] AS [OriginalData], 
+    [tbl_UpdatesData].[CurrentData] AS [CurrentData]
+    FROM [dbo].[tbl_UpdatesData] AS [tbl_UpdatesData]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_tbl_Cabinet_tbl_User" Association="Self.FK_tbl_Cabinet_tbl_User">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_Cabinet" EntitySet="tbl_Cabinet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DocReference_tbl_Document" Association="Self.FK_tbl_DocReference_tbl_Document">
+            <End Role="tbl_Document" EntitySet="tbl_Document" />
+            <End Role="tbl_DocReference" EntitySet="tbl_DocReference" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DocumentType_tbl_Cabinet" Association="Self.FK_tbl_DocumentType_tbl_Cabinet">
+            <End Role="tbl_Cabinet" EntitySet="tbl_Cabinet" />
+            <End Role="tbl_DocumentType" EntitySet="tbl_DocumentType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DocumentType_tbl_Category" Association="Self.FK_tbl_DocumentType_tbl_Category">
+            <End Role="tbl_Category" EntitySet="tbl_Category" />
+            <End Role="tbl_DocumentType" EntitySet="tbl_DocumentType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DocumentType_tbl_User" Association="Self.FK_tbl_DocumentType_tbl_User">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_DocumentType" EntitySet="tbl_DocumentType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Folder_tbl_Cabinet" Association="Self.FK_tbl_Folder_tbl_Cabinet">
+            <End Role="tbl_Cabinet" EntitySet="tbl_Cabinet" />
+            <End Role="tbl_Folder" EntitySet="tbl_Folder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Repository_tbl_Cabinet" Association="Self.FK_tbl_Repository_tbl_Cabinet">
+            <End Role="tbl_Cabinet" EntitySet="tbl_Cabinet" />
+            <End Role="tbl_Repository" EntitySet="tbl_Repository" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Repository_tbl_User" Association="Self.FK_tbl_Repository_tbl_User">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_Repository" EntitySet="tbl_Repository" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Security_tbl_Cabinet" Association="Self.FK_tbl_Security_tbl_Cabinet">
+            <End Role="tbl_Cabinet" EntitySet="tbl_Cabinet" />
+            <End Role="tbl_Security" EntitySet="tbl_Security" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Security_tbl_User" Association="Self.FK_tbl_Security_tbl_User">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_Security" EntitySet="tbl_Security" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Security_tbl_User1" Association="Self.FK_tbl_Security_tbl_User1">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_Security" EntitySet="tbl_Security" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Updates_tbl_Document" Association="Self.FK_tbl_Updates_tbl_Document">
+            <End Role="tbl_Document" EntitySet="tbl_Document" />
+            <End Role="tbl_Updates" EntitySet="tbl_Updates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_UpdatesData_tbl_Updates" Association="Self.FK_tbl_UpdatesData_tbl_Updates">
+            <End Role="tbl_Updates" EntitySet="tbl_Updates" />
+            <End Role="tbl_UpdatesData" EntitySet="tbl_UpdatesData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_User_tbl_User" Association="Self.FK_tbl_User_tbl_User">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_User1" EntitySet="tbl_User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="WASModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="dtproperty">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="property" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="objectid" Type="Int32" />
+          <Property Name="property" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="value" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="uvalue" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="lvalue" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="version" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tbl_Cabinet">
+          <Key>
+            <PropertyRef Name="Cabinet_ID" />
+          </Key>
+          <Property Name="Cabinet_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FolderType" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Security" Type="Int32" Nullable="false" />
+          <Property Name="LastUser_ID" Type="Int32" Nullable="false" />
+          <Property Name="LastUser_DT" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tbl_User" Relationship="Self.FK_tbl_Cabinet_tbl_User" FromRole="tbl_Cabinet" ToRole="tbl_User" />
+          <NavigationProperty Name="tbl_DocumentType" Relationship="Self.FK_tbl_DocumentType_tbl_Cabinet" FromRole="tbl_Cabinet" ToRole="tbl_DocumentType" />
+          <NavigationProperty Name="tbl_Folder" Relationship="Self.FK_tbl_Folder_tbl_Cabinet" FromRole="tbl_Cabinet" ToRole="tbl_Folder" />
+          <NavigationProperty Name="tbl_Repository" Relationship="Self.FK_tbl_Repository_tbl_Cabinet" FromRole="tbl_Cabinet" ToRole="tbl_Repository" />
+          <NavigationProperty Name="tbl_Security" Relationship="Self.FK_tbl_Security_tbl_Cabinet" FromRole="tbl_Cabinet" ToRole="tbl_Security" />
+        </EntityType>
+        <EntityType Name="tbl_Category">
+          <Key>
+            <PropertyRef Name="Category_ID" />
+          </Key>
+          <Property Name="Category_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastUser_ID" Type="Int32" Nullable="false" />
+          <Property Name="LastUser_DT" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tbl_DocumentType" Relationship="Self.FK_tbl_DocumentType_tbl_Category" FromRole="tbl_Category" ToRole="tbl_DocumentType" />
+        </EntityType>
+        <EntityType Name="tbl_DocReference">
+          <Key>
+            <PropertyRef Name="DocReference_ID" />
+          </Key>
+          <Property Name="DocReference_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Document_ID" Type="Int32" Nullable="false" />
+          <Property Name="RefNumber" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RefNumberType_CD" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Date1_DT" Type="DateTime" Precision="3" />
+          <Property Name="Date2_DT" Type="DateTime" Precision="3" />
+          <Property Name="Text1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Number1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="LastUser_DT" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Text2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Number2" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbl_Document" Relationship="Self.FK_tbl_DocReference_tbl_Document" FromRole="tbl_DocReference" ToRole="tbl_Document" />
+        </EntityType>
+        <EntityType Name="tbl_Document">
+          <Key>
+            <PropertyRef Name="Document_ID" />
+          </Key>
+          <Property Name="Document_ID" Type="Int32" Nullable="false" />
+          <Property Name="Folder_ID" Type="Int32" Nullable="false" />
+          <Property Name="Repository_ID" Type="Int32" Nullable="false" />
+          <Property Name="DocumentType_ID" Type="Int32" Nullable="false" />
+          <Property Name="DocumentNumber" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Issue_DT" Type="DateTime" Precision="3" />
+          <Property Name="Received_DT" Type="DateTime" Precision="3" />
+          <Property Name="Division_CD" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Direction" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+          <Property Name="Reason" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Method" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Recipient" Type="String" MaxLength="47" FixedLength="false" Unicode="false" />
+          <Property Name="Originator" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="Security" Type="Int32" Nullable="false" />
+          <Property Name="Filepath" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FileExtension" Type="String" MaxLength="5" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="FileType" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreatorFirstName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreatorLastName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="WASDocFlag" Type="Byte" Nullable="false" />
+          <Property Name="FileDestination" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="ArchivedFile" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="ArchivedXML" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastUser_DT" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active_IND" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tbl_DocReference" Relationship="Self.FK_tbl_DocReference_tbl_Document" FromRole="tbl_Document" ToRole="tbl_DocReference" />
+          <NavigationProperty Name="tbl_Updates" Relationship="Self.FK_tbl_Updates_tbl_Document" FromRole="tbl_Document" ToRole="tbl_Updates" />
+        </EntityType>
+        <EntityType Name="tbl_DocumentType">
+          <Key>
+            <PropertyRef Name="DocumentType_ID" />
+          </Key>
+          <Property Name="DocumentType_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cabinet_ID" Type="Int32" Nullable="false" />
+          <Property Name="Category_ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Active_IND" Type="Boolean" Nullable="false" />
+          <Property Name="Security" Type="Int32" Nullable="false" />
+          <Property Name="LastUser_ID" Type="Int32" Nullable="false" />
+          <Property Name="LastUser_DT" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tbl_Cabinet" Relationship="Self.FK_tbl_DocumentType_tbl_Cabinet" FromRole="tbl_DocumentType" ToRole="tbl_Cabinet" />
+          <NavigationProperty Name="tbl_Category" Relationship="Self.FK_tbl_DocumentType_tbl_Category" FromRole="tbl_DocumentType" ToRole="tbl_Category" />
+          <NavigationProperty Name="tbl_User" Relationship="Self.FK_tbl_DocumentType_tbl_User" FromRole="tbl_DocumentType" ToRole="tbl_User" />
+        </EntityType>
+        <EntityType Name="tbl_Folder">
+          <Key>
+            <PropertyRef Name="Folder_ID" />
+          </Key>
+          <Property Name="Folder_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cabinet_ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="Security" Type="Int32" Nullable="false" />
+          <Property Name="LastUser_DT" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tbl_Cabinet" Relationship="Self.FK_tbl_Folder_tbl_Cabinet" FromRole="tbl_Folder" ToRole="tbl_Cabinet" />
+        </EntityType>
+        <EntityType Name="tbl_Repository">
+          <Key>
+            <PropertyRef Name="Repository_ID" />
+          </Key>
+          <Property Name="Repository_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cabinet_ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MainPath" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Sector" Type="Int16" Nullable="false" />
+          <Property Name="Directory" Type="Int16" Nullable="false" />
+          <Property Name="NextFileName" Type="Int16" Nullable="false" />
+          <Property Name="LastUser_ID" Type="Int32" Nullable="false" />
+          <Property Name="LastUser_DT" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tbl_Cabinet" Relationship="Self.FK_tbl_Repository_tbl_Cabinet" FromRole="tbl_Repository" ToRole="tbl_Cabinet" />
+          <NavigationProperty Name="tbl_User" Relationship="Self.FK_tbl_Repository_tbl_User" FromRole="tbl_Repository" ToRole="tbl_User" />
+        </EntityType>
+        <EntityType Name="tbl_Security">
+          <Key>
+            <PropertyRef Name="Security_ID" />
+          </Key>
+          <Property Name="Security_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_ID" Type="Int32" Nullable="false" />
+          <Property Name="Cabinet_ID" Type="Int32" Nullable="false" />
+          <Property Name="SecLevel_Cabinet" Type="Int32" Nullable="false" />
+          <Property Name="SecLevel_Folder" Type="Int32" Nullable="false" />
+          <Property Name="SecLevel_DocType" Type="Int32" Nullable="false" />
+          <Property Name="SecLevel_Document" Type="Int32" Nullable="false" />
+          <Property Name="LastUser_ID" Type="Int32" Nullable="false" />
+          <Property Name="LastUser_DT" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tbl_Cabinet" Relationship="Self.FK_tbl_Security_tbl_Cabinet" FromRole="tbl_Security" ToRole="tbl_Cabinet" />
+          <NavigationProperty Name="tbl_User" Relationship="Self.FK_tbl_Security_tbl_User" FromRole="tbl_Security" ToRole="tbl_User" />
+          <NavigationProperty Name="tbl_User1" Relationship="Self.FK_tbl_Security_tbl_User1" FromRole="tbl_Security" ToRole="tbl_User" />
+        </EntityType>
+        <EntityType Name="tbl_Updates">
+          <Key>
+            <PropertyRef Name="Update_ID" />
+          </Key>
+          <Property Name="Update_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Document_ID" Type="Int32" Nullable="false" />
+          <Property Name="UpdateUser" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tbl_Document" Relationship="Self.FK_tbl_Updates_tbl_Document" FromRole="tbl_Updates" ToRole="tbl_Document" />
+          <NavigationProperty Name="tbl_UpdatesData" Relationship="Self.FK_tbl_UpdatesData_tbl_Updates" FromRole="tbl_Updates" ToRole="tbl_UpdatesData" />
+        </EntityType>
+        <EntityType Name="tbl_User">
+          <Key>
+            <PropertyRef Name="User_ID" />
+          </Key>
+          <Property Name="User_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="LastUser_ID" Type="Int32" Nullable="false" />
+          <Property Name="LastUser_DT" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tbl_Cabinet" Relationship="Self.FK_tbl_Cabinet_tbl_User" FromRole="tbl_User" ToRole="tbl_Cabinet" />
+          <NavigationProperty Name="tbl_DocumentType" Relationship="Self.FK_tbl_DocumentType_tbl_User" FromRole="tbl_User" ToRole="tbl_DocumentType" />
+          <NavigationProperty Name="tbl_Repository" Relationship="Self.FK_tbl_Repository_tbl_User" FromRole="tbl_User" ToRole="tbl_Repository" />
+          <NavigationProperty Name="tbl_Security" Relationship="Self.FK_tbl_Security_tbl_User" FromRole="tbl_User" ToRole="tbl_Security" />
+          <NavigationProperty Name="tbl_Security1" Relationship="Self.FK_tbl_Security_tbl_User1" FromRole="tbl_User" ToRole="tbl_Security" />
+          <NavigationProperty Name="tbl_User1" Relationship="Self.FK_tbl_User_tbl_User" FromRole="tbl_User" ToRole="tbl_User1" />
+          <NavigationProperty Name="tbl_User2" Relationship="Self.FK_tbl_User_tbl_User" FromRole="tbl_User1" ToRole="tbl_User" />
+        </EntityType>
+        <EntityType Name="tbl_Config">
+          <Key>
+            <PropertyRef Name="FileServerDir" />
+            <PropertyRef Name="UploadPath" />
+            <PropertyRef Name="ErrorPath" />
+            <PropertyRef Name="LogPath" />
+            <PropertyRef Name="MaxLogSize" />
+            <PropertyRef Name="LoggingLevel" />
+            <PropertyRef Name="CheckingInterval" />
+            <PropertyRef Name="EmailServer" />
+            <PropertyRef Name="EmailRecipient" />
+            <PropertyRef Name="EmailSender" />
+            <PropertyRef Name="EmailNotification" />
+            <PropertyRef Name="SqlCommandTimeout" />
+            <PropertyRef Name="TimeoutErrorWait" />
+            <PropertyRef Name="TimeoutErrorRetry" />
+            <PropertyRef Name="MaxImageSize" />
+            <PropertyRef Name="CheckConfigMinutes" />
+          </Key>
+          <Property Name="FileServerDir" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UploadPath" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ErrorPath" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LogPath" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MaxLogSize" Type="Int64" Nullable="false" />
+          <Property Name="LoggingLevel" Type="Int16" Nullable="false" />
+          <Property Name="CheckingInterval" Type="Int16" Nullable="false" />
+          <Property Name="EmailServer" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmailRecipient" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmailSender" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmailNotification" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SqlCommandTimeout" Type="Int16" Nullable="false" />
+          <Property Name="TimeoutErrorWait" Type="Int16" Nullable="false" />
+          <Property Name="TimeoutErrorRetry" Type="Int16" Nullable="false" />
+          <Property Name="MaxImageSize" Type="Int64" Nullable="false" />
+          <Property Name="CheckConfigMinutes" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_UpdatesData">
+          <Key>
+            <PropertyRef Name="Update_ID" />
+            <PropertyRef Name="ColumnName" />
+          </Key>
+          <Property Name="Update_ID" Type="Int32" Nullable="false" />
+          <Property Name="ColumnName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OriginalData" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CurrentData" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbl_Updates" Relationship="Self.FK_tbl_UpdatesData_tbl_Updates" FromRole="tbl_UpdatesData" ToRole="tbl_Updates" />
+        </EntityType>
+        <Association Name="FK_tbl_Cabinet_tbl_User">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1" />
+          <End Role="tbl_Cabinet" Type="Self.tbl_Cabinet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="tbl_Cabinet">
+              <PropertyRef Name="LastUser_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DocumentType_tbl_Cabinet">
+          <End Role="tbl_Cabinet" Type="Self.tbl_Cabinet" Multiplicity="1" />
+          <End Role="tbl_DocumentType" Type="Self.tbl_DocumentType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Cabinet">
+              <PropertyRef Name="Cabinet_ID" />
+            </Principal>
+            <Dependent Role="tbl_DocumentType">
+              <PropertyRef Name="Cabinet_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Folder_tbl_Cabinet">
+          <End Role="tbl_Cabinet" Type="Self.tbl_Cabinet" Multiplicity="1" />
+          <End Role="tbl_Folder" Type="Self.tbl_Folder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Cabinet">
+              <PropertyRef Name="Cabinet_ID" />
+            </Principal>
+            <Dependent Role="tbl_Folder">
+              <PropertyRef Name="Cabinet_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Repository_tbl_Cabinet">
+          <End Role="tbl_Cabinet" Type="Self.tbl_Cabinet" Multiplicity="1" />
+          <End Role="tbl_Repository" Type="Self.tbl_Repository" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Cabinet">
+              <PropertyRef Name="Cabinet_ID" />
+            </Principal>
+            <Dependent Role="tbl_Repository">
+              <PropertyRef Name="Cabinet_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Security_tbl_Cabinet">
+          <End Role="tbl_Cabinet" Type="Self.tbl_Cabinet" Multiplicity="1" />
+          <End Role="tbl_Security" Type="Self.tbl_Security" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Cabinet">
+              <PropertyRef Name="Cabinet_ID" />
+            </Principal>
+            <Dependent Role="tbl_Security">
+              <PropertyRef Name="Cabinet_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DocumentType_tbl_Category">
+          <End Role="tbl_Category" Type="Self.tbl_Category" Multiplicity="1" />
+          <End Role="tbl_DocumentType" Type="Self.tbl_DocumentType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Category">
+              <PropertyRef Name="Category_ID" />
+            </Principal>
+            <Dependent Role="tbl_DocumentType">
+              <PropertyRef Name="Category_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DocReference_tbl_Document">
+          <End Role="tbl_Document" Type="Self.tbl_Document" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_DocReference" Type="Self.tbl_DocReference" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Document">
+              <PropertyRef Name="Document_ID" />
+            </Principal>
+            <Dependent Role="tbl_DocReference">
+              <PropertyRef Name="Document_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Updates_tbl_Document">
+          <End Role="tbl_Document" Type="Self.tbl_Document" Multiplicity="1" />
+          <End Role="tbl_Updates" Type="Self.tbl_Updates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Document">
+              <PropertyRef Name="Document_ID" />
+            </Principal>
+            <Dependent Role="tbl_Updates">
+              <PropertyRef Name="Document_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DocumentType_tbl_User">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1" />
+          <End Role="tbl_DocumentType" Type="Self.tbl_DocumentType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="tbl_DocumentType">
+              <PropertyRef Name="LastUser_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Repository_tbl_User">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1" />
+          <End Role="tbl_Repository" Type="Self.tbl_Repository" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="tbl_Repository">
+              <PropertyRef Name="LastUser_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Security_tbl_User">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1" />
+          <End Role="tbl_Security" Type="Self.tbl_Security" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="tbl_Security">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Security_tbl_User1">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1" />
+          <End Role="tbl_Security" Type="Self.tbl_Security" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="tbl_Security">
+              <PropertyRef Name="LastUser_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_UpdatesData_tbl_Updates">
+          <End Role="tbl_Updates" Type="Self.tbl_Updates" Multiplicity="1" />
+          <End Role="tbl_UpdatesData" Type="Self.tbl_UpdatesData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Updates">
+              <PropertyRef Name="Update_ID" />
+            </Principal>
+            <Dependent Role="tbl_UpdatesData">
+              <PropertyRef Name="Update_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_User_tbl_User">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1" />
+          <End Role="tbl_User1" Type="Self.tbl_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="tbl_User1">
+              <PropertyRef Name="LastUser_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WASEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="dtproperties" EntityType="Self.dtproperty" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="tbl_Cabinet" EntityType="Self.tbl_Cabinet" />
+          <EntitySet Name="tbl_Category" EntityType="Self.tbl_Category" />
+          <EntitySet Name="tbl_DocReference" EntityType="Self.tbl_DocReference" />
+          <EntitySet Name="tbl_Document" EntityType="Self.tbl_Document" />
+          <EntitySet Name="tbl_DocumentType" EntityType="Self.tbl_DocumentType" />
+          <EntitySet Name="tbl_Folder" EntityType="Self.tbl_Folder" />
+          <EntitySet Name="tbl_Repository" EntityType="Self.tbl_Repository" />
+          <EntitySet Name="tbl_Security" EntityType="Self.tbl_Security" />
+          <EntitySet Name="tbl_Updates" EntityType="Self.tbl_Updates" />
+          <EntitySet Name="tbl_User" EntityType="Self.tbl_User" />
+          <EntitySet Name="tbl_Config" EntityType="Self.tbl_Config" />
+          <EntitySet Name="tbl_UpdatesData" EntityType="Self.tbl_UpdatesData" />
+          <AssociationSet Name="FK_tbl_Cabinet_tbl_User" Association="Self.FK_tbl_Cabinet_tbl_User">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_Cabinet" EntitySet="tbl_Cabinet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DocumentType_tbl_Cabinet" Association="Self.FK_tbl_DocumentType_tbl_Cabinet">
+            <End Role="tbl_Cabinet" EntitySet="tbl_Cabinet" />
+            <End Role="tbl_DocumentType" EntitySet="tbl_DocumentType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Folder_tbl_Cabinet" Association="Self.FK_tbl_Folder_tbl_Cabinet">
+            <End Role="tbl_Cabinet" EntitySet="tbl_Cabinet" />
+            <End Role="tbl_Folder" EntitySet="tbl_Folder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Repository_tbl_Cabinet" Association="Self.FK_tbl_Repository_tbl_Cabinet">
+            <End Role="tbl_Cabinet" EntitySet="tbl_Cabinet" />
+            <End Role="tbl_Repository" EntitySet="tbl_Repository" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Security_tbl_Cabinet" Association="Self.FK_tbl_Security_tbl_Cabinet">
+            <End Role="tbl_Cabinet" EntitySet="tbl_Cabinet" />
+            <End Role="tbl_Security" EntitySet="tbl_Security" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DocumentType_tbl_Category" Association="Self.FK_tbl_DocumentType_tbl_Category">
+            <End Role="tbl_Category" EntitySet="tbl_Category" />
+            <End Role="tbl_DocumentType" EntitySet="tbl_DocumentType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DocReference_tbl_Document" Association="Self.FK_tbl_DocReference_tbl_Document">
+            <End Role="tbl_Document" EntitySet="tbl_Document" />
+            <End Role="tbl_DocReference" EntitySet="tbl_DocReference" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Updates_tbl_Document" Association="Self.FK_tbl_Updates_tbl_Document">
+            <End Role="tbl_Document" EntitySet="tbl_Document" />
+            <End Role="tbl_Updates" EntitySet="tbl_Updates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DocumentType_tbl_User" Association="Self.FK_tbl_DocumentType_tbl_User">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_DocumentType" EntitySet="tbl_DocumentType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Repository_tbl_User" Association="Self.FK_tbl_Repository_tbl_User">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_Repository" EntitySet="tbl_Repository" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Security_tbl_User" Association="Self.FK_tbl_Security_tbl_User">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_Security" EntitySet="tbl_Security" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Security_tbl_User1" Association="Self.FK_tbl_Security_tbl_User1">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_Security" EntitySet="tbl_Security" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_UpdatesData_tbl_Updates" Association="Self.FK_tbl_UpdatesData_tbl_Updates">
+            <End Role="tbl_Updates" EntitySet="tbl_Updates" />
+            <End Role="tbl_UpdatesData" EntitySet="tbl_UpdatesData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_User_tbl_User" Association="Self.FK_tbl_User_tbl_User">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_User1" EntitySet="tbl_User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="WASModelStoreContainer" CdmEntityContainer="WASEntities">
+          <EntitySetMapping Name="dtproperties">
+            <EntityTypeMapping TypeName="WASModel.dtproperty">
+              <MappingFragment StoreEntitySet="dtproperties">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="objectid" ColumnName="objectid" />
+                <ScalarProperty Name="property" ColumnName="property" />
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="uvalue" ColumnName="uvalue" />
+                <ScalarProperty Name="lvalue" ColumnName="lvalue" />
+                <ScalarProperty Name="version" ColumnName="version" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="WASModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Cabinet">
+            <EntityTypeMapping TypeName="WASModel.tbl_Cabinet">
+              <MappingFragment StoreEntitySet="tbl_Cabinet">
+                <ScalarProperty Name="Cabinet_ID" ColumnName="Cabinet_ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="FolderType" ColumnName="FolderType" />
+                <ScalarProperty Name="Security" ColumnName="Security" />
+                <ScalarProperty Name="LastUser_ID" ColumnName="LastUser_ID" />
+                <ScalarProperty Name="LastUser_DT" ColumnName="LastUser_DT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Category">
+            <EntityTypeMapping TypeName="WASModel.tbl_Category">
+              <MappingFragment StoreEntitySet="tbl_Category">
+                <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LastUser_ID" ColumnName="LastUser_ID" />
+                <ScalarProperty Name="LastUser_DT" ColumnName="LastUser_DT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_DocReference">
+            <EntityTypeMapping TypeName="WASModel.tbl_DocReference">
+              <MappingFragment StoreEntitySet="tbl_DocReference">
+                <ScalarProperty Name="DocReference_ID" ColumnName="DocReference_ID" />
+                <ScalarProperty Name="Document_ID" ColumnName="Document_ID" />
+                <ScalarProperty Name="RefNumber" ColumnName="RefNumber" />
+                <ScalarProperty Name="RefNumberType_CD" ColumnName="RefNumberType_CD" />
+                <ScalarProperty Name="Date1_DT" ColumnName="Date1_DT" />
+                <ScalarProperty Name="Date2_DT" ColumnName="Date2_DT" />
+                <ScalarProperty Name="Text1" ColumnName="Text1" />
+                <ScalarProperty Name="Number1" ColumnName="Number1" />
+                <ScalarProperty Name="LastUser_DT" ColumnName="LastUser_DT" />
+                <ScalarProperty Name="Text2" ColumnName="Text2" />
+                <ScalarProperty Name="Number2" ColumnName="Number2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Document">
+            <EntityTypeMapping TypeName="WASModel.tbl_Document">
+              <MappingFragment StoreEntitySet="tbl_Document">
+                <ScalarProperty Name="Document_ID" ColumnName="Document_ID" />
+                <ScalarProperty Name="Folder_ID" ColumnName="Folder_ID" />
+                <ScalarProperty Name="Repository_ID" ColumnName="Repository_ID" />
+                <ScalarProperty Name="DocumentType_ID" ColumnName="DocumentType_ID" />
+                <ScalarProperty Name="DocumentNumber" ColumnName="DocumentNumber" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Issue_DT" ColumnName="Issue_DT" />
+                <ScalarProperty Name="Received_DT" ColumnName="Received_DT" />
+                <ScalarProperty Name="Division_CD" ColumnName="Division_CD" />
+                <ScalarProperty Name="Direction" ColumnName="Direction" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="Method" ColumnName="Method" />
+                <ScalarProperty Name="Recipient" ColumnName="Recipient" />
+                <ScalarProperty Name="Originator" ColumnName="Originator" />
+                <ScalarProperty Name="Security" ColumnName="Security" />
+                <ScalarProperty Name="Filepath" ColumnName="Filepath" />
+                <ScalarProperty Name="FileExtension" ColumnName="FileExtension" />
+                <ScalarProperty Name="FileType" ColumnName="FileType" />
+                <ScalarProperty Name="CreatorFirstName" ColumnName="CreatorFirstName" />
+                <ScalarProperty Name="CreatorLastName" ColumnName="CreatorLastName" />
+                <ScalarProperty Name="WASDocFlag" ColumnName="WASDocFlag" />
+                <ScalarProperty Name="FileDestination" ColumnName="FileDestination" />
+                <ScalarProperty Name="ArchivedFile" ColumnName="ArchivedFile" />
+                <ScalarProperty Name="ArchivedXML" ColumnName="ArchivedXML" />
+                <ScalarProperty Name="LastUser_DT" ColumnName="LastUser_DT" />
+                <ScalarProperty Name="Active_IND" ColumnName="Active_IND" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_DocumentType">
+            <EntityTypeMapping TypeName="WASModel.tbl_DocumentType">
+              <MappingFragment StoreEntitySet="tbl_DocumentType">
+                <ScalarProperty Name="DocumentType_ID" ColumnName="DocumentType_ID" />
+                <ScalarProperty Name="Cabinet_ID" ColumnName="Cabinet_ID" />
+                <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Active_IND" ColumnName="Active_IND" />
+                <ScalarProperty Name="Security" ColumnName="Security" />
+                <ScalarProperty Name="LastUser_ID" ColumnName="LastUser_ID" />
+                <ScalarProperty Name="LastUser_DT" ColumnName="LastUser_DT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Folder">
+            <EntityTypeMapping TypeName="WASModel.tbl_Folder">
+              <MappingFragment StoreEntitySet="tbl_Folder">
+                <ScalarProperty Name="Folder_ID" ColumnName="Folder_ID" />
+                <ScalarProperty Name="Cabinet_ID" ColumnName="Cabinet_ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Security" ColumnName="Security" />
+                <ScalarProperty Name="LastUser_DT" ColumnName="LastUser_DT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Repository">
+            <EntityTypeMapping TypeName="WASModel.tbl_Repository">
+              <MappingFragment StoreEntitySet="tbl_Repository">
+                <ScalarProperty Name="Repository_ID" ColumnName="Repository_ID" />
+                <ScalarProperty Name="Cabinet_ID" ColumnName="Cabinet_ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="MainPath" ColumnName="MainPath" />
+                <ScalarProperty Name="Sector" ColumnName="Sector" />
+                <ScalarProperty Name="Directory" ColumnName="Directory" />
+                <ScalarProperty Name="NextFileName" ColumnName="NextFileName" />
+                <ScalarProperty Name="LastUser_ID" ColumnName="LastUser_ID" />
+                <ScalarProperty Name="LastUser_DT" ColumnName="LastUser_DT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Security">
+            <EntityTypeMapping TypeName="WASModel.tbl_Security">
+              <MappingFragment StoreEntitySet="tbl_Security">
+                <ScalarProperty Name="Security_ID" ColumnName="Security_ID" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="Cabinet_ID" ColumnName="Cabinet_ID" />
+                <ScalarProperty Name="SecLevel_Cabinet" ColumnName="SecLevel_Cabinet" />
+                <ScalarProperty Name="SecLevel_Folder" ColumnName="SecLevel_Folder" />
+                <ScalarProperty Name="SecLevel_DocType" ColumnName="SecLevel_DocType" />
+                <ScalarProperty Name="SecLevel_Document" ColumnName="SecLevel_Document" />
+                <ScalarProperty Name="LastUser_ID" ColumnName="LastUser_ID" />
+                <ScalarProperty Name="LastUser_DT" ColumnName="LastUser_DT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Updates">
+            <EntityTypeMapping TypeName="WASModel.tbl_Updates">
+              <MappingFragment StoreEntitySet="tbl_Updates">
+                <ScalarProperty Name="Update_ID" ColumnName="Update_ID" />
+                <ScalarProperty Name="Document_ID" ColumnName="Document_ID" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_User">
+            <EntityTypeMapping TypeName="WASModel.tbl_User">
+              <MappingFragment StoreEntitySet="tbl_User">
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="LastUser_ID" ColumnName="LastUser_ID" />
+                <ScalarProperty Name="LastUser_DT" ColumnName="LastUser_DT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Config">
+            <EntityTypeMapping TypeName="WASModel.tbl_Config">
+              <MappingFragment StoreEntitySet="tbl_Config">
+                <ScalarProperty Name="FileServerDir" ColumnName="FileServerDir" />
+                <ScalarProperty Name="UploadPath" ColumnName="UploadPath" />
+                <ScalarProperty Name="ErrorPath" ColumnName="ErrorPath" />
+                <ScalarProperty Name="LogPath" ColumnName="LogPath" />
+                <ScalarProperty Name="MaxLogSize" ColumnName="MaxLogSize" />
+                <ScalarProperty Name="LoggingLevel" ColumnName="LoggingLevel" />
+                <ScalarProperty Name="CheckingInterval" ColumnName="CheckingInterval" />
+                <ScalarProperty Name="EmailServer" ColumnName="EmailServer" />
+                <ScalarProperty Name="EmailRecipient" ColumnName="EmailRecipient" />
+                <ScalarProperty Name="EmailSender" ColumnName="EmailSender" />
+                <ScalarProperty Name="EmailNotification" ColumnName="EmailNotification" />
+                <ScalarProperty Name="SqlCommandTimeout" ColumnName="SqlCommandTimeout" />
+                <ScalarProperty Name="TimeoutErrorWait" ColumnName="TimeoutErrorWait" />
+                <ScalarProperty Name="TimeoutErrorRetry" ColumnName="TimeoutErrorRetry" />
+                <ScalarProperty Name="MaxImageSize" ColumnName="MaxImageSize" />
+                <ScalarProperty Name="CheckConfigMinutes" ColumnName="CheckConfigMinutes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_UpdatesData">
+            <EntityTypeMapping TypeName="WASModel.tbl_UpdatesData">
+              <MappingFragment StoreEntitySet="tbl_UpdatesData">
+                <ScalarProperty Name="Update_ID" ColumnName="Update_ID" />
+                <ScalarProperty Name="ColumnName" ColumnName="ColumnName" />
+                <ScalarProperty Name="OriginalData" ColumnName="OriginalData" />
+                <ScalarProperty Name="CurrentData" ColumnName="CurrentData" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

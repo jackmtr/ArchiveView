@@ -1,0 +1,61 @@
+﻿@model IEnumerable<PublicVM>
+
+@using (Html.BeginForm("Edit", "Admin", new { folderId = TempData["Folder_Id"] },FormMethod.Post, new { id = "updateListSubmit"}))
+{
+    @Html.AntiForgeryToken()
+
+    <table class="edit-table table">
+        <thead>
+            <tr class="edit-rows">
+                <th>
+                    @Html.DisplayNameFor(model => model.First().Document_ID)
+                    <br />
+                    @Html.DisplayNameFor(model => model.First().CategoryName)
+                    <br />
+                    @Html.DisplayNameFor(model => model.First().DocumentTypeName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().Document_ID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().CategoryName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().DocumentTypeName)
+                </th>
+                <th>
+                    <!--EDITABLE-->
+                    @Html.DisplayNameFor(model => model.First().IssueDate)
+                </th>
+                <th>
+                    <!--EDITABLE-->
+                    @Html.DisplayNameFor(model => model.First().Description)
+                </th>
+                <th>
+                    <!--EDITABLE-->
+                    @Html.DisplayNameFor(model => model.First().Method)
+                </th>
+                <th>
+                    <!--EDITABLE-->
+                    @Html.DisplayNameFor(model => model.First().Originator)
+                </th>
+                <th>
+                    <!--EDITABLE-->
+                    @Html.DisplayNameFor(model => model.First().Reason)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().Recipient)
+                </th>
+                <th>
+                    File
+                </th>
+                <th class="input_class">Active <input type="checkbox" name="selectAllBox" class="selectAll" /></th>
+            </tr>
+        </thead>
+        <tbody>
+            @Html.EditorFor(model=>Model)
+        </tbody>
+    </table>
+
+    <input type="submit" value="Update"/>
+}

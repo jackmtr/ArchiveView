@@ -1,0 +1,705 @@
+﻿/*****Styling for universal markup******/
+
+/*The side nav title heads*/
+/*doesnt seem to be in effect*/
+
+
+/*the results status line*/
+/*h4 {
+    text-align: center;
+}*/
+
+/*affects the policies list entries (cate/doctype are overruled)*/
+li {
+    font-size: 15px;
+}
+
+    /*Affects the individual list items*/
+    li a {
+        display: block;
+        color: #000;
+        padding: 5px;
+    }
+
+        /* Change the link color on hover */
+        li a:hover {
+            background-color: #555;
+            color: white;
+            text-decoration: none;
+        }
+
+/*Table design*/
+
+/*this is affecting the inner misc table*/
+/*table {
+    width: 100%;
+    table-layout: auto;
+    border-collapse:collapse;
+}*/
+
+    th, td {
+        text-align: center;
+        font-size: 15px;
+        border: 1px solid black !important; /*needs important to overrule grey table look*/
+        padding: 6px !important; /*maybe adjust to get a default table of 20 records to fit typical screen length*/
+    }
+
+    /*makes th not wrap*/
+    th {
+        white-space:nowrap;
+    }
+        
+        /*makes the column sorter links appear black like the rest of column headers*/
+        th a {
+            color: inherit;
+        }
+
+    /*Affects the Search box text*/
+    form input {
+        text-align: center;
+    }
+
+
+/*****Tags from the master page******/
+/*Sets the top Westland Banner, at fixed height*/
+header {  
+    background: url(../Images/logo.png) no-repeat center;
+    background-color: #26728a;
+    height: 10vh;
+    position: relative;
+}
+
+/*****Tags from the PublicVM.Index page******/
+/*Makes the nav height to match remaining screen height, breaks for mobile*/
+#public_navigation {
+    background-color: lightgrey;
+    width: 25%; /*bootstrap overriding i think*/
+    padding: 0;
+}
+
+    /*make the nav-cat/poly switcher have some margin, while list has none*/
+    .nav-button {
+        margin-top: 5%;
+        margin-left: 5%;
+        margin-right: 5%;
+        margin-bottom: 5%;
+        height: 5%;
+    }
+        /*affects the categories/policies span texts */
+        .nav-button * {
+            font-size: 14px;
+            font-weight: bold;
+            padding: 0;
+            margin: 0;
+        }
+
+        /*div for category/policy switcher*/
+        .cat_pol_switcher{
+            padding: 0;
+        }
+
+            /* The switch control appearance*/
+            .switch {
+                position: relative; 
+                width: 60px;
+                height: 25px;
+            }
+                /* Hide default HTML checkbox */
+                .switch input {display:none;}
+
+                /* The slider back area*/
+                .slider {
+                    position: absolute;
+                    cursor: pointer;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background-color: black;
+                    -webkit-transition: .4s;
+                    transition: .4s;
+                }
+
+                    /*the slider white circle*/
+                    .slider:before {
+                        position: absolute;
+                        content: "";
+                        height: 18px;
+                        width: 18px;
+                        left: 4px;
+                        bottom: 4px;
+                        background-color: white;
+                        -webkit-transition: .4s;
+                        transition: .4s;
+                    }
+
+                    /*Slider changed color*/
+                    input:checked + .slider {
+                        /*background-color: #2196F3;*/
+                        background-color: gray;
+                    }
+
+
+                    /*The Slider Movement Animation*/
+                    input:checked + .slider:before {
+                        -webkit-transform: translateX(33px);
+                        -ms-transform: translateX(33px);
+                        transform: translateX(33px);
+                    }
+
+                    /* Outer Rounded slider part */
+                    .slider.round {
+                        border-radius: 34px;
+                    }
+
+                    /* Inner Rounded slider part */
+                    .slider.round:before {
+                        border-radius: 50%;
+                    }
+
+    /*affects the overall list box*/
+    .nav_lists_outer {
+        margin: 0;
+        width: 100%;
+        height: 80%;
+    }
+
+        /*The nav lists and it's title*/
+        .nav_lists{
+            padding-left: 0;
+            padding-right: 0;
+            width: inherit;
+            height: 100%;
+        }
+
+            /*Affects the nav bar list, as well as the pagedList*/
+            .nav_lists ul{
+                /* Colours and borders for illustration purposes */
+                width: inherit;
+                list-style-type: none;
+                padding-left: 0px;
+                /*background-color: rgba(65, 103, 118, 0.40);*/
+                background-color: #c2c1c1;
+            }
+
+            .nav_lists li:hover {
+                background-color: inherit !important; /*Stops doctypes from highlighting categories too*/
+            }
+
+            /*affects the entire category background on hover of inside doctype*/
+            #category_list > li:hover,  #category_list > li li:hover{
+                background-color: #555;
+
+            }
+
+            /*affects the category names*/
+            .category_nav > div > a {
+                font-size: 19px;
+                font-weight: bold;
+            }
+
+            /*DocType sublist item font adjustments*/
+            #docType_list li a{
+                font-size: 15px;
+                /*padding-left: 20px;*/
+                padding-left: 30px;
+            }
+
+            /*Needed to allow a scrollable policy list if needed*/
+            #policy_section {
+                width: auto; /*might not be needed*/
+            }
+
+            /*Used to toggle which sub-bar to see*/
+            .hidden {
+                display: none;
+            }
+
+                /*Give a scroll to the ul policy list*/
+                #policy_list{
+                    width: 100%;
+                    height: inherit;
+                    /*overflow-y: scroll; not sure if we need a scroll list anymore*/
+                }
+
+/*Makes the main content height to match remaining screen height, breaks for mobile*/
+/*The main part of the content, which involves 'public' info, search bar, and date filters*/
+#public_info {
+    height: 90vh;
+    width: 100%;
+    /*width: 75%;
+    flex: auto;
+    background-color: white;*/
+}
+
+    /*Constant 'public' info display*/
+    .banner_info {
+        position: absolute;
+        bottom: 0;
+        left: 2%;
+        color: white;
+        font-size: 20px;
+        font-weight: 600;
+        display: inline-block;
+        width: 98%;
+        }
+
+    /*Gives the input boxes a better look*/
+    .filter {
+        text-align: center;
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+    }
+
+    /*Anchors with class 'button' changes (i.e. Clear Button)*/
+    a.button, #formSubmitId {
+
+        font-weight: 500;
+        font-family: sans-serif;
+        font-size: 16px;
+        text-decoration: none;
+        background-color: #EEEEEE;
+        color: #333333;
+        padding: 2px 6px 2px 6px;
+        border-top: 1px solid #000;
+        border-right: 1px solid #000;
+        border-bottom: 1px solid #000;
+        border-left: 1px solid #000;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    a.button {
+            display: flex;
+            flex-direction: column;
+            justify-content : flex-start;
+    }
+
+    a.button:active {
+        /*Figure out how to immitate button animation*/
+}
+
+.main-rows > td:nth-child(9) {
+    text-align: left; /*This left aligns description, may keep for preference*/
+}
+
+
+/*****Tags from the PublicVM._PublicTable page******/
+
+/*Default Table columns*/
+/*show 1, 2, 9, 10, 11*/
+/*hide 3, 4, 5, 6, 7, 8*/
+.default-table .main-rows>th:nth-child(-4n + 8), .default-table .main-rows>td:nth-child(-4n + 8), .default-table .main-rows>th:nth-child(-3n + 6), .default-table .main-rows>td:nth-child(-3n + 6), .default-table .main-rows>th:nth-child(7), .default-table .main-rows>td:nth-child(7), .default-table .main-rows>th:nth-child(5), .default-table .main-rows>td:nth-child(5){
+    display: none;
+}
+
+/*show 1, 2, 5, 9, 10, 11*/
+/*hide 3, 4, 5, 6, 8*/
+.category .main-rows>th:nth-child(-4n+8), .category .main-rows>td:nth-child(-4n+8), .category .main-rows>th:nth-child(-3n+6), .category .main-rows>td:nth-child(-3n+6), .category .main-rows > th:nth-child(5), .category .main-rows > td:nth-child(5) {
+    display: none;
+}
+
+/*2, 9, 10, 11*/
+/*1, 3, 4, 5, 6, 7, 8*/
+/*Hides select columns when in subcategory - doctype*/
+.doctype .main-rows>th:nth-child(-4n+8), .doctype .main-rows>td:nth-child(-4n+8), .doctype .main-rows>th:nth-child(-2n+7), .doctype .main-rows>td:nth-child(-2n+7), .doctype .main-rows>th:nth-child(6), .doctype .main-rows>td:nth-child(6), .doctype .main-rows>th:nth-child(5), .doctype .main-rows>td:nth-child(5){
+    display: none;
+}
+
+/*1, 2, 5, 9, 10, 11*/
+/*3, 4, 6, 7, 8*/
+/*Hides select columns when in subcategory - policy*/
+.policy .main-rows>th:nth-child(-4n+8), .policy .main-rows>td:nth-child(-4n+8), .policy .main-rows>th:nth-child(7), .policy .main-rows>td:nth-child(7), .policy .main-rows>th:nth-child(6), .policy .main-rows>td:nth-child(6), .policy .main-rows>th:nth-child(3), .policy .main-rows>td:nth-child(3){
+    display: none;
+}
+
+/*1, 2, 3, 6, 9, 10, 11*/
+/*4, 5, 7, 8*/
+/*Hides select columns when in policy - correspondence*/
+.correspondence .main-rows>th:nth-child(-4n+8), .correspondence .main-rows>td:nth-child(-4n+8), .correspondence .main-rows>th:nth-child(7), .correspondence .main-rows>td:nth-child(7), .correspondence .main-rows>th:nth-child(5), .correspondence .main-rows>td:nth-child(5){
+    display: none;
+}
+
+/*2, 4, 5, 7, 8, 9, 10, 11*/
+/*1, 3, 6*/
+/*Hides select columns when in doctype - declaration/endorsement*/
+.declaration .main-rows>th:nth-child(-3n+6), .declaration .main-rows>td:nth-child(-3n+6), .declaration .main-rows>th:nth-child(1), .declaration .main-rows>td:nth-child(1){
+    display: none;
+}
+
+/*makes the 'More(symbol)' stick together in Misc Table*/
+.main-rows > td:nth-child(11) {
+    white-space:nowrap;
+}
+
+    /*affects the description td records*/
+    .description {
+        max-width: 300px;
+    }
+
+    /*the pagination positioning*/
+    .pagedList {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+/*****Tags from the JS manipulation page******/
+
+
+/*gives style to current active navbar list item*/
+.active {
+    background-color: #4e4848;
+    overflow: hidden;
+    clear: both;
+}
+
+    /*.active * {
+        color: white;
+    }*/
+
+    .active > a {
+        color: white;
+    }
+
+
+.preview_image {
+    display: inline-block;
+}
+
+/*Preview Image sizing*/
+.previewImg {
+    width: auto;
+    max-width: 250px;
+    height: auto;
+    max-height: 150px;    
+}
+
+
+
+/*****Media Tags for alternating screen size******/
+
+@media(max-width:1366px) {
+
+    .edit-rows > th:nth-child(2), .edit-rows > th:nth-child(3), .edit-rows > th:nth-child(4), .edit-rows > td:nth-child(2), .edit-rows > td:nth-child(3), .edit-rows > td:nth-child(4) {
+        display: none;
+    }
+}
+
+@media(min-width: 1366px) {
+    .edit-rows > th:nth-child(1), .edit-rows > td:nth-child(1) {
+        display: none;
+    }
+
+}
+
+/*removes tables columns on shrinking size*/
+@media(max-width:767px){
+    .main-rows > th:nth-child(1), .main-rows > td:nth-child(1), .main-rows > th:nth-child(3), .main-rows > td:nth-child(3), .main-rows > th:nth-child(4), .main-rows > td:nth-child(4), .main-rows > th:nth-child(5), .main-rows > td:nth-child(5), .main-rows > th:nth-child(6), .main-rows > td:nth-child(6), .main-rows > th:nth-child(7), .main-rows > td:nth-child(7), .main-rows > th:nth-child(8), .main-rows > td:nth-child(8), .main-rows > th:nth-child(11), .main-rows > td:nth-child(11) {
+        display: none;
+        overflow: scroll;
+    }
+}
+@media(min-width:768px){}
+
+@media (max-width: 800px){
+    .div-table {
+        display: table;
+        content: "";
+        clear: both;
+        width: 100%;
+    }
+
+    .cat_pol_switcher {
+        margin-top: 20px;
+    }
+
+    #category_section a, #policy_section a{
+    font-size: 10px !important;
+}
+
+    .nav-button {
+        padding: 10px;
+        display: table-cell;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+        /* The slider back area*/
+        .slider {
+            top: -20px;
+            left: 15px;
+            right: 19px;
+            bottom: 0;
+        }
+
+            /*the slider white circle*/
+            .slider:before {
+                left: 4px;
+                bottom: 24px;
+            }
+
+            /*The Slider Movement Animation*/
+            input:checked + .slider:before {
+                -webkit-transform: translateY(20px);
+                -ms-transform: translateY(20px);
+                transform: translateY(20px);
+            }
+
+    /*affects the category names*/
+    /*.category_nav > div > a {
+        font-size: 15px;
+    }*/
+
+    /*DocType sublist item font adjustments*/
+    /*#docType_list li a, #policy_list li a{
+        font-size: 102px;
+    }*/
+}
+
+
+/*everything after here needs to be refactored into upper styling*/
+.misc_table {
+    background-color: #e5e5e5;
+}
+    .misc_table tr {
+        
+    }
+
+    .misc_table table {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .ref_table {
+        margin-top: 12px;
+    }
+
+th {
+    background-color: #c2c1c1 !important;
+}
+    th a:hover {
+        text-decoration: none;
+    }
+
+#dynamic {
+    border: solid black 4px;
+}
+
+#status-bar-form {
+    padding: 15px 15px 10px 15px;
+}
+
+/*may remove if not using textfill*/
+#status-message {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+#form-div {
+    margin: 0;
+}
+
+/*form > div{
+    margin: 0 !important;
+}*/
+
+textarea {
+
+}
+
+#downloadForm {
+    display: none;
+}
+
+.pagination {
+    margin: 0 0 5px 0;
+    /*border: solid;*/
+    display:inline-block;
+    padding:0px 10px;
+}
+
+#public_table_inner {
+    padding: 0;
+}
+
+/*Believe is deprecated*/
+/*.admin-and-pagination>div {
+    text-align: center;
+}*/
+
+.form-inputs>div {
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+/*Testing navbar styles*/
+    /*.test-style ul{
+        background-color: #c2c1c1 !important;
+    }
+
+    .test-style #docType_list li a {
+        padding-left: 30px;
+    }
+
+    .test-style li:hover {
+        background-color: inherit !important;
+    }
+
+    .temp-navbar {
+        width: 18% !important;
+    }
+
+    .temp-public {
+        width: 82% !important;
+    }*/
+
+    .admin-status {
+        font-weight: bold;
+        /*position: absolute;
+        right: 100px;*/
+        color: red;
+    }
+
+.error-page {
+    width: 50%;
+    margin: 10% auto;
+    text-align: center;
+}
+
+select {
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.edit-table {
+    margin: 15px 0;
+}
+
+.customDates *{
+    display: none;
+}
+
+/*Needed margin-left/right to overrwrite bootstrap default media changes*/
+#public_table {
+    /*box-sizing: border-box;*/
+    width: 100%;
+    padding: 0px;
+    margin-left: auto; 
+    margin-right: auto;
+}
+
+.noData {
+    text-align: center;
+}
+
+.datefield { /*The dropdown list styles*/
+    width: 46%;
+    /*float: left;*/
+    margin: 2%;
+}
+
+.customDates {
+    display: inline-block;
+}
+
+.banner_info form {
+    text-align: right;
+}
+
+.banner-form {
+    display: inline;
+    float: right;
+}
+
+.adminOptions *{
+    /*max-width: 50%;*/
+}
+
+.adminOptions {
+    text-align: right;
+    margin-bottom: 0;
+}
+
+.form-inputs {
+    /*height: 75px;*/
+}
+
+.datecustomer *{
+    display: inline;
+}
+
+.customDates label {
+    margin: 0;
+}
+
+.main-form {
+    /*padding: 10px;*/
+}
+
+.inner-form > * {
+}
+
+.inner-form > div {
+    padding: 5px !important; /*used to override bootstrap*/
+    margin: 0 !important; /*used to override bootstrap*/
+}
+
+    .inner-form > div div {
+    padding: 0 !important; /*used to override bootstrap*/
+    margin: 0 !important; /*used to override bootstrap*/
+    }
+
+.form-mid {
+    height: 100%;
+}
+
+.form-mid-half {
+    height: 50%;
+}
+
+.right-form-side > *{
+    /*margin: 5% auto !important;*/ /*not the best code, can do better*/
+    width: inherit;
+}
+
+#searchInputBox label {
+    margin: 0;
+  
+}
+
+.inner-form label{
+    padding: 0;
+}
+
+.right-form-side >  div *{
+    vertical-align: bottom;
+}
+
+.test {
+    text-align: center;
+}
+
+.form-mid-half select{
+    margin: 0;
+    width: 40%;
+}
+
+.testest {
+    height: 100%;
+}
+
+#category_section>ul, #policy_section>ul {
+    border: 0 solid black;
+    border-width: 0 0 1px 1px;
+}
+
+a.navLink{
+    border: 0 solid black;
+    border-width: 1px 1px 0 0;
+    padding:.5em;
+}

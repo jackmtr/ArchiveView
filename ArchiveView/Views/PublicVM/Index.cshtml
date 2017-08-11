@@ -5,25 +5,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div id="main-row" class="row">
-    <nav id="public_navigation" class="navbar navbar-default col-md-2">
+    <nav id="public_navigation" class="navbar navbar-default col-lg-2">
 
         <div class="div-table">
             <div class="nav-button row">
-                <span class="col-md-5">Categories</span>
-                <div class="cat_pol_switcher col-md-4">
+                <span class="col-lg-5">Categories</span>
+                <div class="cat_pol_switcher col-lg-4">
                     <!-- Rounded switch -->
                     <label class="switch">
                         <input type="checkbox" id="category_policy_toggle">
                         <div class="slider round"></div>
                     </label>
                 </div>
-                <span class="col-md-3">Policies</span>
+                <span class="col-lg-3">Policies</span>
             </div>
         </div>
 
 
         <div class="nav_lists_outer row">
-            <div class="nav_lists col-md-12">
+            <div class="nav_lists col-lg-12">
                 @Html.Partial("~/Views/Shared/_CategoryNavBar.cshtml", Model)
 
                 <div id="policy_section" class="hidden">
@@ -66,11 +66,11 @@
                         }
                     </ul>
                 </div>
-            </div><!--nav_lists col-md-12-->
+            </div><!--nav_lists col-lg-12-->
         </div><!--nav_lists_outer row-->
     </nav>
 
-    <div id="public_info" class="col-md-10">
+    <div id="public_info" class="col-lg-10">
 
         @Html.Partial("_Form", Model)
         @Html.Partial("_PublicTable", Model)

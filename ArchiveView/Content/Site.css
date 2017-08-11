@@ -73,7 +73,8 @@ header {
 /*Makes the nav height to match remaining screen height, breaks for mobile*/
 #public_navigation {
     background-color: lightgrey;
-    width: 25%; /*bootstrap overriding i think*/
+    /*min-width: 220px;*/
+    min-width: 25%;
     padding: 0;
 }
 
@@ -226,10 +227,9 @@ header {
 /*The main part of the content, which involves 'public' info, search bar, and date filters*/
 #public_info {
     height: 90vh;
-    width: 100%;
-    /*width: 75%;
+    width: 75%;
     flex: auto;
-    background-color: white;*/
+    background-color: white;
 }
 
     /*Constant 'public' info display*/
@@ -381,30 +381,32 @@ header {
 
 /*****Media Tags for alternating screen size******/
 
-@media(max-width:1366px) {
-
-    .edit-rows > th:nth-child(2), .edit-rows > th:nth-child(3), .edit-rows > th:nth-child(4), .edit-rows > td:nth-child(2), .edit-rows > td:nth-child(3), .edit-rows > td:nth-child(4) {
+@media only screen and (max-width : 1110px) {
+    .shrink {
         display: none;
     }
 }
 
-@media(min-width: 1366px) {
-    .edit-rows > th:nth-child(1), .edit-rows > td:nth-child(1) {
+@media only screen and (max-width : 992px){
+
+    .hide {
         display: none;
     }
 
-}
+    .lowerRowForm {
+        text-align: center;
+    }
 
-/*removes tables columns on shrinking size*/
-@media(max-width:767px){
+
+    #public_navigation {
+        height: auto !important;
+    }
+
     .main-rows > th:nth-child(1), .main-rows > td:nth-child(1), .main-rows > th:nth-child(3), .main-rows > td:nth-child(3), .main-rows > th:nth-child(4), .main-rows > td:nth-child(4), .main-rows > th:nth-child(5), .main-rows > td:nth-child(5), .main-rows > th:nth-child(6), .main-rows > td:nth-child(6), .main-rows > th:nth-child(7), .main-rows > td:nth-child(7), .main-rows > th:nth-child(8), .main-rows > td:nth-child(8), .main-rows > th:nth-child(11), .main-rows > td:nth-child(11) {
         display: none;
         overflow: scroll;
     }
-}
-@media(min-width:768px){}
 
-@media (max-width: 800px){
     .div-table {
         display: table;
         content: "";
@@ -418,7 +420,7 @@ header {
 
     #category_section a, #policy_section a{
     font-size: 10px !important;
-}
+    }
 
     .nav-button {
         padding: 10px;
@@ -447,18 +449,7 @@ header {
                 -ms-transform: translateY(20px);
                 transform: translateY(20px);
             }
-
-    /*affects the category names*/
-    /*.category_nav > div > a {
-        font-size: 15px;
-    }*/
-
-    /*DocType sublist item font adjustments*/
-    /*#docType_list li a, #policy_list li a{
-        font-size: 102px;
-    }*/
 }
-
 
 /*everything after here needs to be refactored into upper styling*/
 .misc_table {
@@ -505,10 +496,6 @@ th {
     margin: 0;
 }
 
-/*form > div{
-    margin: 0 !important;
-}*/
-
 textarea {
 
 }
@@ -528,36 +515,10 @@ textarea {
     padding: 0;
 }
 
-/*Believe is deprecated*/
-/*.admin-and-pagination>div {
-    text-align: center;
-}*/
-
 .form-inputs>div {
     margin-bottom: 5px;
     text-align: left;
 }
-
-/*Testing navbar styles*/
-    /*.test-style ul{
-        background-color: #c2c1c1 !important;
-    }
-
-    .test-style #docType_list li a {
-        padding-left: 30px;
-    }
-
-    .test-style li:hover {
-        background-color: inherit !important;
-    }
-
-    .temp-navbar {
-        width: 18% !important;
-    }
-
-    .temp-public {
-        width: 82% !important;
-    }*/
 
     .admin-status {
         font-weight: bold;
@@ -680,17 +641,9 @@ select {
     vertical-align: bottom;
 }
 
-.test {
-    text-align: center;
-}
-
 .form-mid-half select{
     margin: 0;
     width: 40%;
-}
-
-.testest {
-    height: 100%;
 }
 
 #category_section>ul, #policy_section>ul {
@@ -702,4 +655,8 @@ a.navLink{
     border: 0 solid black;
     border-width: 1px 1px 0 0;
     padding:.5em;
+}
+
+.tester {
+    text-align: center;
 }

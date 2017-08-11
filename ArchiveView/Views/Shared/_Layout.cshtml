@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width,
                initial-scale=1.0" />
-    <!--,maximum-scale=1.0, user-scalable=no-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <meta http-equiv="X-UA-Compatible" content="IE=Edge"> <!--May not need this, used bc bundling wasnt working, may just be a patch to fix for now-->
     <title>@ViewBag.Title</title>
     @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">*@
@@ -18,7 +18,7 @@
         <h3 class="banner_info row">
             @if (TempData["Client_Id"] != null)
             {
-                <span class="public_name_id col-md-4">@Html.Raw(TempData["Client_Id"])
+                <span class="public_name_id col-lg-4">@Html.Raw(TempData["Client_Id"])
                     @if (TempData["Client_Name"] != null)
                     {
                         @Html.Raw(TempData["Client_Name"])
@@ -27,14 +27,14 @@
 
                 if (TempData["Role"] != null && (string)TempData["Role"] == "Admin")
                 {
-                    <span class="admin-status col-md-1">[@TempData["Role"]]</span>
+                    <span class="admin-status col-lg-1">[@TempData["Role"]]</span>
                 }
             }
 
 
             @if (TempData["RoleButton"] != null && (string)TempData["RoleButton"] == "Admin")
             {
-                using (Html.BeginForm("Index", "Folder", FormMethod.Get, new { @class = "banner-form col-md-3" }))
+                using (Html.BeginForm("Index", "Folder", FormMethod.Get, new { @class = "banner-form col-lg-3" }))
                 {
                     @Html.Hidden("ClientId", TempData["Client_Id"]);
                     <button class="banner_button" name="Role" value="Admin" type="submit">Access Admin</button>
@@ -42,7 +42,7 @@
             }
             else if (TempData["RoleButton"] != null && (string)TempData["RoleButton"] == "Client")
             {
-                using (Html.BeginForm("Index", "Folder", FormMethod.Get, new { @class = "banner-form col-md-2" }))
+                using (Html.BeginForm("Index", "Folder", FormMethod.Get, new { @class = "banner-form col-lg-2" }))
                 {
                     @Html.Hidden("ClientId", TempData["Client_Id"]);
                     <button class="banner_button" name="Role" value="Client" type="submit">Access Client</button>

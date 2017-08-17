@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using ArchiveView.Models;
 using ArchiveView.ViewModels;
+using System.Data.Entity.SqlServer;
 
 namespace ArchiveView.Repositories
 {
@@ -69,7 +70,7 @@ namespace ArchiveView.Repositories
             int documentNumberInt = Int32.Parse(id);
 
             var documentData = (from d in _db.tbl_Document.AsNoTracking() //.AsNoTracking reduces resources by making this read only      
-                                //not every document will have a corrosponding docReference
+                                                                          //not every document will have a corrosponding docReference
                                 join dr in _db.tbl_DocReference on d.Document_ID equals dr.Document_ID into ps
                                 where d.Document_ID == documentNumberInt
                                 from dr in ps.DefaultIfEmpty()
@@ -82,6 +83,9 @@ namespace ArchiveView.Repositories
                                     d.LastUser_DT,
                                     d.Reason,
                                     d.Recipient,
+                                    //d.ArchivedFile,//maybe bring it over as an int
+                                    SqlFunctions.DataLength(d.ArchivedFile).Value,
+                                    //Additional information: This function can only be invoked from LINQ to Entities.
                                     d.tbl_DocReference
                                 }).First();
             //instead of doing .First(), should be a better way of bringing over just 1 record since they SHOULD(?) all be the same, probably a better LINQ statement
@@ -95,6 +99,12 @@ namespace ArchiveView.Repositories
             mpd.ArchiveTime = documentData.LastUser_DT;
             mpd.Reason = documentData.Reason;
             mpd.Recipient = documentData.Recipient;
+            //mpd.File = documentData.ArchivedFile;
+            //mpd.FileSize = SqlFunctions.DataLength(documentData.ArchivedFile); doesnt work cause linq to entity doesnt support datalength
+            //SqlFunctions.DataLength//documentData.ArchivedFile
+            //mpd.FileSize2 = documentData.ArchivedFile.Length; //(documentData.ArchivedFile.Length);
+            //mpd.FileSize = SqlFunctions.DataLength(mpd.File);
+            mpd.FileSize = (documentData.Value)/1000;
             mpd.DocReferences = documentData.tbl_DocReference;
 
             return mpd;

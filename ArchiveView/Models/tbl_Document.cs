@@ -52,5 +52,6 @@ namespace ArchiveView.Models
         public virtual ICollection<tbl_DocReference> tbl_DocReference { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tbl_Updates> tbl_Updates { get; set; }
+        public int FileSize { get; internal set; }
     }
 }

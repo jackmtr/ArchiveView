@@ -23,6 +23,14 @@ namespace ArchiveView.ViewModels
 
         public string Recipient { get; set; }
 
+        public byte[] File { get; set; }
+
+        [Display(Name = "File Size")]
+        public int FileSize { get; set; }
+
+        //[Display(Name = "File Size2")]
+        //public int FileSize2 { get; set; }
+
         public ICollection<tbl_DocReference> DocReferences { get; set; }
 
     }

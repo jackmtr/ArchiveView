@@ -23,6 +23,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.ArchiveTime)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FileSize)
+                </th>
             </tr>
 
             <tr>
@@ -53,6 +56,10 @@
                 </td>
                 <td>
                     @Html.DisplayFor(model => model.ArchiveTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.FileSize) KB
+                    @*@Html.DisplayFor(model => model.FileSize2) KB*@
                 </td>
             </tr>
 

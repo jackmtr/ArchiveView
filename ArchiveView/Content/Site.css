@@ -65,7 +65,7 @@ li {
 header {  
     background: url(../Images/logo.png) no-repeat center;
     background-color: #26728a;
-    height: 10vh;
+    height: 12vh;
     position: relative;
 }
 
@@ -73,8 +73,7 @@ header {
 /*Makes the nav height to match remaining screen height, breaks for mobile*/
 #public_navigation {
     background-color: lightgrey;
-    /*min-width: 220px;*/
-    min-width: 25%;
+    min-width: 20%;
     padding: 0;
 }
 
@@ -226,7 +225,7 @@ header {
 /*Makes the main content height to match remaining screen height, breaks for mobile*/
 /*The main part of the content, which involves 'public' info, search bar, and date filters*/
 #public_info {
-    height: 90vh;
+    height: 88vh;
     width: 75%;
     flex: auto;
     background-color: white;
@@ -418,9 +417,17 @@ header {
         margin-top: 20px;
     }
 
-    #category_section a, #policy_section a{
-    font-size: 10px !important;
+    #category_section div > a {
+        font-size: 15px !important;
     }
+
+    #category_section a, #policy_section a{
+        font-size: 12px !important;
+        text-align: center;
+        padding-left: 0 !important;
+    }
+
+
 
     .nav-button {
         padding: 10px;
@@ -449,6 +456,14 @@ header {
                 -ms-transform: translateY(20px);
                 transform: translateY(20px);
             }
+
+        .public_name_id {
+            margin-left:30px;
+        }
+
+        #client_name {
+            display: none;
+        }
 }
 
 /*everything after here needs to be refactored into upper styling*/
@@ -659,4 +674,8 @@ a.navLink{
 
 .tester {
     text-align: center;
+}
+
+#editOptionsSubmit {
+    margin-right: 50px;
 }

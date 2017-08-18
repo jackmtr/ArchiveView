@@ -26,6 +26,7 @@ namespace ArchiveView.ViewModels
         public byte[] File { get; set; }
 
         [Display(Name = "File Size")]
+        [DisplayFormat(DataFormatString = "{0:n0}")]
         public int FileSize { get; set; }
 
         //[Display(Name = "File Size2")]

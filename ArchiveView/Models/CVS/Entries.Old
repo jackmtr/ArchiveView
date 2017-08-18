@@ -1,7 +1,4 @@
 /FileExtensions.cs/1.1.1.1/Mon Jul 31 18:27:03 2017/-kkv/
-/Model1.Context.cs/1.1.1.1/Mon Jul 31 18:27:03 2017/-kkv/
-/Model1.Designer.cs/1.1.1.1/Mon Jul 31 18:27:03 2017/-kkv/
-/Model1.edmx/1.1.1.1/Mon Jul 31 18:27:03 2017/-kkv/
 /dt_getpropertiesbyid_Result.cs/1.1.1.1/Mon Jul 31 18:27:03 2017/-kkv/
 /dt_getpropertiesbyid_u_Result.cs/1.1.1.1/Mon Jul 31 18:27:03 2017/-kkv/
 /sp_helpdiagramdefinition_Result.cs/1.1.1.1/Mon Jul 31 18:27:03 2017/-kkv/
@@ -23,4 +20,7 @@
 /tbl_Updates.cs/1.1.1.1/Fri Aug  4 21:53:24 2017/-kkv/
 /tbl_UpdatesData.cs/1.1.1.1/Fri Aug  4 21:53:24 2017/-kkv/
 /tbl_User.cs/1.1.1.1/Fri Aug  4 21:53:25 2017/-kkv/
+/Model1.Context.cs/1.2/Fri Aug  4 17:30:58 2017/-kkv/
+/Model1.Designer.cs/1.2/Fri Aug  4 17:30:05 2017/-kkv/
+/Model1.edmx/1.2/Fri Aug  4 17:29:51 2017/-kkv/
 D

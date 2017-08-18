@@ -1,9 +1,7 @@
-/ArchiveView.csproj/1.1.1.1/Mon Jul 31 18:27:01 2017/-kkv/
 /Global.asax/1.1.1.1/Mon Jul 31 18:27:01 2017/-kkv/
 /Global.asax.cs/1.1.1.1/Mon Jul 31 18:27:01 2017/-kkv/
 /Web.Debug.config/1.1.1.1/Mon Jul 31 18:27:01 2017/-kkv/
 /Web.Release.config/1.1.1.1/Mon Jul 31 18:27:01 2017/-kkv/
-/Web.config/1.1.1.1/Mon Jul 31 18:27:01 2017/-kkv/
 /packages.config/1.1.1.1/Mon Jul 31 18:27:01 2017/-kkv/
 D/App_Start////
 D/Content////
@@ -18,3 +16,5 @@ D/Scripts////
 D/ViewModels////
 D/Views////
 D/fonts////
+/ArchiveView.csproj/1.2/Fri Aug  4 21:49:38 2017/-kkv/
+/Web.config/1.2/Fri Aug  4 21:20:32 2017/-kkv/

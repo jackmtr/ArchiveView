@@ -9,6 +9,7 @@ namespace ArchiveView.ViewModels
 {
     public class MiscPublicData
     {
+        [Display(Name = "Document ID")]
         public int Document_ID { get; set; }
 
         public string Branch { get; set; }

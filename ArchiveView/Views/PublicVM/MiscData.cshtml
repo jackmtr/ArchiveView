@@ -5,6 +5,9 @@
         <table class="miscDocTable">
             <tr>
                 <th>
+                    @Html.DisplayNameFor(model => model.Document_ID)
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.Branch)
                 </th>
                 @if ((string)ViewData["currentNav"] == "policy" || (string)ViewData["currentNavTitle"] == "Correspondence" || (string)ViewData["currentNavTitle"] == "Client" || (string)ViewData["currentNavTitle"] == "External") {
@@ -29,6 +32,9 @@
             </tr>
 
             <tr>
+                <td>
+                    @Html.DisplayFor(model => model.Document_ID)
+                </td>
                 <td>
                     @Html.DisplayFor(model => model.Branch)
                 </td>

@@ -213,6 +213,17 @@ $(function () {
         var $a = $this;
         var id = $a.attr('id') + 'a';
 
+        //alert($a.prop('tagName'));
+        //alert($a.closest("td").position().left);
+        //alert($a.parent('td').position().left);
+
+        var $left = $a.closest("td").offset().left;
+        var $top = $a.closest("td").offset().top;
+        //$a.closest("td").css("background", "red");
+
+        //alert($left);
+        //alert($top);
+
         var options = {
             url: $a.attr("href"),
             data: id,
@@ -223,8 +234,16 @@ $(function () {
 
             var img = $('<img id="dynamic" class="previewImg">');
 
-            var positionLeft = e.clientX - 30;
-            var positionTop = e.clientY;
+            //var positionLeftm = e.clientX - 30;
+            //var positionTopm = e.clientY;
+
+            var positionLeft = $left;
+            var positionTop = $top;
+
+            //alert(positionLeftm);
+            //alert(positionTopm);
+            //alert(positionLeft);
+            //alert(positionTop);
 
             img.attr('src', options.url);
             
@@ -358,16 +377,37 @@ $(function () {
     $("form[data-otf-ajax='true']").submit(ajaxFormSubmit);
 
     //image previewer on event
-    $("#body").on("mousedown", ".preview_image", function (e) { //mouseenter before
+    /*
+    $("#body").on("click", ".preview_image", function (e) { //mouseenter before
 
-        $this = $(this).children("a");
-        showPreview($this, e);
-    });
+        $this = $(this).prev();
+
+        if ($(this).is(':checked')) {
+            showPreview($this, e);
+        } else {
+            losePreview();
+        }      
+    });*/
 
 
     //image previewer off event, seems to work better with more opputunities to destroy itself
-    $("#body").on("mouseup", ".preview_image", function (e) { //mouseleave before
+    //$("#body").on("mouseup", ".preview_image", function (e) { //mouseleave before
+    //    losePreview();
+    //});
+
+    $("#body").on("mouseover", ".preview_image", function (e) {
+
+        $this = $(this).children("a");
+        showPreview($this, e);
+        //$this.text($this.text() + "a");
+        //showPreview($this, e);
+    });
+
+    $("#body").on("mouseout", ".preview_image", function (e) {
         losePreview();
+        $this = $(this).children("a");
+        //$this.text($this.text() + "b");
+        //losePreview();
     });
 
     $("#body").on("click", ".preview", function () {

@@ -29,7 +29,7 @@ namespace ArchiveView.Repositories
             try {
                 clientId = Int32.Parse(number);
             } catch {
-                clientId = 0;
+                clientId = 0;//will need to make null, as 0 exists?
             }
 
             //.AsNoTracking reduces resources by making this read only      

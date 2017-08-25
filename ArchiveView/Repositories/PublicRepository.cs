@@ -86,7 +86,7 @@ namespace ArchiveView.Repositories
                     objpvm.EffectiveDate = item.Date1_DT;
                     objpvm.RefNumber = item.RefNumber;
                     objpvm.ReferenceType = item.RefNumberType_CD;
-                    objpvm.FileExtension = item.FileExtension;
+                    objpvm.FileExtension = item.FileExtension.ToLower();
                     objpvm.Method = item.Method;
                     objpvm.Originator = item.Originator;
                     objpvm.Reason = item.Reason;
@@ -147,7 +147,7 @@ namespace ArchiveView.Repositories
                     objpvm.EffectiveDate = item.Date1_DT;
                     objpvm.RefNumber = item.RefNumber;
                     objpvm.ReferenceType = item.RefNumberType_CD;
-                    objpvm.FileExtension = item.FileExtension;
+                    objpvm.FileExtension = item.FileExtension.ToLower();
                     objpvm.Method = item.Method;
                     objpvm.Originator = item.Originator;
                     objpvm.Reason = item.Reason;

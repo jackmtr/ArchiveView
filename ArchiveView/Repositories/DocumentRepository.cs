@@ -49,7 +49,8 @@ namespace ArchiveView.Repositories
                     //if more than one repo is used, we will have to create a repo attribute on the document model and bring tbl_Document.Repository_ID over to check and find
                 }
 
-            } catch {
+            } catch (Exception e){
+                string abc = "fsdfs";
                 return null;
             }
             

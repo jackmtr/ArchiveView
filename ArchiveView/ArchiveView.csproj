@@ -144,6 +144,7 @@
     </Content>
     <None Include="Properties\PublishProfiles\DevelopmentWAS.pubxml" />
     <None Include="Properties\PublishProfiles\PreDeploy2.pubxml" />
+    <None Include="Properties\PublishProfiles\WIESerStag6.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

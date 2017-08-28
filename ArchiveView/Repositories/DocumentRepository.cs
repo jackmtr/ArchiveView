@@ -39,18 +39,17 @@ namespace ArchiveView.Repositories
 
                     if (authorized == true)
                     {
-                        document = _db.tbl_Document.AsNoTracking().SingleOrDefault(p => p.Document_ID == docId && p.Active_IND == true);
+                        document = _db.tbl_Document.AsNoTracking().SingleOrDefault(p => p.Document_ID == docId);
                     }
                     else
                     {
-                        document = _db.tbl_Document.AsNoTracking().SingleOrDefault(p => p.Document_ID == docId && p.Active_IND == false);
+                        document = _db.tbl_Document.AsNoTracking().SingleOrDefault(p => p.Document_ID == docId && p.Active_IND == true);
                     }
                     //Because this is a rare occurance, I would rather blindly search through other db's than change my model to bring in the repo value
                     //if more than one repo is used, we will have to create a repo attribute on the document model and bring tbl_Document.Repository_ID over to check and find
                 }
 
             } catch (Exception e){
-                string abc = "fsdfs";
                 return null;
             }
             

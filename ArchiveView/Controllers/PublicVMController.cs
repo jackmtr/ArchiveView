@@ -60,7 +60,9 @@ namespace ArchiveView.Controllers
             //DateTime issueDateMax = today; //appropriate place?
 
             DateTime issueDateMin = ((string)TempData["Role"] == "Admin") ? today.AddYears(-30) : today.AddYears(-1);
-            DateTime issueDateMax = today;
+            //DateTime issueDateMax = today.AddDays(30);
+            //DateTime issueDateMax = today;
+            DateTime? issueDateMax = null;
 
             if (searchTerm != null) {
                 searchTerm = searchTerm.Trim();
@@ -121,7 +123,8 @@ namespace ArchiveView.Controllers
                 ViewData["SortOrder"] = sortAscending;
                 publicModel = publicModel
                                 .OrderByDescending(r => r.IssueDate)
-                                    .Where(r => (r.IssueDate >= issueDateMin) && (r.IssueDate <= issueDateMax))
+                                    //.Where(r => (r.IssueDate >= issueDateMin) && (r.IssueDate <= issueDateMax))
+                                    .Where(r => r.IssueDate >= issueDateMin)
                                         .ToList();
 
                 ViewData["currentRecordsCount"] = publicModel.Count();
@@ -169,16 +172,17 @@ namespace ArchiveView.Controllers
                 //*filtering by date and search conditions
                 if (TempData["Role"].ToString() == "Admin")
                 {
+                    //JACKIE
                     //checks if the date filter and search term will return any results
                     //The admin search will also search for document Id within the same input (so checks tbl_Document.Description and tbl_Document.Document_Id)
-                    if (!publicModel.Any(r => (r.IssueDate >= issueDateMin) && (r.IssueDate <= issueDateMax) && (searchTerm == null || r.Description.ToLower().Contains(searchTerm.ToLower()) || r.Document_ID.ToString().Contains(searchTerm))))
+                    if (!publicModel.Any(r => (r.IssueDate >= issueDateMin) && (issueDateMax == null || r.IssueDate <= issueDateMax) && (searchTerm == null || r.Description.ToLower().Contains(searchTerm.ToLower()) || r.Document_ID.ToString().Contains(searchTerm))))
                     {
                         //ViewData["goodSearch"] = false means no records is found
                         ViewData["goodSearch"] = false;
                     }
                     else
                     {
-                        publicModel = publicModel.Where(r => (r.IssueDate >= issueDateMin) && (r.IssueDate <= issueDateMax) && (searchTerm == null || ((bool)ViewData["goodSearch"] ? r.Description.ToLower().Contains(searchTerm.ToLower()) || r.Document_ID.ToString().Contains(searchTerm) == true : true)));
+                        publicModel = publicModel.Where(r => (r.IssueDate >= issueDateMin) && (issueDateMax == null || r.IssueDate <= issueDateMax) && (searchTerm == null || ((bool)ViewData["goodSearch"] ? r.Description.ToLower().Contains(searchTerm.ToLower()) || r.Document_ID.ToString().Contains(searchTerm) == true : true)));
 
                         TempData["SearchTerm"] = searchTerm;
                     }
@@ -186,7 +190,7 @@ namespace ArchiveView.Controllers
                 else
                 {
                     //checks if the date filter and search term will return any results
-                    publicModel = publicModel.Where(r => (r.IssueDate >= issueDateMin) && (r.IssueDate <= issueDateMax) && (searchTerm == null || ((bool)ViewData["goodSearch"] ? r.Description.ToLower().Contains(searchTerm.ToLower()) == true : true)));
+                    publicModel = publicModel.Where(r => (r.IssueDate >= issueDateMin) && (issueDateMax == null || r.IssueDate <= issueDateMax) && (searchTerm == null || ((bool)ViewData["goodSearch"] ? r.Description.ToLower().Contains(searchTerm.ToLower()) == true : true)));
                 }
 
                 ViewData["currentRecordsCount"] = publicModel.Count();

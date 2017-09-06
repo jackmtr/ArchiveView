@@ -69,7 +69,8 @@ function updateCurrentCount() {
 
     var currentCount = $('#public_table').data('currentrecord');
     var currentLowYear = $("select[name = 'IssueYearMinRange']:not(:disabled)").val();
-    var currentHighYear = new Date().getFullYear();
+    //var currentHighYear = new Date().getFullYear();
+    var currentHighYear = $("select[name = 'IssueYearMaxRange']:not(:disabled)").val();
 
     var searchTerm = $('#searchInputBox').val();
 
@@ -161,8 +162,9 @@ $(function () {
         return ((isNaN(startDate) || (startDate <= enteredDate)) &&
                  (isNaN(endDate) || (enteredDate <= endDate)));
 
-
-    }, $.validator.format("Please specify a date between 01 Jan 1990 and today.")); //the daterange validator isnt working properly, but enough
+    }, $.validator.format("Please specify a valid date."));
+    //}, $.validator.format("Please specify a date between 01 Jan 1990 and today.")); //the daterange validator isnt working properly, but enough
+    //removed the restriction of max date being today
 
     //**FUNCTIONS
 
@@ -213,16 +215,8 @@ $(function () {
         var $a = $this;
         var id = $a.attr('id') + 'a';
 
-        //alert($a.prop('tagName'));
-        //alert($a.closest("td").position().left);
-        //alert($a.parent('td').position().left);
-
         var $left = $a.closest("td").offset().left;
         var $top = $a.closest("td").offset().top;
-        //$a.closest("td").css("background", "red");
-
-        //alert($left);
-        //alert($top);
 
         var options = {
             url: $a.attr("href"),
@@ -234,16 +228,8 @@ $(function () {
 
             var img = $('<img id="dynamic" class="previewImg">');
 
-            //var positionLeftm = e.clientX - 30;
-            //var positionTopm = e.clientY;
-
             var positionLeft = $left;
             var positionTop = $top;
-
-            //alert(positionLeftm);
-            //alert(positionTopm);
-            //alert(positionLeft);
-            //alert(positionTop);
 
             img.attr('src', options.url);
             
@@ -377,37 +363,16 @@ $(function () {
     $("form[data-otf-ajax='true']").submit(ajaxFormSubmit);
 
     //image previewer on event
-    /*
-    $("#body").on("click", ".preview_image", function (e) { //mouseenter before
-
-        $this = $(this).prev();
-
-        if ($(this).is(':checked')) {
-            showPreview($this, e);
-        } else {
-            losePreview();
-        }      
-    });*/
-
-
-    //image previewer off event, seems to work better with more opputunities to destroy itself
-    //$("#body").on("mouseup", ".preview_image", function (e) { //mouseleave before
-    //    losePreview();
-    //});
-
     $("#body").on("mouseover", ".preview_image", function (e) {
 
         $this = $(this).children("a");
         showPreview($this, e);
-        //$this.text($this.text() + "a");
-        //showPreview($this, e);
     });
 
     $("#body").on("mouseout", ".preview_image", function (e) {
+
         losePreview();
         $this = $(this).children("a");
-        //$this.text($this.text() + "b");
-        //losePreview();
     });
 
     $("#body").on("click", ".preview", function () {
@@ -601,24 +566,26 @@ $(function () {
 
             $(".edit-issue").each(function () {
 
-                var today = new Date();
-                var dd = today.getDate();
-                var mm = today.getMonth() + 1; //January is 0!
-                var yyyy = today.getFullYear();
+                //var today = new Date();
+                //var dd = today.getDate();
+                //var mm = today.getMonth() + 1; //January is 0!
+                //var yyyy = today.getFullYear();
 
-                if (dd < 10) {
-                    dd = '0' + dd;
-                }
-                if (mm < 10) {
-                    mm = '0' + mm;
-                }
+                //if (dd < 10) {
+                //    dd = '0' + dd;
+                //}
+                //if (mm < 10) {
+                //    mm = '0' + mm;
+                //}
 
-                var today = dd + '/' + mm + '/' + yyyy;
+                //var today = dd + '/' + mm + '/' + yyyy;
 
-                $(this).rules("add", { regex: "^[0-3][0-9]\\s[A-Z][a-z]{2}\\s[1-2][0-9]{3}$" }),
-                $(this).rules("add", {
-                    daterange: ['01/01/1990', today], //Kinda working regex, today isnt today but a day is the near future
-                });
+                $(this).rules("add", { regex: "^[0-3][0-9]\\s[A-Z][a-z]{2}\\s[1-2][0-9]{3}$" });
+
+                //$(this).rules("add", { regex: "^[0-3][0-9]\\s[A-Z][a-z]{2}\\s[1-2][0-9]{3}$" }),
+                //$(this).rules("add", {
+                //    daterange: ['01/01/1990', today], //Kinda working regex, today isnt today but a day is the near future
+                //});
             });
         });
 

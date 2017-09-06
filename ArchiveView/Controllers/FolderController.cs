@@ -1,5 +1,6 @@
 ﻿using ArchiveView.Models;
 using ArchiveView.Repositories;
+using System;
 using System.Web.Mvc;
 
 namespace ArchiveView.Controllers
@@ -30,7 +31,7 @@ namespace ArchiveView.Controllers
 
             try {
                 folder = repository.SelectByNumber(Number);
-            } catch {
+            } catch(Exception e) {
                 TempData["importance"] = true;
                 return RedirectToAction("Index", "ErrorHandler", null);
             }

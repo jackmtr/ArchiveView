@@ -33,6 +33,7 @@ namespace ArchiveView.Controllers
                 folder = repository.SelectByNumber(Number);
             } catch(Exception e) {
                 TempData["importance"] = true;
+                TempData["error_info"] = e.Message;
                 return RedirectToAction("Index", "ErrorHandler", null);
             }
 

@@ -29,7 +29,9 @@ namespace ArchiveView.Repositories
             try {
                 clientId = Int32.Parse(number);
             } catch {
-                clientId = 0;//will need to make null, as 0 exists?
+                //clientId = 0;//will need to make null, as 0 exists?
+                //return null;
+                throw new System.ArgumentException("ClientId must be a positive integer");
             }
 
             //.AsNoTracking reduces resources by making this read only      

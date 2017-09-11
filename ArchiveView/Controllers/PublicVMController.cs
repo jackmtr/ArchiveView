@@ -141,6 +141,8 @@ namespace ArchiveView.Controllers
                     //}
                     //entered in two scenarios: 1) regular minIssueDate input and custom date where only minIssueDate is filled
                     int yearInput = (string.IsNullOrEmpty(IssueYearMinRange)) ? Int32.Parse(today.AddYears(-1).Year.ToString()) : Int32.Parse(IssueYearMinRange);
+
+                    //JACKIE ISSUE RIGHT HERE, need to differentiate between default no max input and custom no max input
                     issueDateMin = (yearInput > 0) ? issueDateMin = new DateTime(yearInput, 1, 1) : issueDateMin = today.AddYears(yearInput);
 
                     yearInput = (yearInput > 0) ? yearInput - DateTime.Now.Year : yearInput;

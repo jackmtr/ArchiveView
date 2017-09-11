@@ -502,16 +502,24 @@ $(function () {
 
         $this = $(this);
 
-        var resetMinRange = 2016;
 
-        if ($('#downloadForm')[0]) {
-            resetMinRange = 1975;
-        } 
+        
+        //var resetMinRange = 2016;
+
+        //if ($('#downloadForm')[0]) {
+        //    resetMinRange = 1975;
+        //} 
+
+        //var options = {
+        //    url: $this.attr('href') + "&IssueYearMinRange=" + resetMinRange,
+        //    data: "IssueYearMinRange=" + "2016", //not being sent to controller, but I need a data attribute it seems
+        //    type: "GET"
+        //};
+
 
         var options = {
-            url: $this.attr('href') + "&IssueYearMinRange=" + resetMinRange,
-            data: "IssueYearMinRange=" + "2016", //not being sent to controller, but I need a data attribute it seems
-            type: "GET",
+            url: $this.attr('href') + "&IssueYearMinRange=-1",
+            type: "GET"
         };
 
 

@@ -669,6 +669,9 @@ $(function () {
     });
 
     $("#body").on("click", "#allDocs", function () {
-        $('#fromYear').val('-100');
+
+        $('#fromYear').val('-100')
+        .trigger('change');
+        return false;
     });
 });

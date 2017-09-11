@@ -161,7 +161,8 @@ else
 {
     <div id="public_table" class="row default-table" data-currentRecord="@ViewData["currentRecordsCount"]" data-currentLowYear="@(((List<SelectListItem>)TempData["YearRange"]).First().Text)" data-currentHighYear="@(((List<SelectListItem>)TempData["YearRange"]).Last().Text)">
         <div id="public_table_inner" class="col-md-12 noData">
-            <h3>Sorry, no documents were found within the criteria specified.  Would you like to see all documents?  Click @Ajax.ActionLink("here", "Index", new { folderId= TempData["Folder_Id"], IssueYearMinRange = -100}, new AjaxOptions { UpdateTargetId= "public_table", InsertionMode = InsertionMode.ReplaceWith, HttpMethod = "GET", OnComplete = "updateCurrentCount", OnSuccess = "clearFields($(this).prop('id'))" }, new { id = "allDocs"}).</h3>
+            @*<h3>Sorry, no documents were found within the criteria specified.  Would you like to see all documents?  Click @Ajax.ActionLink("here", "Index", new { folderId= TempData["Folder_Id"], IssueYearMinRange = -100}, new AjaxOptions { UpdateTargetId= "public_table", InsertionMode = InsertionMode.ReplaceWith, HttpMethod = "GET", OnComplete = "updateCurrentCount", OnSuccess = "clearFields($(this).prop('id'))" }, new { id = "allDocs"}).</h3>*@
+            <h3>Sorry, no documents were found within the criteria specified.  Would you like to see all documents?  Click <a href="" id="allDocs">Here</a>.</h3>
         </div>
     </div>
 }

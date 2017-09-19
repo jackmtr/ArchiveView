@@ -1,0 +1,26 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+<div class="error-page">
+
+    <h3 class="text-danger">Oops, a problem has occurred while processing your request.</h3><br />
+
+    <h4 class="text-danger">@Model.Exception.Message</h4><br />
+
+    <h4 >@Model.Exception.HelpLink</h4><br />
+
+    <input type="checkbox" id="error_details_checkbox" />Click here for more details <br />
+
+    <textarea rows="14" cols="100" id="error_details">
+        @if (Model.Exception.InnerException != null) {
+            Html.Raw("Inner Exception: " + Model.Exception.InnerException.Message);
+        }
+
+        @foreach (DictionaryEntry de in Model.Exception.Data)
+        {
+            @de.Key
+            @Html.Raw(" : ")
+            @de.Value
+        }
+
+        StackTrace: @Model.Exception.StackTrace
+    </textarea>
+</div>

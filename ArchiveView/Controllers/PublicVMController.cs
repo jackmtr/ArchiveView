@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Globalization;
 using ArchiveView.Models;
 using ArchiveView.Filters;
+using ArchiveView.Exceptions;
 
 namespace ArchiveView.Controllers
 {
@@ -64,6 +65,7 @@ namespace ArchiveView.Controllers
             //DateTime issueDateMax = today;
             DateTime? issueDateMax = null;
 
+            //removing whitespaces from end of search term to use before querying
             if (searchTerm != null) {
                 searchTerm = searchTerm.Trim();
             }
@@ -82,11 +84,12 @@ namespace ArchiveView.Controllers
             }
             catch
             {
-                TempData.Clear();
-                TempData["error_info"] = "The client does not have any available records.";
-                TempData["importance"] = false;
+                //the clientId should always exist.  if it doesnt, i would assume the user shouldnt be here, which is why i issue an exception
+                NoResultException exception = new NoResultException("The client may not exist or does not have any available documents.");
+                exception.HelpLink = "Please check over the provided information and try again.";
+                exception.Data["Folder ID"] = Folder_ID;
 
-                return RedirectToAction("Index", "ErrorHandler", null);
+                throw exception;
             }
 
             //needs to be checked seperately because cant select by DocId until after deciding if we are searching by documentId or policy
@@ -100,17 +103,18 @@ namespace ArchiveView.Controllers
             //should only be run on initial load of page
             if (!Request.IsAjaxRequest())
             {
-
                 //count of total records unfiltered of this client
                 ViewData["allRecordsCount"] = publicModel.Count();
 
-                //maybe should return view here already since overall count is alreadt 0
+                //maybe should return view here already since overall count is already 0
                 if (publicModel.Count() == 0)
                 {
-                    TempData["error_info"] = "The client does not have any available records.";
-                    TempData["importance"] = true;
+                    //maybe reword exception message
+                    NoResultException exception = new NoResultException("The client does not have any available records.");
+                    exception.HelpLink = "Please check over the provided information and try again.";
+                    exception.Data["Folder ID"] = Folder_ID;
 
-                    return RedirectToAction("Index", "ErrorHandler", null);
+                    throw exception;
                 }
 
                 //creating the options for the dropdown list
@@ -136,17 +140,12 @@ namespace ArchiveView.Controllers
                 //If user inputs only one custom year and maybe one/two months, what should happen?
                 if (String.IsNullOrEmpty(IssueYearMaxRange))
                 {
-                    //if ((string)TempData["Role"] == "Admin") {
-                    //    IssueYearMinRange = "1975";
-                    //}
                     //entered in two scenarios: 1) regular minIssueDate input and custom date where only minIssueDate is filled
                     int yearInput = (string.IsNullOrEmpty(IssueYearMinRange)) ? Int32.Parse(today.AddYears(-1).Year.ToString()) : Int32.Parse(IssueYearMinRange);
 
-                    //JACKIE ISSUE RIGHT HERE, need to differentiate between default no max input and custom no max input
                     issueDateMin = (yearInput > 0) ? issueDateMin = new DateTime(yearInput, 1, 1) : issueDateMin = today.AddYears(yearInput);
 
                     yearInput = (yearInput > 0) ? yearInput - DateTime.Now.Year : yearInput;
-                    // bug, sometimes issueDateMin should be relative to full year, not to today
                 }
                 else if (!String.IsNullOrEmpty(IssueYearMinRange) && !String.IsNullOrEmpty(IssueYearMaxRange))
                 {
@@ -174,12 +173,11 @@ namespace ArchiveView.Controllers
                 //*filtering by date and search conditions
                 if (TempData["Role"].ToString() == "Admin")
                 {
-                    //JACKIE
                     //checks if the date filter and search term will return any results
                     //The admin search will also search for document Id within the same input (so checks tbl_Document.Description and tbl_Document.Document_Id)
                     if (!publicModel.Any(r => (r.IssueDate >= issueDateMin) && (issueDateMax == null || r.IssueDate <= issueDateMax) && (searchTerm == null || r.Description.ToLower().Contains(searchTerm.ToLower()) || r.Document_ID.ToString().Contains(searchTerm))))
                     {
-                        //ViewData["goodSearch"] = false means no records is found
+                        //ViewData["goodSearch"] equals false means no records is found
                         ViewData["goodSearch"] = false;
                     }
                     else
@@ -242,6 +240,7 @@ namespace ArchiveView.Controllers
         }
 
         // Get: File
+        [HandleError(ExceptionType = typeof(NoResultException), View = "_Error")]
         public ActionResult FileDisplay([Bind(Prefix = "documentId")] string id)
         {
             tbl_Document file = (User.IsInRole("IT-ops") ? documentRepository.SelectById(id, true) : documentRepository.SelectById(id, false));
@@ -249,23 +248,23 @@ namespace ArchiveView.Controllers
             string MimeType = null;
 
             if (file == null) {
-                ViewData["repositoryRequestDocId"] = id;
 
-                TempData.Clear();
-                TempData["error_info"] = "The document is not available or does not exist."; //maybe seperate this later with a check for tbl_doc.Active_IND
-                TempData["importance"] = false;
+                NoResultException exception = new NoResultException("The document is not available or does not exist.");
+                exception.HelpLink = "Please check over the provided information and try again.";
+                exception.Data["Document ID"] = id;
 
-                return RedirectToAction("Index", "ErrorHandler", null);
+                throw exception;
             }
 
             if (file.ArchivedFile.Length < 100)
             {
                 //rare occation of when there is a file, but possibly corrupted
+                //better to use IOException, but seems like a waste to bring in a whole new package for this
+                Exception exception = new Exception("The file was unable to be open.");
+                exception.HelpLink = "Please contact Support at ServiceNow";
+                exception.Data["Document ID"] = id;
 
-                TempData["error_info"] = "The file was unable to be open.";
-                TempData["importance"] = true;
-
-                return RedirectToAction("Index", "ErrorHandler", null);
+                throw exception;
             }
 
             switch (file.FileExtension.ToLower().Trim()) {
@@ -394,7 +393,6 @@ namespace ArchiveView.Controllers
 
             foreach (PublicVM pvm in nb)
             {
-
                 NavBar nbitem = new NavBar();
 
                 nbitem.CategoryName = pvm.CategoryName;
@@ -458,9 +456,7 @@ namespace ArchiveView.Controllers
 
             switch (filter)
             {
-
                 case "document":
-
                     if (sortAscending)
                     {
                         model = model
@@ -473,11 +469,9 @@ namespace ArchiveView.Controllers
                                     .OrderByDescending(r => r.DocumentTypeName)
                                         .ToList();
                     }
-
                     break;
 
                 case "method":
-
                     if (sortAscending)
                     {
                         model = model
@@ -490,11 +484,9 @@ namespace ArchiveView.Controllers
                                     .OrderByDescending(r => r.Method)
                                         .ToList();
                     }
-
                     break;
 
                 case "policy":
-
                     if (sortAscending)
                     {
                         model = model
@@ -507,11 +499,9 @@ namespace ArchiveView.Controllers
                                     .OrderByDescending(r => r.RefNumber)
                                         .ToList();
                     }
-
                     break;
 
                 case "effective":
-
                     if (sortAscending)
                     {
                         model = model
@@ -524,11 +514,9 @@ namespace ArchiveView.Controllers
                                     .OrderByDescending(r => r.EffectiveDate)
                                         .ToList();
                     }
-
                     break;
 
                 case "originator":
-
                     if (sortAscending)
                     {
                         model = model
@@ -541,11 +529,9 @@ namespace ArchiveView.Controllers
                                     .OrderByDescending(r => r.Originator)
                                         .ToList();
                     }
-
                     break;
 
                 case "reason":
-
                     if (sortAscending)
                     {
                         model = model
@@ -558,11 +544,9 @@ namespace ArchiveView.Controllers
                                     .OrderByDescending(r => r.Reason)
                                         .ToList();
                     }
-
                     break;
 
                 case "supplier":
-
                     if (sortAscending)
                     {
                         model = model
@@ -575,11 +559,9 @@ namespace ArchiveView.Controllers
                                     .OrderByDescending(r => r.Supplier)
                                         .ToList();
                     }
-
                     break;
 
                 case "description":
-
                     if (sortAscending)
                     {
                         model = model
@@ -592,11 +574,9 @@ namespace ArchiveView.Controllers
                                     .OrderByDescending(r => r.Description)
                                         .ToList();
                     }
-
                     break;
 
                 case "file":
-
                     if (sortAscending)
                     {
                         model = model
@@ -609,11 +589,9 @@ namespace ArchiveView.Controllers
                                     .OrderByDescending(r => r.FileExtension)
                                         .ToList();
                     }
-
                     break;
 
                 case "documentId":
-
                     if (sortAscending)
                     {
                         model = model
@@ -626,11 +604,9 @@ namespace ArchiveView.Controllers
                                     .OrderByDescending(r => r.Document_ID)
                                         .ToList();
                     }
-
                     break;
 
                 case "hidden":
-
                     if (sortAscending)
                     {
                         model = model
@@ -643,11 +619,9 @@ namespace ArchiveView.Controllers
                                     .OrderByDescending(r => r.Hidden)
                                         .ToList();
                     }
-
                     break;
 
                 default:
-
                     if (sortAscending)
                     {
                         model = model
@@ -660,7 +634,6 @@ namespace ArchiveView.Controllers
                                 .OrderBy(r => r.IssueDate)
                                     .ToList();
                     }
-
                     break;
             }
             return model;

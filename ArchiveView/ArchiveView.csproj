@@ -186,6 +186,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PublicVMController.cs" />
     <Compile Include="CustomHelpers\CustomLink.cs" />
+    <Compile Include="Exceptions\NoResultException.cs" />
     <Compile Include="Filters\AuthorizeUserAttribute.cs" />
     <Compile Include="Filters\LogAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -286,6 +287,7 @@
     <Content Include="Views\Admin\EditorTemplates\PublicVM.cshtml" />
     <Content Include="Views\ErrorHandler\Index.cshtml" />
     <Content Include="Views\ErrorHandler\NotFound.cshtml" />
+    <Content Include="Views\Shared\_Error.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

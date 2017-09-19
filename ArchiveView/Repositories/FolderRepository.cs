@@ -26,21 +26,36 @@ namespace ArchiveView.Repositories
 
             int clientId;
 
-            try {
+            try
+            {
                 clientId = Int32.Parse(number);
-            } catch {
-                //clientId = 0;//will need to make null, as 0 exists?
-                //return null;
-                throw new System.ArgumentException("ClientId must be a positive integer");
-            }
 
-            //.AsNoTracking reduces resources by making this read only      
-            return _db.tbl_Folder.AsNoTracking().SingleOrDefault(folder => folder.Number == clientId);
+                //.AsNoTracking reduces resources by making this read only     
+                return _db.tbl_Folder.AsNoTracking().SingleOrDefault(folder => folder.Number == clientId);
+            }
+            catch (FormatException e)
+            {
+                FormatException exception = new FormatException("Client Id must be a positive integer", e);
+                exception.HelpLink = "Please check over the provided information and try again.";
+                exception.Data["Client ID"] = number;
+
+                throw exception;
+            }
+            catch (InvalidOperationException e) {
+
+                InvalidOperationException exception = new InvalidOperationException("There was an issue connecting to the database", e);
+                exception.HelpLink = "Please contact Support through ServiceNow.";
+
+                throw exception;
+            }
+            catch (Exception e) {
+                //maybe write more here
+                throw new Exception();
+            }
         }
 
         public void Dispose() {
             _db.Dispose();
-
         }
     }
 }

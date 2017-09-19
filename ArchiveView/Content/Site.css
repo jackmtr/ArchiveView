@@ -679,3 +679,7 @@ a.navLink{
 #editOptionsSubmit {
     margin-right: 50px;
 }
+
+#error_details {
+    visibility:collapse;
+}

@@ -1,4 +1,5 @@
-﻿using ArchiveView.Models;
+﻿using ArchiveView.Exceptions;
+using ArchiveView.Models;
 using ArchiveView.Repositories;
 using System;
 using System.Web.Mvc;
@@ -12,7 +13,6 @@ namespace ArchiveView.Controllers
         private IFolderRepository repository = null;
 
         public FolderController() {
-
             this.repository = new FolderRepository();
         }
 
@@ -23,28 +23,23 @@ namespace ArchiveView.Controllers
         }
         */
 
+        [HandleError(ExceptionType =typeof(FormatException), View ="_Error")]//maybe i dont need since all go to same view
+        [HandleError(ExceptionType = typeof(NoResultException), View = "_Error")]//maybe i dont need since all go to same view
         //currently the role is coming as a query value, needs to be a role check through better security
         // GET: Folder
         public ActionResult Index([Bind(Prefix = "ClientId")] string Number, string Role = "")
         {
             tbl_Folder folder = null;
 
-            try {
-                folder = repository.SelectByNumber(Number);
-            } catch(Exception e) {
-                TempData["importance"] = true;
-                TempData["error_info"] = e.Message;
-                return RedirectToAction("Index", "ErrorHandler", null);
-            }
+            folder = repository.SelectByNumber(Number);
 
             if (folder == null)
             {
-                TempData.Clear();
-                TempData["Client_Id"] = Number;
-                TempData["error_info"] = "The client may not exist or does not have any available documents.";
-                TempData["importance"] = false;
+                NoResultException exception = new NoResultException("The client may not exist or does not have any available documents.");
+                exception.HelpLink = "Please check over the provided information and try again.";
+                exception.Data["Client ID"] = Number;
 
-                return RedirectToAction("Index", "ErrorHandler", null);
+                throw exception;
             }
             else {
                 if (HttpContext.User.IsInRole("westlandcorp\\IT-ops"))
@@ -78,7 +73,6 @@ namespace ArchiveView.Controllers
         protected override void Dispose(bool disposing)
         {
             repository.Dispose();
-
             base.Dispose(disposing);
         }
     }

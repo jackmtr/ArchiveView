@@ -674,4 +674,13 @@ $(function () {
         .trigger('change');
         return false;
     });
+
+    $("#body").on("click", "#error_details_checkbox", function () {
+
+        if ($('#error_details_checkbox').is(':checked')) {
+            $('#error_details').css("visibility", "visible");
+        } else {
+            $('#error_details').css("visibility", "collapse");
+        };
+    });
 });

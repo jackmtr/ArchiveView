@@ -29,7 +29,6 @@ namespace ArchiveView.Controllers
         public ActionResult Edit([Bind(Prefix = "folderId")] string Folder_ID, string[] EditList) {
 
             //THERE IS A BUG IF THE EditList CARRIES TOO MANY OBJECTS
-
             List<PublicVM> publicModel = null;
 
             publicModel = publicRepository.SelectAll(Folder_ID, "Admin").Where(doc => EditList.Contains(doc.Document_ID.ToString())).GroupBy(x => x.Document_ID).Select( x => x.First()).ToList();

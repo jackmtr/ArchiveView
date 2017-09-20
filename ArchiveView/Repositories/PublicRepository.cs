@@ -26,12 +26,33 @@ namespace ArchiveView.Repositories
 
             int publicNumberInt;
 
-            try {
+            try
+            {
                 publicNumberInt = Int32.Parse(publicNumber); //should be able to be done in LINQ
-            } catch {
-                return null;
+                //technically user never inputs this, provided by code from Client Id
+                //should not have an issue with an exception here then
+            }
+            catch (FormatException e)
+            {
+                FormatException exception = new FormatException("Public Number must be a positive integer", e);
+                exception.HelpLink = "Please check over the provided information and try again.";
+                exception.Data["Public ID"] = publicNumber;
+
+                throw exception;
+            }
+            catch (InvalidOperationException e)
+            {
+                InvalidOperationException exception = new InvalidOperationException("There was an issue connecting to the database", e);
+                exception.HelpLink = "Please contact Support through ServiceNow.";
+
+                throw exception;
+            }
+            catch (Exception e) {
+                //maybe write more here
+                throw new Exception();
             }
 
+            //refactor this into a more efficient conditional
             if (role == "Admin")
             {
                 var documentList = (from d in _db.tbl_Document.AsNoTracking() //.AsNoTracking reduces resources by making this read only                        
@@ -41,7 +62,6 @@ namespace ArchiveView.Repositories
                                     join dt in _db.tbl_DocumentType.AsNoTracking() on d.DocumentType_ID equals dt.DocumentType_ID
                                     join cat in _db.tbl_Category.AsNoTracking() on dt.Category_ID equals cat.Category_ID
                                     where d.Folder_ID == publicNumberInt
-                                    //where d.Active_IND == true //should only show active records, hide soft deleted ones
                                     where d.DocumentNumber != null
                                     where cat.Category_ID != 6
                                     from dr in ps.DefaultIfEmpty()
@@ -69,7 +89,7 @@ namespace ArchiveView.Repositories
 
                 if (!documentList.Any())
                 {
-                    throw new System.ArgumentException("This client does not exist or has no available records.");
+                    throw new ArgumentException("This client does not exist or has no available records.");
                 }
 
                 foreach (var item in documentList) {
@@ -91,8 +111,8 @@ namespace ArchiveView.Repositories
                     objpvm.Originator = item.Originator;
                     objpvm.Reason = item.Reason;
                     objpvm.Supplier = item.Number1;
-                    objpvm.Recipient = item.Recipient; //not sure to keep
-                    objpvm.Hidden = item.Active_IND; //not sure to keep
+                    objpvm.Recipient = item.Recipient;
+                    objpvm.Hidden = item.Active_IND;
 
                     PublicVMList.Add(objpvm);
                 }
@@ -157,7 +177,7 @@ namespace ArchiveView.Repositories
                 }
             }
 
-            return PublicVMList;  //the missing ref data exists here
+            return PublicVMList;
         }
 
         public void Dispose() {

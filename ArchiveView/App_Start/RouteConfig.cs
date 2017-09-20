@@ -12,7 +12,8 @@ namespace ArchiveView
         //used as the main function that directs url into the right controller-action.
         public static void RegisterRoutes(RouteCollection routes)
         {
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}"); //allows to see code files directly in browser if direct path file used for url
+            //dont know if this should still be used
+            //routes.IgnoreRoute("{resource}.axd/{*pathInfo}"); //allows to see code files directly in browser if direct path file used for url
 
             //since this is a one page web application with all successive requests made async, this generic maproute should suffice.
             routes.MapRoute(

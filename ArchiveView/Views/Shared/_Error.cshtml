@@ -21,6 +21,8 @@
             @de.Value
         }
 
-        StackTrace: @Model.Exception.StackTrace
+        @if (Model.Exception.StackTrace != null) {
+            <text>StackTrace:</text> @Model.Exception.StackTrace
+        }
     </textarea>
 </div>

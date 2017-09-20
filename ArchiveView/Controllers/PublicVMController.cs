@@ -36,8 +36,22 @@ namespace ArchiveView.Controllers
         */
 
         // GET: PublicVM
+        /// <summary>
+        /// The main action for ArchiveView, populates the records and takes the parameters to do any asynch filters
+        /// </summary>
+        /// <param name="Folder_ID">The Folder Id of the specified Client</param>
+        /// <param name="navBarGroup">Optional: The category name of the clicked navBar item</param>
+        /// <param name="navBarItem">Optional: The document type name of the clicked navBar item</param>
+        /// <param name="sort">Optional: The column clicked on to sort</param>
+        /// <param name="searchTerm">Optional: The searchTerm given</param>
+        /// <param name="IssueYearMinRange">Optional: The low end year range of IssueDate to filter</param>
+        /// <param name="IssueYearMaxRange">Optional: The high end year range of IssueDate to filter</param>
+        /// <param name="IssueMonthMinRange">Optional: The low end month range of IssueDate to filter</param>
+        /// <param name="IssueMonthMaxRange">Optional: The high end month range of IssueDate to filter</param>
+        /// <param name="Admin">Optional: bool to check if Admin (SHOULD NOT BE DONE AS parameter)</param>
+        /// <returns>A filtererd on unfiltered collection of PublicVM Objects to be displayed in a the main view</returns>
         [HttpGet]
-        public ActionResult Index([Bind(Prefix = "folderId")] string Folder_ID, string navBarGroup = null, string navBarItem = null, string filter = null, string searchTerm = null, string IssueYearMinRange = "", string IssueYearMaxRange = "", bool Admin = false, string IssueMonthMinRange = "", string IssueMonthMaxRange = "")
+        public ActionResult Index([Bind(Prefix = "folderId")] string Folder_ID, string navBarGroup = null, string navBarItem = null, string sort = null, string searchTerm = null, string IssueYearMinRange = "", string IssueYearMaxRange = "", string IssueMonthMinRange = "", string IssueMonthMaxRange = "", bool Admin = false)
         {
             //**GLOBAL VARIABLES
 
@@ -57,12 +71,11 @@ namespace ArchiveView.Controllers
             //ViewData["currentNav"] used to populate view's link route value for navBarGroup, which in turn populates navBarGroup variable.  Used to save navBarGroup state
             ViewData["currentNav"] = null;
 
-            //DateTime issueDateMin = today.AddYears(-1); //appropriate place?
-            //DateTime issueDateMax = today; //appropriate place?
+            //declare and instantiate the original full PublicVM data for the client
+            IEnumerable<PublicVM> publicModel = null;
 
+            //Admin should default see all data, while typical user should just see 1 year
             DateTime issueDateMin = ((string)TempData["Role"] == "Admin") ? today.AddYears(-30) : today.AddYears(-1);
-            //DateTime issueDateMax = today.AddDays(30);
-            //DateTime issueDateMax = today;
             DateTime? issueDateMax = null;
 
             //removing whitespaces from end of search term to use before querying
@@ -70,17 +83,13 @@ namespace ArchiveView.Controllers
                 searchTerm = searchTerm.Trim();
             }
 
-            //declare and instantiate the original full PublicVM data for the client
-            IEnumerable<PublicVM> publicModel = null;
-
-
             //**POPULATING MAIN MODEL, second conditional is for no doc reference documents, a unique westland condition
             try
             {
+                //right now, publicModel is full of units of DocReference x DocId
                 publicModel = publicRepository
                                 .SelectAll(Folder_ID, TempData["Role"].ToString())
                                     .Where(n => n.EffectiveDate != null || n.EffectiveDate == null && n.RefNumber == null || n.EffectiveDate == null && n.RefNumber != null);
-                //right now, publicModel is full of units of DocReference x DocId
             }
             catch
             {
@@ -127,7 +136,6 @@ namespace ArchiveView.Controllers
                 ViewData["SortOrder"] = sortAscending;
                 publicModel = publicModel
                                 .OrderByDescending(r => r.IssueDate)
-                                    //.Where(r => (r.IssueDate >= issueDateMin) && (r.IssueDate <= issueDateMax))
                                     .Where(r => r.IssueDate >= issueDateMin)
                                         .ToList();
 
@@ -203,7 +211,7 @@ namespace ArchiveView.Controllers
                 TempData["SearchTerm"] = searchTerm; //not sure if needed
 
                 //*sorting data
-                publicModel = FilterModel(publicModel, filter);
+                publicModel = SortModel(publicModel, sort);
 
                 //**ENDING FILTERING OF MODEL**
 
@@ -220,34 +228,42 @@ namespace ArchiveView.Controllers
             }
         }
 
+        /// <summary>
+        /// populates the additional info all records have into a table
+        /// </summary>
+        /// <param name="Document_ID">The document Id</param>
+        /// <param name="navBarGroup">Optional: The category name of the clicked navBar item</param>
+        /// <param name="navBarItem">Optional: The document type name of the clicked navBar item</param>
+        /// <returns>a partial view table inserted into the main table asynchronously</returns>
         public ActionResult MiscData([Bind(Prefix = "documentId")] string Document_ID, string navBarGroup, string navBarItem) {
-            //declare and instantiate the original full MiscPublicData data for the client
+
             MiscPublicData documentData = null;
 
             documentData = documentRepository
                                 .GetMiscPublicData(Document_ID);
 
-            if (documentData != null)
-            {
-                ViewData["currentNav"] = navBarGroup;
-                ViewData["currentNavTitle"] = navBarItem;
+            ViewData["currentNav"] = navBarGroup;
+            ViewData["currentNavTitle"] = navBarItem;
 
-                return PartialView(documentData);
-            }
-            else {
-                return HttpNotFound();
-            }
+            return PartialView(documentData);
         }
 
+        /// <summary>
+        /// Show the contents of a file.
+        /// </summary>
+        /// <param name="id">The document Id of the file in question</param>
+        /// <returns>The File's contents in a new page on the browser</returns>
         // Get: File
         [HandleError(ExceptionType = typeof(NoResultException), View = "_Error")]
         public ActionResult FileDisplay([Bind(Prefix = "documentId")] string id)
         {
-            tbl_Document file = (User.IsInRole("IT-ops") ? documentRepository.SelectById(id, true) : documentRepository.SelectById(id, false));
-
             string MimeType = null;
 
-            if (file == null) {
+            //only admins can see hidden file contents
+            tbl_Document file = (User.IsInRole("IT-ops") ? documentRepository.SelectById(id, true) : documentRepository.SelectById(id, false));
+
+            if (file == null)
+            {
 
                 NoResultException exception = new NoResultException("The document is not available or does not exist.");
                 exception.HelpLink = "Please check over the provided information and try again.";
@@ -255,8 +271,18 @@ namespace ArchiveView.Controllers
 
                 throw exception;
             }
+            else if (file.ArchivedFile == null)
+            {
+                //ViewData["repositoryRequestDocId"] = id;
 
-            if (file.ArchivedFile.Length < 100)
+                //return PartialView("_FileDisplay");
+
+                NullReferenceException exception = new NullReferenceException("The file appears to be missing or corrupt.");
+                exception.HelpLink = "Please contact ServiceNow if additional help is needed.";
+
+                throw exception;
+            }
+            else if (file.ArchivedFile.Length < 100)
             {
                 //rare occation of when there is a file, but possibly corrupted
                 //better to use IOException, but seems like a waste to bring in a whole new package for this
@@ -266,71 +292,58 @@ namespace ArchiveView.Controllers
 
                 throw exception;
             }
+            else {
+                //maybe can do this better than comparing strings
+                switch (file.FileExtension.ToLower().Trim()) {
 
-            switch (file.FileExtension.ToLower().Trim()) {
+                    case "pdf":
+                        MimeType = "application/pdf";
+                        break;
 
-                case "pdf":
-                    MimeType = "application/pdf";
-                    break;
+                    case "gif":
+                        MimeType = "image/gif";
+                        break;
 
-                case "gif":
-                    MimeType = "image/gif";
-                    break;
+                    case "jpg":
+                        MimeType = "image/jpeg";
+                        break;
 
-                case "jpg":
-                    MimeType = "image/jpeg";
-                    break;
+                    case "msg":
+                        MimeType = "application/vnd.outlook";
+                        break;
 
-                case "msg":
-                    MimeType = "application/vnd.outlook";
-                    break;
+                    case "ppt":
+                        MimeType = "application/vnd.ms-powerpoint";
+                        break;
 
-                case "ppt":
-                    MimeType = "application/vnd.ms-powerpoint";
-                    break;
+                    case "xls":
+                    case "csv":
+                        MimeType = "application/vnd.ms-excel";
+                        break;
 
-                case "xls":
-                case "csv":
-                    MimeType = "application/vnd.ms-excel";
-                    break;
+                    case "xlsx":
+                        MimeType = "application/vnd.ms-excel.12";
+                        break;
 
-                case "xlsx":
-                    MimeType = "application/vnd.ms-excel.12";
-                    break;
+                    case "doc":
+                    case "dot":
+                        MimeType = "application/msword";
+                        break;
 
-                case "doc":
-                case "dot":
-                    MimeType = "application/msword";
-                    break;
+                    case "docx":
+                        MimeType = "application/vnd.ms-word.document.12";
+                        break;
 
-                case "docx":
-                    MimeType = "application/vnd.ms-word.document.12";
-                    break;
-
-                default:
-                    MimeType = "text/html";
-                    break;
+                    default:
+                        MimeType = "text/html";
+                        break;
+                }
             }
-
-            if (file.ArchivedFile == null) {
-                ViewData["repositoryRequestDocId"] = id;
-
-                return PartialView("_FileDisplay");
-            }
-
             return File(file.ArchivedFile, MimeType);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            publicRepository.Dispose();
-            documentRepository.Dispose();
-
-            base.Dispose(disposing);
-        }
-
         /// <summary>
-        /// Method to return a collection of years within two year inputs
+        /// Return a collection of years within two year inputs
         /// </summary>
         /// <param name="IssueYearMinRange">DateTime of model's issue date lower range</param>
         /// <param name="IssueYearMaxRange">DateTime of model's issue date upper range</param>
@@ -350,7 +363,7 @@ namespace ArchiveView.Controllers
         }
 
         /// <summary>
-        /// Method used to find the first or last year within the PublicVM Model
+        /// Method used to find an outer limit issue date year within the PublicVM Model
         /// </summary>
         /// <param name="model">PublicVM model that will be used, should use before any filters</param>
         /// <param name="ascending">True means it will find the year of the lowest issue date, vice versa for False</param>
@@ -444,9 +457,15 @@ namespace ArchiveView.Controllers
             return model;
         }
 
-        private IEnumerable<PublicVM> FilterModel(IEnumerable<PublicVM> model, string filter/*, string prevFilter*//*, int page, int pageSize*/)
+        /// <summary>
+        /// Sort the model
+        /// </summary>
+        /// <param name="model">The current publicVM model</param>
+        /// <param name="sort"></param>
+        /// <returns></returns>
+        private IEnumerable<PublicVM> SortModel(IEnumerable<PublicVM> model, string sort)
         {
-            if (filter == null || filter == "")
+            if (sort == null || sort == "")
             {
                 sortAscending = true;
             }
@@ -454,7 +473,7 @@ namespace ArchiveView.Controllers
                 sortAscending = !sortAscending;
             }
 
-            switch (filter)
+            switch (sort)
             {
                 case "document":
                     if (sortAscending)
@@ -639,6 +658,13 @@ namespace ArchiveView.Controllers
             return model;
         }
 
+        /// <summary>
+        /// Formats the date from a year/month scernario
+        /// </summary>
+        /// <param name="inputYear">The inputted year</param>
+        /// <param name="inputMonth">The inputted month</param>
+        /// <param name="isStartingDate">bool to check if Start or End Range</param>
+        /// <returns>DateTime of the decided year/month combination</returns>
         private DateTime FormatDate(string inputYear, string inputMonth, bool isStartingDate) {
 
             int year = Int32.Parse(inputYear);
@@ -673,6 +699,18 @@ namespace ArchiveView.Controllers
 
                 return endingDate;
             }
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected override void Dispose(bool disposing)
+        {
+            publicRepository.Dispose();
+            documentRepository.Dispose();
+
+            base.Dispose(disposing);
         }
     }
 }

@@ -25,46 +25,60 @@ namespace ArchiveView.Controllers
             this.publicRepository = new PublicRepository();
         }
 
+        /// <summary>
+        /// Recieves an array of documentIds to allow to be edited at the same time on one form
+        /// </summary>
+        /// <param name="Folder_ID">The Folder_Id to target</param>
+        /// <param name="EditList">An array of document_Ids</param>
+        /// <returns>Returns a partial form of editable publicVMs</returns>
         [HttpGet]
-        public ActionResult Edit([Bind(Prefix = "folderId")] string Folder_ID, string[] EditList) {
+        public ActionResult Edit([Bind(Prefix = "folderId")] string Folder_ID, string[] EditList)
+        {
+            //***THERE IS A BUG IF THE EditList CARRIES TOO MANY OBJECTS***
+            //Theory: string array size is causing some issue
 
-            //THERE IS A BUG IF THE EditList CARRIES TOO MANY OBJECTS
-            List<PublicVM> publicModel = null;
+            List<PublicVM> publicModel = null; // maybe move outside of action?
 
-            publicModel = publicRepository.SelectAll(Folder_ID, "Admin").Where(doc => EditList.Contains(doc.Document_ID.ToString())).GroupBy(x => x.Document_ID).Select( x => x.First()).ToList();
+            publicModel = publicRepository.SelectAll(Folder_ID, "Admin")
+                                            .Where(doc => EditList.Contains(doc.Document_ID.ToString()))
+                                                .GroupBy(x => x.Document_ID)
+                                                    .Select(x => x.First())
+                                                        .ToList();
 
             return PartialView("_EditTable", publicModel);
         }
 
+        /// <summary>
+        /// Posts the changes made to db for the selected documents and saves it
+        /// </summary>
+        /// <param name="Folder_ID">Currently not used, maybe get rid or use it to get ClientId in future</param>
+        /// <param name="updatedEditList">The collection of publicVM instances from he form (either unmoded or modded)</param>
+        /// <returns>a redirection to the main publicVM controller</returns>
         [HttpPost]
-        public ActionResult Edit([Bind(Prefix = "publicId")] string Folder_ID, List<PublicVM> updatedEditList) {
-
-            if (ModelState.IsValid) {
-
-                foreach (PublicVM pvm in updatedEditList) {
-
-                    tbl_Document modDoc = documentRepository.SelectById(pvm.Document_ID.ToString(), true);
-                    modDoc.Issue_DT = pvm.IssueDate;
-                    modDoc.Description = pvm.Description;
-                    modDoc.Method = pvm.Method;
-                    modDoc.Originator = pvm.Originator;
-                    modDoc.Reason = pvm.Reason;
-                    modDoc.Recipient = pvm.Recipient;
-                    modDoc.Active_IND = pvm.Hidden;
-
-                    _db.Entry(modDoc).State = System.Data.Entity.EntityState.Modified;
+        public ActionResult Edit([Bind(Prefix = "publicId")] string Folder_ID, List<PublicVM> updatedEditList)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (PublicVM pvm in updatedEditList)
+                {
+                    documentRepository.UpdateChanges(pvm, _db);
                 }
                 _db.SaveChanges();
             }
-
             return RedirectToAction("Index", "Folder", new { ClientId = TempData["Client_Id"], Role = "Admin" });
-            }
+        }
 
+        
+        //***FUTURE IMPROVEMENTS: Be able to specify filters of which documents to dl
+        //Possibly link this to an array/collection of documentIds, to dl, so can make use of already created filters
+        /// <summary>
+        /// Downloads all documents pertaining to a specific client ID
+        /// </summary>
+        /// <param name="Number">The Client Id to download documents for</param>
+        /// <returns>a ziped file to download</returns>
         [HttpGet]
-        //Downloads all documents pertaining to a specific client ID
         public ActionResult DownloadAllDocuments([Bind(Prefix = "ClientId")] string Number)
         {
-
             tbl_Folder folder = repository.SelectByNumber(Number);
 
             //gets all documents for one folder_id
@@ -75,26 +89,12 @@ namespace ArchiveView.Controllers
             //opening a stream to allow data to be moved
             using (var zipArchiveMemoryStream = new MemoryStream())
             {
-
                 //creating a zipArchive obj to be used and disposed of
                 using (var zipArchive = new ZipArchive(zipArchiveMemoryStream, ZipArchiveMode.Create, true))
                 {
-
-                    foreach (var file in files)
+                    foreach (tbl_Document file in files)
                     {
-                        if (file.ArchivedFile != null)
-                        {
-                            //according to Ramin, creation of an ArchivedFile and Submitting an ArchivedFile are different steps, so there could be 'dirty' records/documents in WAS db that has no ArchivedFile Fields records
-                            var zipEntry = zipArchive.CreateEntry(file.Document_ID.ToString() + "." + file.FileExtension); //creates a unit of space for the individual file to be placed in
-
-                            using (var entryStream = zipEntry.Open())
-                            {
-                                using (var tmpMemory = new MemoryStream(file.ArchivedFile))
-                                {
-                                    tmpMemory.CopyTo(entryStream); //copies the data into the unit space
-                                }
-                            }
-                        }
+                        DownloadFile(zipArchive, file);
                     }
                 }
 
@@ -105,6 +105,32 @@ namespace ArchiveView.Controllers
             return new FileContentResult(result, "application/zip") { FileDownloadName = "AllArchivedFilesFor_" + Number + ".zip" };
         }
 
+        /// <summary>
+        /// Downloads one file and puts it into a zip file
+        /// </summary>
+        /// <param name="zipArchive">The zipfile to put the file into</param>
+        /// <param name="file">the file to download</param>
+        private void DownloadFile(ZipArchive zipArchive, tbl_Document file)
+        {
+            if (file.ArchivedFile != null)
+            {
+                //according to Ramin, creation of an ArchivedFile and Submitting an ArchivedFile are different steps, so there could be 'dirty' records/documents in WAS db that has no ArchivedFile Fields records
+                var zipEntry = zipArchive.CreateEntry(file.Document_ID.ToString() + "." + file.FileExtension); //creates a unit of space for the individual file to be placed in
+
+                using (var entryStream = zipEntry.Open())
+                {
+                    using (var tmpMemory = new MemoryStream(file.ArchivedFile))
+                    {
+                        tmpMemory.CopyTo(entryStream); //copies the data into the unit space
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
             repository.Dispose();

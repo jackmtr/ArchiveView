@@ -23,9 +23,17 @@ namespace ArchiveView.Controllers
         }
         */
 
-        [HandleError(ExceptionType =typeof(FormatException), View ="_Error")]//maybe i dont need since all go to same view
-        [HandleError(ExceptionType = typeof(NoResultException), View = "_Error")]//maybe i dont need since all go to same view
         //currently the role is coming as a query value, needs to be a role check through better security
+        /// <summary>
+        /// Takes the ClientId and packages some data up to give to publicVMController
+        /// Might just comebine this and PublicVM together, somewhat redudant to have two controllers
+        /// </summary>
+        /// <param name="Number">The Client Id</param>
+        /// <param name="Role">Whether the person has authoratative powers in Archive View</param>
+        /// <returns></returns>
+        //Since all exceptions go to the same view, dont see any reason to use different handerror attributes
+        //[HandleError(ExceptionType =typeof(FormatException), View ="_Error")]//maybe i dont need since all go to same view
+        //[HandleError(ExceptionType = typeof(NoResultException), View = "_Error")]//maybe i dont need since all go to same view
         // GET: Folder
         public ActionResult Index([Bind(Prefix = "ClientId")] string Number, string Role = "")
         {
@@ -42,6 +50,7 @@ namespace ArchiveView.Controllers
                 throw exception;
             }
             else {
+                //was told to eventually create a seperate role for ArchiveView
                 if (HttpContext.User.IsInRole("westlandcorp\\IT-ops"))
                 {
                     TempData["RoleButton"] = "Admin";
@@ -69,7 +78,10 @@ namespace ArchiveView.Controllers
             return RedirectToAction("Index", "PublicVM", new { folderId = folder.Folder_ID });
         }
 
-        //Dispose any open connection when finished (db in this regard)
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
             repository.Dispose();

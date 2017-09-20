@@ -1,130 +1,152 @@
 ﻿@model MiscPublicData
 
-<tr>
-    <td colspan="11">
-        <table class="miscDocTable">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Document_ID)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Branch)
-                </th>
-                @if ((string)ViewData["currentNav"] == "policy" || (string)ViewData["currentNavTitle"] == "Correspondence" || (string)ViewData["currentNavTitle"] == "Client" || (string)ViewData["currentNavTitle"] == "External") {
-                    <th>
-                        @Html.DisplayNameFor(model => model.Reason)
-                    </th>
-                }
-                @if ((string)ViewData["currentNavTitle"] == "Correspondence" || (string)ViewData["currentNavTitle"] == "Client" || (string)ViewData["currentNavTitle"] == "External" || (string)ViewData["currentNavTitle"] == "Fax Confirmation") { 
-                    <th>
-                        @Html.DisplayNameFor(model => model.Recipient)
-                    </th>
-                }
-                <th>
-                    @Html.DisplayNameFor(model => model.Creator)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ArchiveTime)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FileSize)
-                </th>
-            </tr>
-
-            <tr>
-                <td>
-                    @Html.DisplayFor(model => model.Document_ID)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.Branch)
-                </td>
-
-                @if ((string)ViewData["currentNav"] == "policy" || (string)ViewData["currentNavTitle"] == "Correspondence" || (string)ViewData["currentNavTitle"] == "Client" || (string)ViewData["currentNavTitle"] == "External")
-                {
-                    <td>
-                        @if (Model.Reason == null || Model.Reason.Length < 1)
-                        {
-                            @Html.Raw("N/A");
-                        }
-                        else {
-                            @Html.DisplayFor(model => model.Reason)
-                        }
-                    </td>
-                }
-                @if ((string)ViewData["currentNavTitle"] == "Correspondence" || (string)ViewData["currentNavTitle"] == "Client" || (string)ViewData["currentNavTitle"] == "External" || (string)ViewData["currentNavTitle"] == "Fax Confirmation")
-                {
-                    <td>
-                        @Html.DisplayFor(model => model.Recipient)
-                    </td>
-                }
-                <td>
-                    @Html.DisplayFor(model => model.Creator)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.ArchiveTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.FileSize) KB
-                    @*@Html.DisplayFor(model => model.FileSize2) KB*@
-                </td>
-            </tr>
-
-        </table>
-
-        @if ((string)ViewData["currentNav"] == "doctype" && (string)ViewData["currentNavTitle"] != "Declaration/Endorsement") {
-            <table class="ref_table">
+@if (Model != null)
+{
+    <tr>
+        <td colspan="11">
+            <table class="miscDocTable">
                 <tr>
-                    <th>Reference Number</th>
-                    <th>Document Type</th>
-                    <th>Effective Date</th>
-                    <th>Description</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Document_ID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Branch)
+                    </th>
+                    @if ((string)ViewData["currentNav"] == "policy" || (string)ViewData["currentNavTitle"] == "Correspondence" || (string)ViewData["currentNavTitle"] == "Client" || (string)ViewData["currentNavTitle"] == "External")
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reason)
+                        </th>
+                    }
+                    @if ((string)ViewData["currentNavTitle"] == "Correspondence" || (string)ViewData["currentNavTitle"] == "Client" || (string)ViewData["currentNavTitle"] == "External" || (string)ViewData["currentNavTitle"] == "Fax Confirmation")
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.Recipient)
+                        </th>
+                    }
+                    <th>
+                        @Html.DisplayNameFor(model => model.Creator)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ArchiveTime)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FileSize)
+                    </th>
                 </tr>
-                @if ((Model.DocReferences.Count > 0))
-                {
-                    foreach (var item in Model.DocReferences)
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => model.Document_ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.Branch)
+                    </td>
+
+                    @if ((string)ViewData["currentNav"] == "policy" || (string)ViewData["currentNavTitle"] == "Correspondence" || (string)ViewData["currentNavTitle"] == "Client" || (string)ViewData["currentNavTitle"] == "External")
+                    {
+                        <td>
+                            @if (Model.Reason == null || Model.Reason.Length < 1)
+                            {
+                                @Html.Raw("N/A");
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.Reason)
+                            }
+                        </td>
+                    }
+                    @if ((string)ViewData["currentNavTitle"] == "Correspondence" || (string)ViewData["currentNavTitle"] == "Client" || (string)ViewData["currentNavTitle"] == "External" || (string)ViewData["currentNavTitle"] == "Fax Confirmation")
+                    {
+                        <td>
+                            @Html.DisplayFor(model => model.Recipient)
+                        </td>
+                    }
+                    <td>
+                        @Html.DisplayFor(model => model.Creator)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.ArchiveTime)
+                    </td>
+                    <td>
+                        @if (Model.FileSize != 0)
+                        {
+                            @Html.DisplayFor(model => model.FileSize) <text>KB</text>
+                        }
+                        else
+                        {
+                            @Html.Raw("Unknown");
+                        }
+                    </td>
+                </tr>
+
+            </table>
+
+            @if ((string)ViewData["currentNav"] == "doctype" && (string)ViewData["currentNavTitle"] != "Declaration/Endorsement")
+            {
+                <table class="ref_table">
+                    <tr>
+                        <th>Reference Number</th>
+                        <th>Document Type</th>
+                        <th>Effective Date</th>
+                        <th>Description</th>
+                    </tr>
+                    @if ((Model.DocReferences.Count > 0))
+                    {
+                        foreach (var item in Model.DocReferences)
+                        {
+                            <tr>
+                                <td>
+                                    @if (item.RefNumber == null || item.RefNumber.Trim().Length < 1)
+                                    {
+                                        @Html.Raw("N/A");
+                                    }
+                                    else
+                                    {
+                                        @item.RefNumber
+                                    }
+                                </td>
+                                <td>@item.RefNumberType_CD</td>
+                                <td>
+                                    @if (item.Date1_DT.HasValue)
+                                    {
+                                        @item.Date1_DT.Value.ToString("dd MMM yyyy");
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw("N/A");
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.Text1.Length < 1)
+                                    {
+                                        @Html.Raw("N/A");
+                                    }
+                                    else
+                                    {
+                                        @item.Text1
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
                     {
                         <tr>
-                            <td>
-                                @if (item.RefNumber == null || item.RefNumber.Trim().Length < 1)
-                                {
-                                    @Html.Raw("N/A");
-                                }
-                                else
-                                {
-                                    @item.RefNumber
-                                }
-                            </td>
-                            <td>@item.RefNumberType_CD</td>
-                            <td>
-                                @if (item.Date1_DT.HasValue)
-                                {
-                                    @item.Date1_DT.Value.ToString("dd MMM yyyy");
-                                }
-                                else {
-                                    @Html.Raw("N/A");
-                                }
-                            </td>
-                            <td>
-                                @if (item.Text1.Length < 1)
-                                {
-                                    @Html.Raw("N/A");
-                                }
-                                else {
-                                    @item.Text1
-                                }
+                            <td colspan="10">
+                                You currently do not have any policies to reference.
                             </td>
                         </tr>
                     }
-                }
-                else {
-                    <tr>
-                        <td colspan="10">
-                            You currently do not have any policies to reference.
-                        </td>
-                    </tr>
-                }
-            </table>
-        }
+                </table>
+            }
+        </td>
+    </tr>
+}
+else {
+<tr>
+    <td colspan="11">
+        Sorry, there seems to be an issue pulling the data.  Please contact Support through ServiceNow.
     </td>
 </tr>
-
+}

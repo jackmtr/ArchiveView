@@ -5,11 +5,11 @@ using System.Web;
 
 namespace ArchiveView.Models
 {
-    //not even using this enum
-    public enum FileExtensions
-    {
-        pdf = 1, gif, jpg, msg, ppt, xls, csv, xlsx, doc, dot, docx, html
-    }
+    //currently not using, but should attempt
+    //public enum FileExtensions
+    //{
+    //    pdf = 1, gif, jpg, msg, ppt, xls, csv, xlsx, doc, dot, docx, html
+    //}
 
     public enum NavBarGroupOptions
     {

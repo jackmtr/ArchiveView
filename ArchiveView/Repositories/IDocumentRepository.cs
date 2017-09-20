@@ -16,7 +16,7 @@ namespace ArchiveView.Repositories
 
         MiscPublicData GetMiscPublicData(string publicNumber);
 
-        bool SaveChanges(tbl_Document doc);
+        bool UpdateChanges(PublicVM doc, WASEntities db);
 
         void Update(tbl_Document doc);
 

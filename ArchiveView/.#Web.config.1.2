@@ -1,11 +1,6 @@
 ﻿<?xml version="1.0"?>
-<!--
-  For more information on how to configure your ASP.NET application, please visit
-  http://go.microsoft.com/fwlink/?LinkId=301880
-  -->
 <configuration>
-  <configSections>
-    <!-- For more information on Entity Framework configuration, visit http://go.microsoft.com/fwlink/?LinkID=237468 -->
+    <configSections> 
     <section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false"/>
   </configSections>
   <connectionStrings>
@@ -13,7 +8,6 @@
     <add name="WASEntities1" connectionString="metadata=res://*/Models.Model1.csdl|res://*/Models.Model1.ssdl|res://*/Models.Model1.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=(local);initial catalog=WAS;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient"/>
     <add name="WASEntities2" connectionString="metadata=res://*/Models.Model1.csdl|res://*/Models.Model1.ssdl|res://*/Models.Model1.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=WIESERStag4;initial catalog=WAS;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient"/>
     <add name="WASEntities3" connectionString="metadata=res://*/Models.Model1.csdl|res://*/Models.Model1.ssdl|res://*/Models.Model1.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=WIESERStag6;initial catalog=WAS;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient"/>
-    <add name="WASEntitiesHOME" connectionString="metadata=res://*/Models.Model1.csdl|res://*/Models.Model1.ssdl|res://*/Models.Model1.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=JACKMTR-PC\SQLEXPRESS;initial catalog=WAS;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient"/>
     <add name="WASArchiveEntitiesFAKE" connectionString="metadata=res://*/Models.Model1.csdl|res://*/Models.Model1.ssdl|res://*/Models.Model1.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=LDSIT1;initial catalog=WASarchive;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient"/>
     <!--PRODUCTION-->
     <add name="WASEntities" connectionString="metadata=res://*/Models.Model1.csdl|res://*/Models.Model1.ssdl|res://*/Models.Model1.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=repository;initial catalog=WAS;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient"/>
@@ -29,10 +23,7 @@
     <compilation targetFramework="4.5.2" debug="true"/>
     <httpRuntime targetFramework="4.5.2"/>
     <!--Makes it that remote users will not get detailed error pages-->
-    <!--<customErrors mode="RemoteOnly" />-->
-    <customErrors mode="On" defaultRedirect="~/ErrorHandler/Index">
-      <error statusCode="404" redirect="~/ErrorHandler/NotFound"/>
-    </customErrors>
+    <customErrors mode="RemoteOnly"></customErrors>
     <authentication mode="Windows"/>
     <!--ADDED BY MARTIN-->
   </system.web>
@@ -42,10 +33,6 @@
       <remove fileExtension=".woff"/>
       <mimeMap fileExtension=".woff2" mimeType="application/font-woff2"/>
       <mimeMap fileExtension=".woff" mimeType="application/font-woff"/>
-      <!--<mimeMap fileExtension=".woff2" mimeType="application/font-woff2" />-->
-      <!--Allows for font awesome sorting arrows to be brought through IIS-->
-      <!--<mimeMap fileExtension=".woff" mimeType="application/font-woff" />-->
-      <!--Allows for font awesome sorting arrows to be brought through IIS-->
     </staticContent>
     <security>
       <authentication>

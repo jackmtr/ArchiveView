@@ -8,9 +8,14 @@ using System.Web.Mvc;
 
 namespace ArchiveView.Filters
 {
+    //Authorization Filter
     public class AuthorizeUserAttribute : AuthorizeAttribute
     {
-
+        /// <summary>
+        /// attribute to check if user is an admin
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             var isAuthorized = base.AuthorizeCore(httpContext); //gets the authorization info of the person making the request
@@ -19,13 +24,6 @@ namespace ArchiveView.Filters
             {
                 return false; //checks if the user is loged into windows
             }
-
-            //checks if the user making the request is the same as when starting application
-            //This code doesnt work when published to remote server
-            //if (WindowAuth.WindowLoginName != httpContext.User.Identity.Name)
-            //{
-            //    return false;
-            //}
 
             if (httpContext.User.IsInRole("westlandcorp\\IT-ops"))
             {
@@ -37,12 +35,23 @@ namespace ArchiveView.Filters
             }
         }
 
+        /// <summary>
+        /// method to run if AuthorizeCore rejects the user
+        /// </summary>
+        /// <param name="filterContext"></param>
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            //can do checks for what info to give user when not authorized arrises
-            filterContext.Result = new ViewResult
+            UnauthorizedAccessException exception = new UnauthorizedAccessException("Sorry, you do not have permission to access this page.");
+            exception.HelpLink = "Please contact support if there are further issues.";
+
+            HandleErrorInfo handleErrorInfo = new HandleErrorInfo(exception, filterContext.ActionDescriptor.ControllerDescriptor.ControllerName, filterContext.ActionDescriptor.ActionName);
+
+            filterContext.Result = new PartialViewResult
             {
-                ViewName = "~/Views/Shared/Errors.cshtml"
+                ViewName = "~/Views/Shared/_Error.cshtml",
+                ViewData = new ViewDataDictionary(filterContext.Controller.ViewData) {
+                    Model = handleErrorInfo
+                }
             };
         }
     }

@@ -5,6 +5,7 @@ using System.Web;
 
 namespace ArchiveView.Exceptions
 {
+    //custom exception that is used when query result leads to no client being found, when there should always be one
     public class NoResultException : Exception
     {
         public NoResultException() { }

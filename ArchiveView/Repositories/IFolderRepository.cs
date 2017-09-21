@@ -9,7 +9,7 @@ namespace ArchiveView.Repositories
 {
     public interface IFolderRepository
     {
-        tbl_Folder SelectByID(string id);
+        //tbl_Folder SelectByID(string id);
 
         tbl_Folder SelectByNumber(string number);
 

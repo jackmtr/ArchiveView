@@ -30,9 +30,6 @@ namespace ArchiveView.ViewModels
         [DisplayFormat(DataFormatString = "{0:n0}")]
         public int FileSize { get; set; }
 
-        //[Display(Name = "File Size2")]
-        //public int FileSize2 { get; set; }
-
         public ICollection<tbl_DocReference> DocReferences { get; set; }
 
     }

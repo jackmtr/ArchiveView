@@ -18,10 +18,6 @@ namespace ArchiveView.Repositories
 
         bool UpdateChanges(PublicVM doc, WASEntities db);
 
-        void Update(tbl_Document doc);
-
-        void Save();
-
         void Dispose();
     }
 }

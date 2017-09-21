@@ -266,9 +266,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_PublicTable.cshtml" />
     <Content Include="Views\PublicVM\MiscData.cshtml" />
-    <Content Include="Views\Folder\DownloadAllDocuments.cshtml" />
     <Content Include="Views\Shared\_CategoryNavBar.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Shared\_Form.cshtml" />
     <Content Include="Views\Admin\_EditTable.cshtml" />
     <Content Include="Views\Admin\EditorTemplates\PublicVM.cshtml" />

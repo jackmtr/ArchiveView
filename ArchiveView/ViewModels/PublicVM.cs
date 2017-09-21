@@ -10,6 +10,7 @@ namespace ArchiveView.ViewModels
     {
         public int Folder_ID { get; set; } //tbl_Folder.Folder_ID
 
+        [Display(Name = "Document ID")]
         public int Document_ID { get; set; } //tbl_Document.Document_ID
 
         public int DocumentType_ID { get; set; } //tbl_DocumentType.DocumentType_ID

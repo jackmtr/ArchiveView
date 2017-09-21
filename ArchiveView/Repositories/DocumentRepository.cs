@@ -25,7 +25,7 @@ namespace ArchiveView.Repositories
         /// <returns></returns>
         public tbl_Document SelectById(string id, bool authorized)
         {
-            int docId = 0;
+            int docId;
             tbl_Document document = null;
 
             try
@@ -210,15 +210,6 @@ namespace ArchiveView.Repositories
 
             //should probably do some conditional check here to allow user to know if it actually got modified
             return true;
-        }
-
-        public void Update(tbl_Document doc)
-        {
-            _db.Entry(doc).State = System.Data.Entity.EntityState.Modified;
-        }
-
-        public void Save() {
-            _db.SaveChanges();
         }
 
         public void Dispose()

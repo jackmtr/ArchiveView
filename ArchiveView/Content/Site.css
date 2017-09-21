@@ -380,6 +380,29 @@ header {
 
 /*****Media Tags for alternating screen size******/
 
+/*Removing the condensed docId/Cate/docType column on wide screens*/
+@media only screen and (min-width : 1500px) {
+    .edit-rows > th:nth-child(1), .edit-rows > td:nth-child(1) {
+        display: none;
+    }
+}
+
+/*Removing the seperated docId/Cate/docType columns on smaller screens*/
+@media only screen and (max-width : 1500px) {
+
+    .edit-rows > th:nth-child(2), .edit-rows > td:nth-child(2) {
+        display: none;
+    }
+
+    .edit-rows > th:nth-child(3), .edit-rows > td:nth-child(3) {
+        display: none;
+    }
+
+    .edit-rows > th:nth-child(4), .edit-rows > td:nth-child(4) {
+        display: none;
+    }
+}
+
 @media only screen and (max-width : 1110px) {
     .shrink {
         display: none;

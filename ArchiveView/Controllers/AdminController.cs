@@ -34,6 +34,8 @@ namespace ArchiveView.Controllers
         [HttpGet]
         public ActionResult Edit([Bind(Prefix = "folderId")] string Folder_ID, string[] EditList)
         {
+            TempData.Keep("Folder_Id");
+
             //***THERE IS A BUG IF THE EditList CARRIES TOO MANY OBJECTS***
             //Theory: string array size is causing some issue
 

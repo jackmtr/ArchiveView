@@ -10,15 +10,13 @@ namespace ArchiveView.Repositories
 {
     public class PublicRepository : IPublicRepository
     {
-        //might need to decouple this VM repo from the dbcontext by creating more repos this VMrepo will grab from
-
         private WASEntities _db = null;
 
         public PublicRepository() {
             this._db = new WASEntities(); //dbcontext class
         }
 
-        //add parameterized constructor
+        //maybe add parameterized constructor
 
         public IEnumerable<PublicVM> SelectAll(string publicNumber, string role) {
 

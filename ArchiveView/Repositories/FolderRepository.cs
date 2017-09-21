@@ -16,11 +16,12 @@ namespace ArchiveView.Repositories
             this._db = new WASEntities();
         }
 
-        public tbl_Folder SelectByID(string id)
-        {
-            //do this better
-            return _db.tbl_Folder.Find(Int32.Parse(id));
-        }
+        //not being used
+        //public tbl_Folder SelectByID(string id)
+        //{
+        //    //do this better
+        //    return _db.tbl_Folder.Find(Int32.Parse(id));
+        //}
 
         public tbl_Folder SelectByNumber(string number) {
 

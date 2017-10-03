@@ -29,7 +29,7 @@
                 <div id="policy_section" class="hidden">
                     <ul id="policy_list">
                         <!--need to check for no reference number documents with the policy !- null-->
-                        @if (ViewBag.PolicyNavBar == null || !((IEnumerable<string>)ViewBag.PolicyNavBar).Any() || ((IEnumerable<string>)ViewBag.PolicyNavBar).First().Trim().Length > 1)
+                        @if (ViewBag.PolicyNavBar != null && ((IEnumerable<string>)ViewBag.PolicyNavBar).Any())
                         {
                             foreach (var policy in ViewBag.PolicyNavBar)
                             {
@@ -37,12 +37,12 @@
                                 {
                                     <li>
                                         <a href="@Url.Action("Index", "PublicVM", new
-                                        {
-                                            folderId = TempData["Folder_Id"],
-                                            policyNumber = policy,
-                                            navBarGroup = NavBarGroupOptions.policy,
-                                            navBarItem = @policy
-                                        })"
+                                                                {
+                                                                    folderId = TempData["Folder_Id"],
+                                                                    policyNumber = policy,
+                                                                    navBarGroup = NavBarGroupOptions.policy,
+                                                                    navBarItem = @policy
+                                                                })"
                                            class="navLink"
                                            data-ajax-update="#public_table"
                                            data-ajax-mode="replace-with"

@@ -32,10 +32,8 @@ namespace ArchiveView.Controllers
         /// <param name="Role">Whether the person has authoratative powers in Archive View</param>
         /// <returns></returns>
         //Since all exceptions go to the same view, dont see any reason to use different handerror attributes
-        //[HandleError(ExceptionType =typeof(FormatException), View ="_Error")]//maybe i dont need since all go to same view
-        //[HandleError(ExceptionType = typeof(NoResultException), View = "_Error")]//maybe i dont need since all go to same view
         // GET: Folder
-        public ActionResult Index([Bind(Prefix = "ClientId")] string Number, string Role = "")
+        public ActionResult Index([Bind(Prefix = "ClientId")] string Number, string Role = "", string PublicName = "")
         {
             tbl_Folder folder = null;
 
@@ -70,7 +68,9 @@ namespace ArchiveView.Controllers
                     TempData["Role"] = "Client";
                 }
 
-                TempData["Client_Name"] = folder.Name;
+                //TempData["Client_Name"] = folder.Name;
+                TempData["Client_Name"] = Server.UrlDecode(PublicName);
+
                 TempData["Client_Id"] = folder.Number;
                 TempData["Folder_Id"] = folder.Folder_ID; //should be a better way than carrying this variable around
             }

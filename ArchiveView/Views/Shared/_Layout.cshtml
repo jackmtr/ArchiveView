@@ -27,6 +27,7 @@
                 if (TempData["Role"] != null && (string)TempData["Role"] == "Admin")
                 {
                     <span class="admin-status col-xs-1">[@TempData["Role"]]</span>
+                    <span class="admin-status col-xs-1">[Version: @TempData["Version"]]</span>
                 }
             }
 
@@ -36,6 +37,7 @@
                 using (Html.BeginForm("Index", "Folder", FormMethod.Get, new { @class = "banner-form col-xs-3" }))
                 {
                     @Html.Hidden("ClientId", TempData["Client_Id"]);
+                    @Html.Hidden("PublicName", TempData["Client_Name"]);
                     <button class="banner_button" name="Role" value="Admin" type="submit">Access Admin</button>
                 }
             }
@@ -44,6 +46,7 @@
                 using (Html.BeginForm("Index", "Folder", FormMethod.Get, new { @class = "banner-form col-xs-2" }))
                 {
                     @Html.Hidden("ClientId", TempData["Client_Id"]);
+                    @Html.Hidden("PublicName", TempData["Client_Name"]);
                     <button class="banner_button" name="Role" value="Client" type="submit">Access Client</button>
                 }
             }

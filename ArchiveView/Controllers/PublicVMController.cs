@@ -78,6 +78,8 @@ namespace ArchiveView.Controllers
             DateTime issueDateMin = ((string)TempData["Role"] == "Admin") ? today.AddYears(-30) : today.AddYears(-1);
             DateTime? issueDateMax = null;
 
+            TempData["Version"] = System.Configuration.ConfigurationManager.AppSettings["Versioning"];
+
             //removing whitespaces from end of search term to use before querying
             if (searchTerm != null) {
                 searchTerm = searchTerm.Trim();
@@ -136,8 +138,9 @@ namespace ArchiveView.Controllers
                 ViewData["SortOrder"] = sortAscending;
                 publicModel = publicModel
                                 .OrderByDescending(r => r.IssueDate)
-                                    .Where(r => r.IssueDate >= issueDateMin)
-                                        .ToList();
+                                    .ThenByDescending( r => r.ArchiveTime)
+                                        .Where(r => r.IssueDate >= issueDateMin)
+                                            .ToList();
 
                 ViewData["currentRecordsCount"] = publicModel.Count();
 
@@ -264,7 +267,6 @@ namespace ArchiveView.Controllers
 
             if (file == null)
             {
-
                 NoResultException exception = new NoResultException("The document is not available or does not exist.");
                 exception.HelpLink = "Please check over the provided information and try again.";
                 exception.Data["Document ID"] = id;
@@ -273,10 +275,6 @@ namespace ArchiveView.Controllers
             }
             else if (file.ArchivedFile == null)
             {
-                //ViewData["repositoryRequestDocId"] = id;
-
-                //return PartialView("_FileDisplay");
-
                 NullReferenceException exception = new NullReferenceException("The file appears to be missing or corrupt.");
                 exception.HelpLink = "Please contact ServiceNow if additional help is needed.";
 
@@ -310,28 +308,37 @@ namespace ArchiveView.Controllers
 
                     case "msg":
                         MimeType = "application/vnd.outlook";
+                        //HttpContext.Response.AddHeader("Content-Disposition", "Attachment");
                         break;
 
                     case "ppt":
                         MimeType = "application/vnd.ms-powerpoint";
+                        HttpContext.Response.AddHeader("Content-Disposition", "Attachment");
                         break;
 
                     case "xls":
+                        MimeType = "application/vnd.ms-excel";
+                        HttpContext.Response.AddHeader("Content-Disposition", "Attachment");
+                        break;
                     case "csv":
                         MimeType = "application/vnd.ms-excel";
+                        HttpContext.Response.AddHeader("Content-Disposition", "Attachment");
                         break;
 
                     case "xlsx":
                         MimeType = "application/vnd.ms-excel.12";
+                        HttpContext.Response.AddHeader("Content-Disposition", "Attachment");
                         break;
 
                     case "doc":
                     case "dot":
                         MimeType = "application/msword";
+                        HttpContext.Response.AddHeader("Content-Disposition", "Attachment");
                         break;
 
                     case "docx":
                         MimeType = "application/vnd.ms-word.document.12";
+                        HttpContext.Response.AddHeader("Content-Disposition", "Attachment");
                         break;
 
                     default:
@@ -410,23 +417,24 @@ namespace ArchiveView.Controllers
 
                 nbitem.CategoryName = pvm.CategoryName;
 
-                foreach (PublicVM pp in model.GroupBy(g => g.DocumentTypeName).Select(g => g.First()))
+                foreach (PublicVM pp in model.GroupBy(g => g.DocumentTypeName).Select(g => g.First()).OrderBy(e => e.DocumentTypeName))
                 {
                     if (pp.CategoryName == nbitem.CategoryName && !nbl.Any(s => s.DocumentTypeName.Contains(pp.DocumentTypeName)))
                     {
                         nbitem.DocumentTypeName.Add(pp.DocumentTypeName);
                     }
                 }
+
                 nbl.Add(nbitem);
             }
 
             ViewBag.CategoryNavBar = nbl;
+
             ViewBag.PolicyNavBar = model
-                                    //check this logic later
-                                    .Where(e => e.EffectiveDate != null && e.ReferenceType == "Policy")
-                                        .OrderBy(e => e.RefNumber)
-                                            .GroupBy(e => e.RefNumber)
-                                                .Select(g => g.First().RefNumber);
+                        .Where(e => e.EffectiveDate != null && e.ReferenceType == "Policy")
+                            .OrderBy(e => e.RefNumber)
+                                .GroupBy(e => e.RefNumber)
+                                    .Select(g => g.First().RefNumber).Where(y => y != "");
         }
 
         /// <summary>
@@ -479,13 +487,13 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.DocumentTypeName)
+                                    .OrderBy(r => r.DocumentTypeName).ThenByDescending(r => r.ArchiveTime)
                                         .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.DocumentTypeName)
+                                    .OrderByDescending(r => r.DocumentTypeName).ThenByDescending(r => r.ArchiveTime)
                                         .ToList();
                     }
                     break;
@@ -494,13 +502,13 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.Method)
+                                    .OrderBy(r => r.Method).ThenByDescending(r => r.ArchiveTime)
                                         .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.Method)
+                                    .OrderByDescending(r => r.Method).ThenByDescending(r => r.ArchiveTime)
                                         .ToList();
                     }
                     break;
@@ -509,13 +517,13 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.RefNumber)
+                                    .OrderBy(r => r.RefNumber).ThenByDescending(r => r.ArchiveTime)
                                         .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.RefNumber)
+                                    .OrderByDescending(r => r.RefNumber).ThenByDescending(r => r.ArchiveTime)
                                         .ToList();
                     }
                     break;
@@ -524,13 +532,13 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.EffectiveDate)
+                                    .OrderBy(r => r.EffectiveDate).ThenByDescending(r => r.ArchiveTime)
                                         .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.EffectiveDate)
+                                    .OrderByDescending(r => r.EffectiveDate).ThenByDescending(r => r.ArchiveTime)
                                         .ToList();
                     }
                     break;
@@ -539,13 +547,13 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.Originator)
+                                    .OrderBy(r => r.Originator).ThenByDescending(r => r.ArchiveTime)
                                         .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.Originator)
+                                    .OrderByDescending(r => r.Originator).ThenByDescending(r => r.ArchiveTime)
                                         .ToList();
                     }
                     break;
@@ -554,13 +562,13 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.Reason)
+                                    .OrderBy(r => r.Reason).ThenByDescending(r => r.ArchiveTime)
                                         .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.Reason)
+                                    .OrderByDescending(r => r.Reason).ThenByDescending(r => r.ArchiveTime)
                                         .ToList();
                     }
                     break;
@@ -569,13 +577,13 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.Supplier)
+                                    .OrderBy(r => r.Supplier).ThenByDescending(r => r.ArchiveTime)
                                         .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.Supplier)
+                                    .OrderByDescending(r => r.Supplier).ThenByDescending(r => r.ArchiveTime)
                                         .ToList();
                     }
                     break;
@@ -584,13 +592,13 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.Description)
+                                    .OrderBy(r => r.Description).ThenByDescending(r => r.ArchiveTime)
                                         .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.Description)
+                                    .OrderByDescending(r => r.Description).ThenByDescending(r => r.ArchiveTime)
                                         .ToList();
                     }
                     break;
@@ -599,13 +607,13 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.FileExtension)
+                                    .OrderBy(r => r.FileExtension).ThenByDescending(r => r.ArchiveTime)
                                         .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.FileExtension)
+                                    .OrderByDescending(r => r.FileExtension).ThenByDescending(r => r.ArchiveTime)
                                         .ToList();
                     }
                     break;
@@ -614,13 +622,13 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.Document_ID)
+                                    .OrderBy(r => r.Document_ID).ThenByDescending(r => r.ArchiveTime)
                                         .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.Document_ID)
+                                    .OrderByDescending(r => r.Document_ID).ThenByDescending(r => r.ArchiveTime)
                                         .ToList();
                     }
                     break;
@@ -629,13 +637,43 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.Hidden)
+                                    .OrderBy(r => r.Hidden).ThenByDescending(r => r.ArchiveTime)
                                         .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.Hidden)
+                                    .OrderByDescending(r => r.Hidden).ThenByDescending(r => r.ArchiveTime)
+                                        .ToList();
+                    }
+                    break;
+
+                case "dol":
+                    if (sortAscending)
+                    {
+                        model = model
+                                    .OrderBy(r => r.DateOfLoss).ThenByDescending(r => r.ArchiveTime)
+                                        .ToList();
+                    }
+                    else
+                    {
+                        model = model
+                                    .OrderByDescending(r => r.DateOfLoss).ThenByDescending(r => r.ArchiveTime)
+                                        .ToList();
+                    }
+                    break;
+
+                case "claim":
+                    if (sortAscending)
+                    {
+                        model = model
+                                    .OrderBy(r => r.ClaimNumber).ThenByDescending(r => r.ArchiveTime)
+                                        .ToList();
+                    }
+                    else
+                    {
+                        model = model
+                                    .OrderByDescending(r => r.ClaimNumber).ThenByDescending(r => r.ArchiveTime)
                                         .ToList();
                     }
                     break;
@@ -644,13 +682,13 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                .OrderByDescending(r => r.IssueDate)
+                                .OrderByDescending(r => r.IssueDate).ThenByDescending(r => r.ArchiveTime)
                                     .ToList();
                     }
                     else
                     {
                         model = model
-                                .OrderBy(r => r.IssueDate)
+                                .OrderBy(r => r.IssueDate).ThenByDescending(r => r.ArchiveTime)
                                     .ToList();
                     }
                     break;

@@ -18,7 +18,6 @@
     <add key="webpages:Enabled" value="false"/>
     <add key="ClientValidationEnabled" value="true"/>
     <add key="UnobtrusiveJavaScriptEnabled" value="true"/>
-    <add key="versioning" value="1.0.0"/>
   </appSettings>
   <system.web>
     <compilation targetFramework="4.5.2" debug="true">
@@ -28,7 +27,7 @@
     </compilation>
     <httpRuntime targetFramework="4.5.2"/>
     <!--Makes it that remote users will not get detailed error pages-->
-    <customErrors mode="RemoteOnly"></customErrors>
+    <customErrors mode="On"></customErrors>
     <authentication mode="Windows"/>
     <!--ADDED BY MARTIN-->
   </system.web>

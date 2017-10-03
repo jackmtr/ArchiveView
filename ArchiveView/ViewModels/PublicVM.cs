@@ -53,5 +53,16 @@ namespace ArchiveView.ViewModels
 
         [Display(Name = "Reference Type")]
         public string ReferenceType { get; set; } //tbl_DocReference.RefNumberType_CD
+
+        [Display(Name = "Date of Loss")]
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
+        public Nullable<DateTime> DateOfLoss { get; set; }
+
+        [Display(Name = "Claim #")]
+        public string ClaimNumber { get; set; }
+
+        //going to pull the hour/min/sec out of tbl_document.LastUser_DT to make as a tiebreaker for order by
+        //doesnt need a display
+        public long ArchiveTime { get; set; }
     }
 }

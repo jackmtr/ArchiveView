@@ -1,0 +1,81 @@
+﻿@model PublicVM
+<tr class="edit-rows">
+    <!--Old ArchiveView has option for editing Direction.  After thorough thought and discussion with support, I believe this is not needed to be changed.
+            1) Commons users has no option in seeing the Direction column
+            2) Support recalls no past issues from common users to edit this column
+        ***Same reasoning for Recived_On-->
+    <td>
+        @Html.DisplayFor(model => model.Document_ID, new { htmlAttributes = new { @class = "form-control" } })
+        <br />
+        @Html.DisplayFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control" } })
+        <br />
+        @Html.DisplayFor(model => model.DocumentTypeName, new { htmlAttributes = new { @class = "form-control" } })
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.Document_ID, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(model => model.Document_ID)
+    </td>
+    <td class="input_@(Model.CategoryName)">
+        @Html.DisplayFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control" } })
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.DocumentTypeName, new { htmlAttributes = new { @class = "form-control" } })
+    </td>
+    <td>
+        @Html.TextBoxFor(model => model.IssueDate, "{0:dd MMM yyyy}", new { @class = "edit-issue form-control", size = 10 })
+        @Html.ValidationMessageFor(model => model.IssueDate, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" }, rows = "5" })
+        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.DropDownListFor(model => model.Method, new List<SelectListItem> {
+
+            new SelectListItem { Value = "", Text = "N/A"},
+            new SelectListItem { Value = "email", Text = "Email" },
+            new SelectListItem { Value = "fax", Text = "Fax" },
+            new SelectListItem { Value = "mail", Text = "Mail" }
+        }, Model.Method, new { @class = "form-control " + @Model.CategoryName, @disabled = "disabled" })
+        @Html.ValidationMessageFor(model => model.Method, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.Originator, new { htmlAttributes = new { @class = "form-control " + @Model.CategoryName, @disabled = "disabled", style = "width: 150px" } })
+        @*Should eventually remove the inline styling for style sheets*@
+        @Html.ValidationMessageFor(model => model.Originator, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.DropDownListFor(model => model.Reason, new List<SelectListItem> {
+
+            new SelectListItem { Value = "0", Text = "Cancel/Lapse" },
+            new SelectListItem { Value = "1", Text = "Endorse" },
+            new SelectListItem { Value = "2", Text = "Renew" },
+            new SelectListItem { Value = "3", Text = "Quote" },
+            new SelectListItem { Value = "4", Text = "New" },
+            new SelectListItem { Value = "5", Text = "Statement" },
+            new SelectListItem { Value = "6", Text = "Reissue" },
+            new SelectListItem { Value = "7", Text = "Other" }
+
+        }, Model.Reason, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.Recipient, new { htmlAttributes = new { @class = "form-control " + @Model.CategoryName, @disabled = "disabled", style = "width: 150px" } })
+        @*Should eventually remove the inline styling for style sheets*@
+        @Html.ValidationMessageFor(model => model.Recipient, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.ActionLink(Model.FileExtension, "FileDisplay", "PublicVM", new { documentId = Model.Document_ID }, new { target = "_blank" })
+        @if (Model.FileExtension.Trim() == "jpg" || Model.FileExtension.Trim() == "png")
+        {
+            <br />
+            <div class="preview_image">
+                @Html.ActionLink("[Preview]", "FileDisplay", "PublicVM", new { documentId = Model.Document_ID }, new { @class = "preview", id = Model.Document_ID + 'a' })
+            </div>
+        }
+    </td>
+    <td class="input_@(Model.Hidden)">
+        @Html.CheckBoxFor(model => model.Hidden)
+        @Html.ValidationMessageFor(model => model.Hidden, "", new { @class = "text-danger" })
+    </td>
+</tr>

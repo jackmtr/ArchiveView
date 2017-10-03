@@ -17,7 +17,8 @@ namespace ArchiveView.Repositories
         }
 
         //maybe add parameterized constructor
-
+        //issue with specific computers (i.e. Rupinders) caching data that should have been updated
+        //should check other computers and see if this issue is related to specific computer only
         public IEnumerable<PublicVM> SelectAll(string publicNumber, string role) {
 
             List<PublicVM> PublicVMList = new List<PublicVM>();
@@ -47,7 +48,7 @@ namespace ArchiveView.Repositories
             }
             catch (Exception e) {
                 //maybe write more here
-                throw new Exception();
+                throw new Exception("There seems to be an issue.", e);
             }
 
             //refactor this into a more efficient conditional
@@ -82,6 +83,9 @@ namespace ArchiveView.Repositories
                                         d.Reason,
                                         dr.Number1,
                                         d.Recipient,
+                                        Value = d.tbl_DocReference.Where(e => e.RefNumberType_CD == "Claim").FirstOrDefault().Date1_DT,
+                                        Value1 = d.tbl_DocReference.Where(e => e.RefNumberType_CD == "Claim").FirstOrDefault().RefNumber,
+                                        Value2 = d.LastUser_DT,
                                         d.Active_IND //only want recipient and active_ind for admin, wonder if better way to do this
                                     }).ToList();
 
@@ -110,7 +114,10 @@ namespace ArchiveView.Repositories
                     objpvm.Reason = item.Reason;
                     objpvm.Supplier = item.Number1;
                     objpvm.Recipient = item.Recipient;
+                    objpvm.DateOfLoss = item.Value;
                     objpvm.Hidden = item.Active_IND;
+                    objpvm.ClaimNumber = item.Value1;
+                    objpvm.ArchiveTime = item.Value2.Ticks;
 
                     PublicVMList.Add(objpvm);
                 }
@@ -143,7 +150,10 @@ namespace ArchiveView.Repositories
                                         d.Method,
                                         d.Originator,
                                         d.Reason,
-                                        dr.Number1
+                                        dr.Number1,
+                                        Value = d.tbl_DocReference.Where(e => e.RefNumberType_CD == "Claim").FirstOrDefault().Date1_DT,
+                                        Value1 = d.tbl_DocReference.Where(e => e.RefNumberType_CD == "Claim").FirstOrDefault().RefNumber,
+                                        Value2 = d.LastUser_DT
                                     }).ToList();
 
                 if (!documentList.Any()) {
@@ -170,6 +180,9 @@ namespace ArchiveView.Repositories
                     objpvm.Originator = item.Originator;
                     objpvm.Reason = item.Reason;
                     objpvm.Supplier = item.Number1;
+                    objpvm.DateOfLoss = item.Value;
+                    objpvm.ClaimNumber = item.Value1;
+                    objpvm.ArchiveTime = item.Value2.Ticks;
 
                     PublicVMList.Add(objpvm);
                 }

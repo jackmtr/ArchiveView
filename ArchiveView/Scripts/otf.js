@@ -9,7 +9,11 @@ var postNavbar = function () {
     if ($className) {
         if ($classNameTitle == "Correspondence") {
             $('#public_table').removeClass().addClass("correspondence");
-        } else if ($classNameTitle == "Declaration/Endorsement") {
+        }
+        else if ($classNameTitle == "Claim Document") {
+            $('#public_table').removeClass().addClass("claimDocument");
+        }
+        else if ($classNameTitle == "Declaration/Endorsement") {
             $('#public_table').removeClass().addClass("declaration");
         } else {
             $('#public_table').removeClass().addClass($className);
@@ -132,6 +136,9 @@ function rememeberSort($this, ascending) {
 }
 
 $(function () {
+
+    //JACKIE
+    //$(".invisible_class").
 
     //**GLOBAL VARIABLES
     var editList = [];

@@ -51,7 +51,7 @@ namespace ArchiveView.Repositories
             }
             catch (Exception e) {
                 //maybe write more here
-                throw new Exception();
+                throw new Exception("There seems to be an issue.", e);
             }
         }
 

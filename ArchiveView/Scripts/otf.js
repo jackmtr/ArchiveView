@@ -193,6 +193,7 @@ $(function () {
         if ($category != undefined && $docType != undefined) {
             var options = {
                 url: $form.attr("action"),//maybe add to this to check for attributes somehow
+                cache: true,
                 type: $form.attr("method"),
                 data: $form.serialize() + "&navBarGroup=" + $category + "&navBarItem=" + $docType
             };
@@ -204,8 +205,8 @@ $(function () {
             };
         }
 
-        $.ajax(options).done(function (data) {
 
+        $.ajax(options).done(function (data) {
             var $target = $($form.attr("data-otf-target"));
             var $newHtml = $(data);
 

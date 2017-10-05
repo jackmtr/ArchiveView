@@ -9,6 +9,7 @@ using System.Globalization;
 using ArchiveView.Models;
 using ArchiveView.Filters;
 using ArchiveView.Exceptions;
+using ArchiveView.CustomHelpers;
 
 namespace ArchiveView.Controllers
 {
@@ -80,6 +81,8 @@ namespace ArchiveView.Controllers
 
             TempData["Version"] = System.Configuration.ConfigurationManager.AppSettings["Versioning"];
 
+            InMemoryCache cacheprovider = new InMemoryCache();
+
             //removing whitespaces from end of search term to use before querying
             if (searchTerm != null) {
                 searchTerm = searchTerm.Trim();
@@ -89,9 +92,19 @@ namespace ArchiveView.Controllers
             try
             {
                 //right now, publicModel is full of units of DocReference x DocId
-                publicModel = publicRepository
-                                .SelectAll(Folder_ID, TempData["Role"].ToString())
-                                    .Where(n => n.EffectiveDate != null || n.EffectiveDate == null && n.RefNumber == null || n.EffectiveDate == null && n.RefNumber != null);
+                
+                //publicModel = publicRepository
+                //                .SelectAll(Folder_ID, TempData["Role"].ToString()) //find a way to cache this initial load
+                //                    .Where(n => n.EffectiveDate != null || n.EffectiveDate == null && n.RefNumber == null || n.EffectiveDate == null && n.RefNumber != null);
+
+                //added a caching mechanism where on initial load, the model will be cached for 10 mins.
+                //if no cache, it will run the default call to the db
+                publicModel = cacheprovider.GetOrSet(
+                    Folder_ID,
+                    () => publicRepository
+                                .SelectAll(Folder_ID, TempData["Role"].ToString()) //find a way to cache this initial load
+                                    .Where(n => n.EffectiveDate != null || n.EffectiveDate == null && n.RefNumber == null || n.EffectiveDate == null && n.RefNumber != null)
+                    );
             }
             catch
             {
@@ -487,14 +500,16 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.DocumentTypeName).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderBy(r => r.DocumentTypeName)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.DocumentTypeName).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderByDescending(r => r.DocumentTypeName)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     break;
 
@@ -502,14 +517,16 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.Method).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderBy(r => r.Method)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.Method).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderByDescending(r => r.Method)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     break;
 
@@ -517,14 +534,16 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.RefNumber).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderBy(r => r.RefNumber)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.RefNumber).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderByDescending(r => r.RefNumber)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     break;
 
@@ -532,14 +551,16 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.EffectiveDate).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderBy(r => r.EffectiveDate)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.EffectiveDate).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderByDescending(r => r.EffectiveDate)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     break;
 
@@ -547,14 +568,16 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.Originator).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderBy(r => r.Originator)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.Originator).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderByDescending(r => r.Originator)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     break;
 
@@ -562,14 +585,16 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.Reason).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderBy(r => r.Reason)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.Reason).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderByDescending(r => r.Reason)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     break;
 
@@ -577,14 +602,16 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.Supplier).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderBy(r => r.Supplier)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.Supplier).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderByDescending(r => r.Supplier)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     break;
 
@@ -592,14 +619,16 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.Description).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderBy(r => r.Description)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.Description).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderByDescending(r => r.Description)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     break;
 
@@ -607,14 +636,16 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.FileExtension).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderBy(r => r.FileExtension)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.FileExtension).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderByDescending(r => r.FileExtension)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     break;
 
@@ -622,14 +653,16 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.Document_ID).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderBy(r => r.Document_ID)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.Document_ID).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderByDescending(r => r.Document_ID)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     break;
 
@@ -637,14 +670,16 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.Hidden).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderBy(r => r.Hidden)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.Hidden).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderByDescending(r => r.Hidden)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     break;
 
@@ -652,14 +687,16 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.DateOfLoss).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderBy(r => r.DateOfLoss)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.DateOfLoss).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderByDescending(r => r.DateOfLoss)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     break;
 
@@ -667,14 +704,16 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                    .OrderBy(r => r.ClaimNumber).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderBy(r => r.ClaimNumber)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     else
                     {
                         model = model
-                                    .OrderByDescending(r => r.ClaimNumber).ThenByDescending(r => r.ArchiveTime)
-                                        .ToList();
+                                    .OrderByDescending(r => r.ClaimNumber)
+                                        .ThenByDescending(r => r.ArchiveTime)
+                                            .ToList();
                     }
                     break;
 
@@ -682,14 +721,16 @@ namespace ArchiveView.Controllers
                     if (sortAscending)
                     {
                         model = model
-                                .OrderByDescending(r => r.IssueDate).ThenByDescending(r => r.ArchiveTime)
-                                    .ToList();
+                                .OrderByDescending(r => r.IssueDate)
+                                    .ThenByDescending(r => r.ArchiveTime)
+                                        .ToList();
                     }
                     else
                     {
                         model = model
-                                .OrderBy(r => r.IssueDate).ThenByDescending(r => r.ArchiveTime)
-                                    .ToList();
+                                .OrderBy(r => r.IssueDate)
+                                    .ThenByDescending(r => r.ArchiveTime)
+                                        .ToList();
                     }
                     break;
             }

@@ -14,9 +14,7 @@ namespace ArchiveView
                         "~/Scripts/jquery-ui.js", 
                         "~/Scripts/jquery.unobtrusive*",
                         "~/Scripts/jquery.validate*",
-                        //"~/Scripts/tether.js", //used by bootstrap
                         "~/Scripts/bootstrap.js",
-                        //"~/Scripts/utils.js", //find out if this is still needed
                         "~/Scripts/otf.js")); //my custom js script
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
@@ -28,9 +26,7 @@ namespace ArchiveView
             // style sheet bundler
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      //"~/Content/bootstrap-reboot.css", //do i need?
                       "~/Content/bootstrap-grid.css", //extra table options
-                      //"~/Content/bootstrap-theme.css", //used mainly for table appearance, could be removed for a more basic look
                       "~/Content/font-awesome.css", //for icons
                       "~/Content/jquery-ui*", //i think this takes all three ui/ui.structure/ and ui.theme atm
                       "~/Content/Site.css"

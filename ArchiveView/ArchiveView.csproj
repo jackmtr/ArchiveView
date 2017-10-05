@@ -68,6 +68,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -174,6 +175,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PublicVMController.cs" />
     <Compile Include="CustomHelpers\CustomLink.cs" />
+    <Compile Include="CustomHelpers\InMemoryCache.cs" />
     <Compile Include="Exceptions\NoResultException.cs" />
     <Compile Include="Filters\AuthorizeUserAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -271,6 +273,7 @@
     <Content Include="Views\Admin\_EditTable.cshtml" />
     <Content Include="Views\Admin\EditorTemplates\PublicVM.cshtml" />
     <Content Include="Views\Shared\_Error.cshtml" />
+    <Content Include="Views\Shared\_PublicTableCluster.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

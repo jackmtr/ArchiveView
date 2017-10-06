@@ -83,9 +83,9 @@ namespace ArchiveView.Repositories
                                         d.Reason,
                                         dr.Number1,
                                         d.Recipient,
-                                        Value = d.tbl_DocReference.Where(e => e.RefNumberType_CD == "Claim").FirstOrDefault().Date1_DT,
-                                        Value1 = d.tbl_DocReference.Where(e => e.RefNumberType_CD == "Claim").FirstOrDefault().RefNumber,
-                                        Value2 = d.LastUser_DT,
+                                        dol = d.tbl_DocReference.Where(e => e.RefNumberType_CD == "Claim").FirstOrDefault().Date1_DT,
+                                        claim = d.tbl_DocReference.Where(e => e.RefNumberType_CD == "Claim").FirstOrDefault().RefNumber,
+                                        archiveTime = d.LastUser_DT,
                                         d.Active_IND //only want recipient and active_ind for admin, wonder if better way to do this
                                     }).ToList();
 
@@ -114,10 +114,10 @@ namespace ArchiveView.Repositories
                     objpvm.Reason = item.Reason;
                     objpvm.Supplier = item.Number1;
                     objpvm.Recipient = item.Recipient;
-                    objpvm.DateOfLoss = item.Value;
+                    objpvm.DateOfLoss = item.dol;
                     objpvm.Hidden = item.Active_IND;
-                    objpvm.ClaimNumber = item.Value1;
-                    objpvm.ArchiveTime = item.Value2.Ticks;
+                    objpvm.ClaimNumber = item.claim;
+                    objpvm.ArchiveTime = item.archiveTime.Ticks;
 
                     PublicVMList.Add(objpvm);
                 }
@@ -151,9 +151,9 @@ namespace ArchiveView.Repositories
                                         d.Originator,
                                         d.Reason,
                                         dr.Number1,
-                                        Value = d.tbl_DocReference.Where(e => e.RefNumberType_CD == "Claim").FirstOrDefault().Date1_DT,
-                                        Value1 = d.tbl_DocReference.Where(e => e.RefNumberType_CD == "Claim").FirstOrDefault().RefNumber,
-                                        Value2 = d.LastUser_DT
+                                        dol = d.tbl_DocReference.Where(e => e.RefNumberType_CD == "Claim").FirstOrDefault().Date1_DT,
+                                        claim = d.tbl_DocReference.Where(e => e.RefNumberType_CD == "Claim").FirstOrDefault().RefNumber,
+                                        archiveTime = d.LastUser_DT
                                     }).ToList();
 
                 if (!documentList.Any()) {
@@ -180,9 +180,9 @@ namespace ArchiveView.Repositories
                     objpvm.Originator = item.Originator;
                     objpvm.Reason = item.Reason;
                     objpvm.Supplier = item.Number1;
-                    objpvm.DateOfLoss = item.Value;
-                    objpvm.ClaimNumber = item.Value1;
-                    objpvm.ArchiveTime = item.Value2.Ticks;
+                    objpvm.DateOfLoss = item.dol;
+                    objpvm.ClaimNumber = item.claim;
+                    objpvm.ArchiveTime = item.archiveTime.Ticks;
 
                     PublicVMList.Add(objpvm);
                 }

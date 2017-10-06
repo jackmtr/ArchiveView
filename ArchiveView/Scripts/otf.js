@@ -137,9 +137,6 @@ function rememeberSort($this, ascending) {
 
 $(function () {
 
-    //JACKIE
-    //$(".invisible_class").
-
     //**GLOBAL VARIABLES
     var editList = [];
     var IssueYearMinRange = 1;
@@ -510,21 +507,6 @@ $(function () {
 
         $this = $(this);
 
-
-        
-        //var resetMinRange = 2016;
-
-        //if ($('#downloadForm')[0]) {
-        //    resetMinRange = 1975;
-        //} 
-
-        //var options = {
-        //    url: $this.attr('href') + "&IssueYearMinRange=" + resetMinRange,
-        //    data: "IssueYearMinRange=" + "2016", //not being sent to controller, but I need a data attribute it seems
-        //    type: "GET"
-        //};
-
-
         var options = {
             url: $this.attr('href') + "&IssueYearMinRange=-1",
             type: "GET"
@@ -582,26 +564,7 @@ $(function () {
 
             $(".edit-issue").each(function () {
 
-                //var today = new Date();
-                //var dd = today.getDate();
-                //var mm = today.getMonth() + 1; //January is 0!
-                //var yyyy = today.getFullYear();
-
-                //if (dd < 10) {
-                //    dd = '0' + dd;
-                //}
-                //if (mm < 10) {
-                //    mm = '0' + mm;
-                //}
-
-                //var today = dd + '/' + mm + '/' + yyyy;
-
                 $(this).rules("add", { regex: "^[0-3][0-9]\\s[A-Z][a-z]{2}\\s[1-2][0-9]{3}$" });
-
-                //$(this).rules("add", { regex: "^[0-3][0-9]\\s[A-Z][a-z]{2}\\s[1-2][0-9]{3}$" }),
-                //$(this).rules("add", {
-                //    daterange: ['01/01/1990', today], //Kinda working regex, today isnt today but a day is the near future
-                //});
             });
         });
 

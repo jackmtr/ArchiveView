@@ -410,10 +410,6 @@ header {
     clear: both;
 }
 
-    /*.active * {
-        color: white;
-    }*/
-
     .active > a {
         color: white;
     }
@@ -761,12 +757,4 @@ a.navLink{
 
 #error_details {
     visibility:collapse;
-}
-
-.visible_class {
-    visibility: visible;
-}
-
-.invisible_class {
-    visibility: hidden;
 }

@@ -52,7 +52,7 @@ namespace ArchiveView.Controllers
         /// <param name="Admin">Optional: bool to check if Admin (SHOULD NOT BE DONE AS parameter)</param>
         /// <returns>A filtererd on unfiltered collection of PublicVM Objects to be displayed in a the main view</returns>
         [HttpGet]
-        public ActionResult Index([Bind(Prefix = "folderId")] string Folder_ID, string navBarGroup = null, string navBarItem = null, string sort = null, string searchTerm = null, string IssueYearMinRange = "", string IssueYearMaxRange = "", string IssueMonthMinRange = "", string IssueMonthMaxRange = "", bool Admin = false)
+        public ActionResult Index([Bind(Prefix = "folderId")] string Folder_ID, string navBarGroup = null, string navBarItem = null, string sort = null, string searchTerm = null, string IssueYearMinRange = "-1", string IssueYearMaxRange = "", string IssueMonthMinRange = "", string IssueMonthMaxRange = "", bool Admin = false)
         {
             //**GLOBAL VARIABLES
 
@@ -66,6 +66,14 @@ namespace ArchiveView.Controllers
             //***Pseudo save state immitation
             TempData.Keep("SearchTerm");
             TempData.Keep("YearRange"); //will carry an array with allowable issue date years for custom dropdown list
+
+
+            //JACKIE
+            TempData["IssueYearMinRange"] = IssueYearMinRange;
+            TempData["IssueYearMaxRange"] = IssueYearMaxRange;
+            TempData["IssueMonthMinRange"] = IssueMonthMinRange;
+            TempData["IssueMonthMaxRange"] = IssueMonthMaxRange;
+
 
             //ViewData["goodSearch"] = false means seachterm will return an empty result
             ViewData["goodSearch"] = true; //do i still need this var?
@@ -92,19 +100,30 @@ namespace ArchiveView.Controllers
             try
             {
                 //right now, publicModel is full of units of DocReference x DocId
-                
+
                 //publicModel = publicRepository
                 //                .SelectAll(Folder_ID, TempData["Role"].ToString()) //find a way to cache this initial load
                 //                    .Where(n => n.EffectiveDate != null || n.EffectiveDate == null && n.RefNumber == null || n.EffectiveDate == null && n.RefNumber != null);
 
+                //if (TempData["Role"].ToString() != "Admin")
+                //{
+                    publicModel = cacheprovider.GetOrSet(
+                        Folder_ID,
+                        () => publicRepository
+                                    .SelectAll(Folder_ID, TempData["Role"].ToString()) //find a way to cache this initial load
+                                        .Where(n => n.EffectiveDate != null || n.EffectiveDate == null && n.RefNumber == null || n.EffectiveDate == null && n.RefNumber != null),
+                        TempData["Role"].ToString()
+                        );
+                //}
+                //else {
+                //    publicModel = publicRepository
+                //                    .SelectAll(Folder_ID, TempData["Role"].ToString()) //find a way to cache this initial load
+                //                        .Where(n => n.EffectiveDate != null || n.EffectiveDate == null && n.RefNumber == null || n.EffectiveDate == null && n.RefNumber != null);
+                //}
+
                 //added a caching mechanism where on initial load, the model will be cached for 10 mins.
                 //if no cache, it will run the default call to the db
-                publicModel = cacheprovider.GetOrSet(
-                    Folder_ID,
-                    () => publicRepository
-                                .SelectAll(Folder_ID, TempData["Role"].ToString()) //find a way to cache this initial load
-                                    .Where(n => n.EffectiveDate != null || n.EffectiveDate == null && n.RefNumber == null || n.EffectiveDate == null && n.RefNumber != null)
-                    );
+
             }
             catch
             {

@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width,
+               initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"> <!--May not need this, used bc bundling wasnt working, may just be a patch to fix for now-->
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr") <!--modernizr must be in head of script-->
+    <meta name="description" content="Westland's Archiving Document Search" />
+</head>
+<body>
+    <header>
+        <h3 class="banner_info row">
+            @if (TempData["Client_Id"] != null)
+            {
+                <span class="public_name_id col-xs-4">@Html.Raw(TempData["Client_Id"])
+                    @if (TempData["Client_Name"] != null)
+                    {
+                        <span id="client_name">@Html.Raw(TempData["Client_Name"])</span>
+                    }           
+                </span>
+
+                if (TempData["Role"] != null && (string)TempData["Role"] == "Admin")
+                {
+                    <span class="admin-status col-xs-1">[@TempData["Role"]]</span>
+                    <span class="admin-status col-xs-1">[Version: @TempData["Version"]]</span>
+                }
+            }
+
+
+            @if (TempData["RoleButton"] != null && (string)TempData["RoleButton"] == "Admin")
+            {
+                using (Html.BeginForm("Index", "Folder", FormMethod.Get, new { @class = "banner-form col-xs-3" }))
+                {
+                    @Html.Hidden("ClientId", TempData["Client_Id"]);
+                    @Html.Hidden("PublicName", TempData["Client_Name"]);
+                    <button class="banner_button" name="Role" value="Admin" type="submit">Access Admin</button>
+                }
+            }
+            else if (TempData["RoleButton"] != null && (string)TempData["RoleButton"] == "Client")
+            {
+                using (Html.BeginForm("Index", "Folder", FormMethod.Get, new { @class = "banner-form col-xs-2" }))
+                {
+                    @Html.Hidden("ClientId", TempData["Client_Id"]);
+                    @Html.Hidden("PublicName", TempData["Client_Name"]);
+                    <button class="banner_button" name="Role" value="Client" type="submit">Access Client</button>
+                }
+            }
+
+            @if (TempData["Role"] != null && TempData["Role"].ToString() == "Admin")
+            {
+                <input id="editOptionsSubmit" class="banner-form" type="submit" value="Go" />
+                @Html.DropDownList("Options", new List<SelectListItem>
+                                    {
+                                        new SelectListItem { Value = "0", Text = "Edit These Files"},
+                                        new SelectListItem { Value = "1", Text = "Download all Public Documents"}
+                                    }, new { id = "editOptions", @class = "banner-form", style = "width: 200px; margin-right: 10px;" }
+                        )
+            }
+        </h3>
+    </header>
+    <div id="body" class="container-fluid">
+        @RenderBody()
+    </div>
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+    @Scripts.Render("~/bundles/otf")
+    @RenderSection("CustomScripts", false)
+</body>
+</html>

@@ -416,7 +416,7 @@ header {
 
 
 .preview_image {
-    display: inline-block;
+    display: inline;
 }
 
 /*Preview Image sizing*/
@@ -427,7 +427,9 @@ header {
     max-height: 150px;    
 }
 
-
+.preview:hover {
+    text-decoration:none;
+}
 
 /*****Media Tags for alternating screen size******/
 

@@ -216,7 +216,7 @@ $(function () {
     };
 
     //function to preview image (jpeg)
-    function showPreview($this, e) {
+    function showPreview($this) {
         var $a = $this;
         var id = $a.attr('id') + 'a';
 
@@ -371,7 +371,10 @@ $(function () {
     $("#body").on("mouseover", ".preview_image", function (e) {
 
         $this = $(this).children("a");
-        showPreview($this, e);
+
+        showPreview($this);
+
+        event.stopPropagation();
     });
 
     $("#body").on("mouseout", ".preview_image", function (e) {

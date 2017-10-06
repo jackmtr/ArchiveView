@@ -8,17 +8,6 @@ namespace ArchiveView.CustomHelpers
 {
     public class InMemoryCache : ICacheService
     {
-        public T GetOrSet<T>(string cacheKey, Func<T> getItemCallback) where T : class
-        {
-            T item = MemoryCache.Default.Get(cacheKey) as T;
-            if (item == null)
-            {
-                item = getItemCallback();
-                MemoryCache.Default.Add(cacheKey, item, DateTime.Now.AddMinutes(10));
-            }
-            return item;
-        }
-
         public T GetOrSet<T>(string cacheKey, Func<T> getItemCallback, string role) where T : class
         {
             T item = MemoryCache.Default.Get(cacheKey) as T;
@@ -29,10 +18,24 @@ namespace ArchiveView.CustomHelpers
             }
             return item;
         }
+
+        public bool removeCache(string cacheKey) {
+            MemoryCache.Default.Remove(cacheKey);
+
+            var item = MemoryCache.Default.Get(cacheKey);
+            if (item != null) {
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
     }
 
     interface ICacheService
     {
-        T GetOrSet<T>(string cacheKey, Func<T> getItemCallback) where T : class;
+        T GetOrSet<T>(string cacheKey, Func<T> getItemCallback, string role) where T : class;
+
+        bool removeCache(string cacheKey);
     }
 }

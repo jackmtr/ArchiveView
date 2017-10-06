@@ -614,17 +614,21 @@ $(function () {
     $('.navLink').on("click", function () {
         $this = $(this);
 
-        var $selectName = $("select[name = 'IssueYearMinRange']:not(:disabled)");
+        var $selectYearMin = $("select[name = 'IssueYearMinRange']:not(:disabled)").val();
+        var $selectYearMax = ($("select[name = 'IssueYearMaxRange']:not(:disabled)").val()) ? $("select[name = 'IssueYearMaxRange']:not(:disabled)").val() : "";
+        var $selectMonthMin = $("select[name = 'IssueMonthMinRange']:not(:disabled)").val();
+        var $selectMonthMax = $("select[name = 'IssueMonthMaxRange']:not(:disabled)").val();
+
         var $searchTerm = $('#searchInputBox').val();
 
-        if (!$selectName.val()) {
+        if (!$selectYearMin) {
             alert("Please input a Starting and Ending Year.");
             return false;
         }
 
         var options = {
             url: $this.attr('href'),
-            data: "&IssueYearMinRange=" + $selectName.val() + "&searchTerm=" + $searchTerm,
+            data: "&IssueYearMinRange=" + $selectYearMin + "&IssueYearMaxRange=" + $selectYearMax + "&IssueMonthMinRange=" + $selectMonthMin + "&IssueMonthMaxRange=" + $selectMonthMax + "&searchTerm=" + $searchTerm,
             type: "GET",
         };
 

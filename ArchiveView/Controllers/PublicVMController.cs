@@ -20,6 +20,8 @@ namespace ArchiveView.Controllers
         private static bool sortAscending = true; //static var for rememebering previous sort order
         private static DateTime today = DateTime.Today; //should this be static?
 
+        InMemoryCache cacheprovider = new InMemoryCache();
+
         public PublicVMController() {
             //public repo for publicVM actions
             this.publicRepository = new PublicRepository();
@@ -52,7 +54,7 @@ namespace ArchiveView.Controllers
         /// <param name="Admin">Optional: bool to check if Admin (SHOULD NOT BE DONE AS parameter)</param>
         /// <returns>A filtererd on unfiltered collection of PublicVM Objects to be displayed in a the main view</returns>
         [HttpGet]
-        public ActionResult Index([Bind(Prefix = "folderId")] string Folder_ID, string navBarGroup = null, string navBarItem = null, string sort = null, string searchTerm = null, string IssueYearMinRange = "-1", string IssueYearMaxRange = "", string IssueMonthMinRange = "", string IssueMonthMaxRange = "", bool Admin = false)
+        public ActionResult Index([Bind(Prefix = "folderId")] string Folder_ID, string navBarGroup = null, string navBarItem = null, string sort = null, string searchTerm = null, string IssueYearMinRange = "-1", string IssueYearMaxRange = "", string IssueMonthMinRange = "", string IssueMonthMaxRange = "")
         {
             //**GLOBAL VARIABLES
 
@@ -89,8 +91,8 @@ namespace ArchiveView.Controllers
 
             TempData["Version"] = System.Configuration.ConfigurationManager.AppSettings["Versioning"];
 
-            InMemoryCache cacheprovider = new InMemoryCache();
-
+            
+            
             //removing whitespaces from end of search term to use before querying
             if (searchTerm != null) {
                 searchTerm = searchTerm.Trim();
@@ -100,30 +102,15 @@ namespace ArchiveView.Controllers
             try
             {
                 //right now, publicModel is full of units of DocReference x DocId
-
-                //publicModel = publicRepository
-                //                .SelectAll(Folder_ID, TempData["Role"].ToString()) //find a way to cache this initial load
-                //                    .Where(n => n.EffectiveDate != null || n.EffectiveDate == null && n.RefNumber == null || n.EffectiveDate == null && n.RefNumber != null);
-
-                //if (TempData["Role"].ToString() != "Admin")
-                //{
-                    publicModel = cacheprovider.GetOrSet(
-                        Folder_ID,
-                        () => publicRepository
-                                    .SelectAll(Folder_ID, TempData["Role"].ToString()) //find a way to cache this initial load
-                                        .Where(n => n.EffectiveDate != null || n.EffectiveDate == null && n.RefNumber == null || n.EffectiveDate == null && n.RefNumber != null),
-                        TempData["Role"].ToString()
-                        );
-                //}
-                //else {
-                //    publicModel = publicRepository
-                //                    .SelectAll(Folder_ID, TempData["Role"].ToString()) //find a way to cache this initial load
-                //                        .Where(n => n.EffectiveDate != null || n.EffectiveDate == null && n.RefNumber == null || n.EffectiveDate == null && n.RefNumber != null);
-                //}
-
+                publicModel = cacheprovider.GetOrSet(
+                    Folder_ID,
+                    () => publicRepository
+                                .SelectAll(Folder_ID, TempData["Role"].ToString()) //find a way to cache this initial load
+                                    .Where(n => n.EffectiveDate != null || n.EffectiveDate == null && n.RefNumber == null || n.EffectiveDate == null && n.RefNumber != null),
+                    TempData["Role"].ToString()
+                    );
                 //added a caching mechanism where on initial load, the model will be cached for 10 mins.
                 //if no cache, it will run the default call to the db
-
             }
             catch
             {
@@ -807,7 +794,6 @@ namespace ArchiveView.Controllers
         {
             publicRepository.Dispose();
             documentRepository.Dispose();
-
             base.Dispose(disposing);
         }
     }

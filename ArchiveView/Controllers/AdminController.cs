@@ -67,6 +67,10 @@ namespace ArchiveView.Controllers
                 }
                 _db.SaveChanges();
             }
+
+            CustomHelpers.InMemoryCache cacheprovider = new CustomHelpers.InMemoryCache();
+            cacheprovider.removeCache(Folder_ID);
+
             return RedirectToAction("Index", "Folder", new { ClientId = TempData["Client_Id"], Role = "Admin" });
         }
 
@@ -138,6 +142,7 @@ namespace ArchiveView.Controllers
             repository.Dispose();
             publicRepository.Dispose();
             documentRepository.Dispose();
+
             base.Dispose(disposing);
         }
     }

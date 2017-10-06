@@ -36,6 +36,7 @@ namespace ArchiveView.Controllers
         public ActionResult Index([Bind(Prefix = "ClientId")] string Number, string Role = "", string PublicName = "")
         {
             tbl_Folder folder = null;
+            CustomHelpers.InMemoryCache cacheprovider = new CustomHelpers.InMemoryCache();
 
             folder = repository.SelectByNumber(Number);
 
@@ -74,6 +75,8 @@ namespace ArchiveView.Controllers
                 TempData["Client_Id"] = folder.Number;
                 TempData["Folder_Id"] = folder.Folder_ID; //should be a better way than carrying this variable around
             }
+
+            cacheprovider.removeCache(folder.Folder_ID.ToString());
 
             return RedirectToAction("Index", "PublicVM", new { folderId = folder.Folder_ID });
         }

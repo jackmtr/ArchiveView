@@ -15,7 +15,8 @@
         @Html.DisplayFor(model => model.Document_ID, new { htmlAttributes = new { @class = "form-control" } })
         @Html.HiddenFor(model => model.Document_ID)
     </td>
-    <td class="input_@(Model.CategoryName)">
+    @*<td class="input_@(Model.CategoryName)">*@
+    <td>
         @Html.DisplayFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control" } })
     </td>
     <td>
@@ -70,7 +71,7 @@
         {
             <br />
             <div class="preview_image">
-                @Html.ActionLink("[Preview]", "FileDisplay", "PublicVM", new { documentId = Model.Document_ID }, new { @class = "preview", id = Model.Document_ID + 'a' })
+                @Html.ActionLink("[Preview]", "FileDisplay", "PublicVM", new { documentId = Model.Document_ID }, new { @class = "preview", id = Model.Document_ID })
             </div>
         }
     </td>

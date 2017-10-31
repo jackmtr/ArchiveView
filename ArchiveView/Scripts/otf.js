@@ -10,9 +10,9 @@ function clearFields(id) {
     $form
         .find("input[type=search]")
             .val("")
-        .end()
-        .find(".form-inputs select option")
-            .removeAttr('selected');
+        //.end()
+        //.find(".form-inputs select option")
+        //    .removeAttr('selected');
 
     if (id != "allDocs") {
         $form
@@ -359,6 +359,7 @@ $(function () {
         };
 
         $.ajax(options).done(function (data) {
+
             $('#main-row').replaceWith($(data));
 
             $(".edit-issue").each(function () {
@@ -378,15 +379,15 @@ $(function () {
     //function to preview image (jpeg)
     function showPreview($this)
     {
-        var id = $this.attr('id') + 'a',
+        var id = $this.attr('id'),
             left = $this
-                            .closest("td")
-                            .offset()
-                            .left,
+                        .closest("td")
+                        .offset()
+                        .left,
             top = $this
-                            .closest("td")
-                            .offset()
-                            .top,
+                        .closest("td")
+                        .offset()
+                        .top,
             options =
                 {
                     url: $this.attr("href"),
@@ -443,7 +444,6 @@ $(function () {
     $("#body").on("mouseout", ".preview_image", function (e)
     {
         losePreview();
-        //$this = $(this).children("a");
     });
 
     $("#body").on("click", ".preview", function (e)
@@ -601,9 +601,9 @@ $(function () {
     {
         var $this = $(this);
             options = {
-                            url: $this.attr('href') + "&IssueYearMinRange=-1",
-                            type: "GET"
-                        };
+                        url: $this.attr('href') + "&IssueYearMinRange=-1",
+                        type: "GET"
+                      };
 
         $.ajax(options).done(function (data)
             {

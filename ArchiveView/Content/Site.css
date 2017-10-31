@@ -1,18 +1,44 @@
 ﻿/*****Styling for universal markup******/
 
-/*The side nav title heads*/
-/*doesnt seem to be in effect*/
 
 
-/*the results status line*/
-/*h4 {
-    text-align: center;
-}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*affects the policies list entries (cate/doctype are overruled)*/
-li {
-    font-size: 15px;
-}
 
     /*Affects the individual list items*/
     li a {
@@ -31,33 +57,32 @@ li {
 /*Table design*/
 
 /*this is affecting the inner misc table*/
-/*table {
-    width: 100%;
-    table-layout: auto;
-    border-collapse:collapse;
-}*/
 
-    th, td {
-        text-align: center;
-        font-size: 15px;
-        border: 1px solid black !important; /*needs important to overrule grey table look*/
-        padding: 6px !important; /*maybe adjust to get a default table of 20 records to fit typical screen length*/
-    }
+th, td {
+    text-align: center;
+    border: 1px solid black !important; /*needs important to overrule grey table look*/
+    padding: 6px !important; /*maybe adjust to get a default table of 20 records to fit typical screen length*/
+}
 
-    /*makes th not wrap*/
-    th {
-        white-space:nowrap;
-    }
+/*makes th not wrap*/
+th {
+    white-space:nowrap;
+    font-size: 14px;
+}
         
-        /*makes the column sorter links appear black like the rest of column headers*/
-        th a {
-            color: inherit;
-        }
-
-    /*Affects the Search box text*/
-    form input {
-        text-align: center;
+    /*makes the column sorter links appear black like the rest of column headers*/
+    th a {
+        color: inherit;
     }
+
+td {
+    font-size: 13px;
+}
+
+/*Affects the Search box text*/
+form input {
+    text-align: center;
+}
 
 
 /*****Tags from the master page******/
@@ -87,7 +112,7 @@ header {
     }
         /*affects the categories/policies span texts */
         .nav-button * {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: bold;
             padding: 0;
             margin: 0;
@@ -172,7 +197,7 @@ header {
             height: 100%;
         }
 
-            /*Affects the nav bar list, as well as the pagedList*/
+            /*Affects the nav bar list*/
             .nav_lists ul{
                 /* Colours and borders for illustration purposes */
                 width: inherit;
@@ -186,6 +211,10 @@ header {
                 background-color: inherit !important; /*Stops doctypes from highlighting categories too*/
             }
 
+            .nav_lists * {
+                font-size: 14px;
+            }
+
             /*affects the entire category background on hover of inside doctype*/
             #category_list > li:hover,  #category_list > li li:hover{
                 background-color: #555;
@@ -194,16 +223,21 @@ header {
 
             /*affects the category names*/
             .category_nav > div > a {
-                font-size: 19px;
+                /*font-size: 14px;*/
                 font-weight: bold;
             }
 
             /*DocType sublist item font adjustments*/
             #docType_list li a{
-                font-size: 15px;
+                /*font-size: 14px;*/
                 /*padding-left: 20px;*/
                 padding-left: 30px;
             }
+
+            /*#policy_list {
+                font-size: 14px;
+            }*/
+
 
             /*Needed to allow a scrollable policy list if needed*/
             #policy_section {
@@ -237,7 +271,7 @@ header {
         bottom: 0;
         left: 2%;
         color: white;
-        font-size: 20px;
+        font-size: 17px;
         font-weight: 600;
         display: inline-block;
         width: 98%;
@@ -253,12 +287,18 @@ header {
 
     }
 
+    /*anchor for table headers*/
+    /*Maybe use to remove underline from active table sort*/
+    /*.filterLink { 
+        text-decoration: none !important;
+    }*/
+
     /*Anchors with class 'button' changes (i.e. Clear Button)*/
     a.button, #formSubmitId {
 
         font-weight: 500;
         font-family: sans-serif;
-        font-size: 16px;
+        font-size: 14px;
         text-decoration: none;
         background-color: #EEEEEE;
         color: #333333;
@@ -395,10 +435,10 @@ header {
     }
 
     /*the pagination positioning*/
-    .pagedList {
+    /*.pagedList {
         margin-left: auto;
         margin-right: auto;
-    }
+    }*/
 
 /*****Tags from the JS manipulation page******/
 
@@ -442,7 +482,6 @@ header {
 
 /*Removing the seperated docId/Cate/docType columns on smaller screens*/
 @media only screen and (max-width : 1500px) {
-
     .edit-rows > th:nth-child(2), .edit-rows > td:nth-child(2) {
         display: none;
     }
@@ -463,7 +502,6 @@ header {
 }
 
 @media only screen and (max-width : 992px){
-
     .hide {
         display: none;
     }
@@ -472,16 +510,15 @@ header {
         text-align: center;
     }
 
-
     #public_navigation {
         height: auto !important;
     }
 
     /*FIND OUT WHAT THIS DOES AND FIX IT */
-    /*.main-rows > th:nth-child(1), .main-rows > td:nth-child(1), .main-rows > th:nth-child(3), .main-rows > td:nth-child(3), .main-rows > th:nth-child(4), .main-rows > td:nth-child(4), .main-rows > th:nth-child(5), .main-rows > td:nth-child(5), .main-rows > th:nth-child(6), .main-rows > td:nth-child(6), .main-rows > th:nth-child(7), .main-rows > td:nth-child(7), .main-rows > th:nth-child(8), .main-rows > td:nth-child(8), .main-rows > th:nth-child(11), .main-rows > td:nth-child(11) {
+    .main-rows > th:nth-child(1), .main-rows > td:nth-child(1), .main-rows > th:nth-child(3), .main-rows > td:nth-child(3), .main-rows > th:nth-child(4), .main-rows > td:nth-child(4), .main-rows > th:nth-child(5), .main-rows > td:nth-child(5), .main-rows > th:nth-child(6), .main-rows > td:nth-child(6), .main-rows > th:nth-child(7), .main-rows > td:nth-child(7), .main-rows > th:nth-child(8), .main-rows > td:nth-child(8), .main-rows > th:nth-child(11), .main-rows > td:nth-child(11) {
         display: none;
         overflow: scroll;
-    }*/
+    }
 
     .div-table {
         display: table;
@@ -495,7 +532,7 @@ header {
     }
 
     #category_section div > a {
-        font-size: 15px !important;
+        font-size: 12px !important;
     }
 
     #category_section a, #policy_section a{
@@ -547,9 +584,6 @@ header {
 .misc_table {
     background-color: #e5e5e5;
 }
-    .misc_table tr {
-        
-    }
 
     .misc_table table {
         width: 90%;
@@ -572,50 +606,46 @@ th {
     border: solid black 4px;
 }
 
-#status-bar-form {
+/*#status-bar-form {
     padding: 15px 15px 10px 15px;
-}
+}*/
 
-/*may remove if not using textfill*/
 #status-message {
-    font-size: 20px;
+    font-size: 17px;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 0;
+    margin: 10px 0 0 0;
 }
 
 #form-div {
     margin: 0;
 }
 
-textarea {
-
+.main-form{
+    font-size: 15px;
 }
 
 #downloadForm {
     display: none;
 }
 
-.pagination {
+/*.pagination {
     margin: 0 0 5px 0;
-    /*border: solid;*/
     display:inline-block;
     padding:0px 10px;
-}
+}*/
 
 #public_table_inner {
     padding: 0;
 }
 
-.form-inputs>div {
+/*.form-inputs>div {
     margin-bottom: 5px;
     text-align: left;
-}
+}*/
 
     .admin-status {
         font-weight: bold;
-        /*position: absolute;
-        right: 100px;*/
         color: red;
     }
 
@@ -639,7 +669,6 @@ select {
 
 /*Needed margin-left/right to overrwrite bootstrap default media changes*/
 #public_table {
-    /*box-sizing: border-box;*/
     width: 100%;
     padding: 0px;
     margin-left: auto; 
@@ -652,7 +681,6 @@ select {
 
 .datefield { /*The dropdown list styles*/
     width: 46%;
-    /*float: left;*/
     margin: 2%;
 }
 
@@ -669,32 +697,17 @@ select {
     float: right;
 }
 
-.adminOptions *{
-    /*max-width: 50%;*/
-}
-
-.adminOptions {
+/*.adminOptions {
     text-align: right;
     margin-bottom: 0;
-}
+}*/
 
-.form-inputs {
-    /*height: 75px;*/
-}
-
-.datecustomer *{
+/*.datecustomer *{
     display: inline;
-}
+}*/
 
 .customDates label {
     margin: 0;
-}
-
-.main-form {
-    /*padding: 10px;*/
-}
-
-.inner-form > * {
 }
 
 .inner-form > div {
@@ -707,16 +720,15 @@ select {
     margin: 0 !important; /*used to override bootstrap*/
     }
 
-.form-mid {
+/*.form-mid {
     height: 100%;
-}
+}*/
 
 .form-mid-half {
     height: 50%;
 }
 
 .right-form-side > *{
-    /*margin: 5% auto !important;*/ /*not the best code, can do better*/
     width: inherit;
 }
 
@@ -749,9 +761,9 @@ a.navLink{
     padding:.5em;
 }
 
-.tester {
+/*.tester {
     text-align: center;
-}
+}*/
 
 #editOptionsSubmit {
     margin-right: 50px;

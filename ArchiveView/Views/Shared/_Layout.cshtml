@@ -31,14 +31,13 @@
                 }
             }
 
-
             @if (TempData["RoleButton"] != null && (string)TempData["RoleButton"] == "Admin")
             {
                 using (Html.BeginForm("Index", "Folder", FormMethod.Get, new { @class = "banner-form col-xs-3" }))
                 {
                     @Html.Hidden("ClientId", TempData["Client_Id"]);
                     @Html.Hidden("PublicName", TempData["Client_Name"]);
-                    <button class="banner_button" name="Role" value="Admin" type="submit">Access Admin</button>
+                    <button name="Role" value="Admin" type="submit">Access Admin</button>
                 }
             }
             else if (TempData["RoleButton"] != null && (string)TempData["RoleButton"] == "Client")
@@ -47,7 +46,7 @@
                 {
                     @Html.Hidden("ClientId", TempData["Client_Id"]);
                     @Html.Hidden("PublicName", TempData["Client_Name"]);
-                    <button class="banner_button" name="Role" value="Client" type="submit">Access Client</button>
+                    <button name="Role" value="Client" type="submit">Access Client</button>
                 }
             }
             @if (TempData["Role"] != null && TempData["Role"].ToString() == "Admin")

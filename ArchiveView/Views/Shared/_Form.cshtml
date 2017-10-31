@@ -39,7 +39,7 @@
                             <!--Customize Start Range Date Range DD input-->
                             <label for="IssueDateMinRange" class="col-lg-12">Starting Issue Date:</label>
                             @Html.DropDownList("IssueYearMinRange", TempData["YearRange"] as List<SelectListItem>, "Year", new { @class = "datefield col-lg-5", type = "date", disabled = "disabled" })
-                            <select id="startingMonth" name="IssueMonthMinRange" class="datefield col-lg-5">
+                            <select name="IssueMonthMinRange" class="datefield col-lg-5">
                                 @* should i do in html.dropdownlist style? *@
                                 <option value="" selected>Month</option>
                                 <option value="01">Jan</option>
@@ -63,7 +63,7 @@
                             <!--Customize End Range Date Range DD input-->
                             <label for="IssueDateMaxRange" class="col-lg-12">Ending Issue Date:</label>
                             @Html.DropDownList("IssueYearMaxRange", TempData["YearRange"] as List<SelectListItem>, "Year", new { @class = "datefield col-lg-5", type = "date", disabled = "disabled" })
-                            <select id="endingMonth" name="IssueMonthMaxRange" class="datefield col-lg-5">
+                            <select name="IssueMonthMaxRange" class="datefield col-lg-5">
                                 <option value="" selected>Month</option>
                                 <option value="01">Jan</option>
                                 <option value="02">Feb</option>
@@ -96,8 +96,6 @@
                        OnSuccess = "updateCurrentCount"
                    }, new { @class = "button", id = "clearButton" })
                     </div>
-
-
                 </div>
             </div>
 
@@ -128,7 +126,7 @@
                         </select>
                     </label>
 
-                    <div class="col-lg-6 tester">
+                    <div class="col-lg-6">
                         <!--Search box-->
                         <label for="searchInputBox" style="white-space: nowrap">
                             Search<span class="shrink">
@@ -138,7 +136,7 @@
                             </span>: <input id="searchInputBox" type="search" name="searchTerm" />
                         </label>
                     </div>
-                    <div class="right-form-side col-lg-2 buttondiv">
+                    <div class="right-form-side col-lg-2">
                         <!--Submit Button-->
                         <input class="button" id="formSubmitId" type="submit" value="Search" />
                     </div>
@@ -153,8 +151,7 @@
         using (Html.BeginForm("DownloadAllDocuments", "Admin", FormMethod.Get, new { id = "downloadForm" }))
         {
             @Html.TextBox("ClientId", TempData["Client_Id"]);
-            <input type="submit" value="Submit" id="downloadAllDocumentSubmit" />
+            <input type="submit" value="Submit" />
         }
     }
-
 </div>
